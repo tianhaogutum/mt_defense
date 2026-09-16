@@ -2,6 +2,7 @@
 node_modules/
 tmp/
 .claude/settings.local.json
+professor_research/
 presentation.pdf
 *.zip
 截屏*.png

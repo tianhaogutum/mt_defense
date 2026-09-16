@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Tianhao Gu’s TUM master’s thesis defense: execution-free fault localization in LLM inference engines and the ClueFL framework.">
+<title>A Better First File Recommendation · Tianhao Gu · TUM</title>
+<style>
+:root{--blue:#0065bd;--navy:#003359;--ink:#132a40;--muted:#586b7c;--line:#dce5ed;--pale:#eef5fb;--orange:#c45d12;--green:#267351;--stage-scale:1;font-family:Arial,Helvetica,sans-serif;color:var(--ink);color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:#e9eef3;-webkit-font-smoothing:antialiased}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #e37222;outline-offset:5px}button:disabled{cursor:default;opacity:.3}a{color:inherit;text-decoration:none}button{color:inherit}button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}button .icon{display:flex}button[hidden],[hidden]{display:none!important}
+.app-header{height:64px;padding:0 30px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d7e0e8;background:#f5f7fa;gap:20px}.app-brand{display:flex;align-items:center;gap:13px;font-size:13px;font-weight:700;letter-spacing:.01em}.app-logo{background:var(--blue);color:white;width:28px;height:32px;display:grid;place-items:center;border-radius:3px}.app-subtitle{color:#71808e;font-weight:400;margin-left:12px}.app-tools{display:flex;gap:8px;align-items:center}.duration{font-size:11px;letter-spacing:.05em;color:var(--muted);margin-right:14px}.tool-button{border:1px solid #d8e1e9;border-radius:6px;background:#fff;min-height:34px;min-width:36px;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 10px;font-size:12px}.tool-button:hover{background:#eaf2f9;border-color:#9abbd6}.tool-button[aria-pressed="true"]{background:var(--navy);color:#fff}.viewport{height:calc(100dvh - 130px);display:flex;justify-content:center;align-items:center;padding:20px 28px;overflow:hidden}.stage-wrap{position:relative;width:1440px;height:810px;flex-shrink:0}.stage{width:1440px;height:810px;transform:scale(var(--stage-scale));transform-origin:top left;background:white;box-shadow:0 8px 34px #21364c16,0 1px 4px #21364c12;position:relative}.slide{display:none;width:1440px;height:810px;background:white;padding:38px 64px 25px;flex-direction:column;overflow:hidden}.slide.active{display:flex}.slide-top{height:29px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.slide-top>span:first-child{font-size:11px;font-weight:600;letter-spacing:1.65px;color:#6d7f8f}.slide-top i{font-style:normal;color:#b9c7d3;margin:0 12px}.tum-wordmark{display:block;width:auto;height:72px;object-fit:contain;flex-shrink:0}.slide-heading{margin-top:36px;flex-shrink:0}.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}h1{font-size:44px;font-weight:700;line-height:1.12;letter-spacing:-1.6px;margin:0;max-width:1250px;text-wrap:balance}h2{font-size:26px;line-height:1.18;letter-spacing:-.5px;margin:0;color:var(--ink)}p{font-size:20px;line-height:1.45;margin:0;color:var(--muted)}strong{color:var(--ink)}.slide-body{margin-top:28px;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:20px}.slide-footer{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:15px;margin-top:20px;align-items:center;flex-shrink:0;font-size:12px;color:var(--muted);letter-spacing:.15px}.slide-footer a:hover{text-decoration:underline;color:var(--blue)}.slide-footer>span:last-child{font-size:14px;font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums}.footer-total{color:#8c9bab;font-weight:400}.takeaway{display:flex;align-items:center;gap:22px;border-left:4px solid var(--blue);padding:13px 20px;background:var(--pale);margin-top:20px;flex-shrink:0;min-height:55px}.takeaway>span{font-size:10px;letter-spacing:1.3px;font-weight:700;color:var(--blue);flex-shrink:0}.takeaway p{font-size:19px;color:var(--navy);line-height:1.3}.label{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--blue);display:block}.split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.lead{font-size:36px;line-height:1.25;letter-spacing:-.7px;color:var(--ink)}.muted{margin-top:24px;max-width:490px}.small{font-size:18px}.engine-names{display:flex;gap:28px;margin-top:35px;font-size:20px;font-weight:bold;color:var(--blue)}.stack{display:flex;flex-direction:column;gap:10px}.stack-end{padding:13px 20px;background:#f3f6f9;display:flex;justify-content:space-between;font-weight:700;font-size:18px}.stack-end span{font-size:14px;color:var(--muted);font-weight:400}.engine-box{border:1.5px solid #9dc3e2;padding:19px 22px}.engine-box .label{margin-bottom:12px}.layer{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:20px;font-weight:700}.layer span{font-size:15px;color:var(--muted);font-weight:400;padding-left:15px;align-self:center}.cross-layer{padding-top:15px;color:var(--blue);font-size:16px}.title-slide .slide-heading h1{display:none}.title-slide .slide-heading{margin-top:45px}.title-slide .slide-body{margin-top:12px}.title-layout{display:grid;grid-template-columns:1.75fr 1fr;gap:54px;height:100%;align-items:center}.title-rule{height:5px;background:var(--blue);width:66px;margin-bottom:27px}.title-prelude{font-size:30px;margin-bottom:11px;color:var(--ink);letter-spacing:-.5px}.title-main{font-size:68px;line-height:1.06;letter-spacing:-2.6px;font-weight:700;color:var(--blue)}.title-main>span{color:var(--ink)}.author{display:flex;gap:32px;margin-top:34px;align-items:flex-start}.author strong{font-size:22px}.author>span{font-size:16px;line-height:1.6;color:var(--muted);border-left:1px solid var(--line);padding-left:26px}.title-visual{height:420px;background:var(--navy);padding:30px 27px;color:white;position:relative;border-top:5px solid var(--blue)}.visual-label{font-size:10px;letter-spacing:2px;color:#b4cfe3}.issue-chip{padding:17px 16px;background:#ffffff0d;border:1px solid #ffffff30;font-size:16px;margin-top:28px;display:flex;align-items:center;gap:12px}.orange-dot{width:8px;height:8px;border-radius:50%;background:#ffae69}.trace-line{height:27px;width:1px;background:#7394af;margin-left:23px}.repo-tree{font-family:Consolas,Menlo,monospace;font-size:16px;line-height:1.95;color:#b3cade}.tree-root{color:white;margin-bottom:8px}.tree-line{padding-left:8px}.tree-target{padding-left:8px;color:white;background:#0065bd;padding-right:13px;display:flex;gap:10px}.tree-target span{margin-left:auto;color:#ffb578}.visual-bottom{margin-top:20px;font-size:12px;line-height:1.6;color:#a6c3d9;display:flex;gap:16px}.visual-bottom>span{font-size:32px;color:#5a92ba;font-weight:bold;line-height:1.2}.failure{padding:20px 25px;background:#f9f5ef;display:flex;gap:25px;align-items:center;border-left:4px solid #dc8238}.failure .label{color:#a9510f;font-size:11px}.failure strong{font-size:25px}.case-tag{font-size:14px;color:#8c725d;margin-left:auto;white-space:nowrap}.causal-path{display:flex;gap:20px;align-items:center}.path-item{flex:1;background:#f4f7fa;padding:27px 22px;min-height:210px}.step-id{font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:700;margin-bottom:22px}.path-item h2{font-size:25px;margin-bottom:10px}.path-item p{font-size:18px;margin-bottom:22px}.path-item code{font-size:16px}.path-item.target{background:var(--pale);border-bottom:4px solid var(--blue)}.path-item.target code{color:var(--blue);font-weight:700}.path-arrow{font-size:32px;color:var(--blue);flex-shrink:0}.question-line{font-size:30px;font-weight:700;letter-spacing:-.5px;margin-top:8px}.contract{display:flex;align-items:center;gap:22px}.contract-input{flex:1}.contract-input>.label{margin-bottom:15px}.document{background:#f4f7fa;padding:17px 20px;position:relative;padding-left:58px}.document strong{display:block;font-size:20px}.document p{font-size:15px;margin-top:6px}.doc-icon{position:absolute;left:19px;top:22px;color:var(--blue);font-size:25px}.plus{display:block;text-align:center;font-size:21px;color:var(--muted);height:27px}.localizer{width:256px;background:var(--navy);padding:35px 25px;min-height:249px;display:flex;flex-direction:column;justify-content:center}.localizer .label{color:#8cc5f0}.localizer strong{color:white;font-size:36px;margin:17px 0 20px}.localizer>span:last-child{font-size:14px;color:#c1d9e9}.ranking{width:408px}.ranking>.label{margin-bottom:18px}.rank{padding:17px 12px;border-bottom:1px solid var(--line);display:flex;gap:13px;font-size:16px;align-items:center}.rank b{color:#8498a9;font-size:20px}.rank.first{background:var(--pale);color:var(--blue);border-left:3px solid var(--blue)}.rank.first b{color:var(--blue)}code{font-family:Consolas,Menlo,monospace}.constraints{display:flex;gap:15px;margin-top:20px}.constraints span{padding:10px 19px;border:1px solid var(--line);font-size:16px;color:var(--muted)}.constraints span:before{content:'−';color:var(--orange);margin-right:10px}.gap-layout{display:grid;grid-template-columns:1fr 90px 1.2fr;align-items:center;gap:35px}.gap-known{padding:35px;background:#f3f6f9}.gap-known h2{font-size:31px;margin:18px 0 26px}.research-row{padding:17px 0;border-top:1px solid #d8e2ea;font-size:24px}.research-row span{font-size:14px;color:#8da1b2;display:inline-block;width:40px}.gap-line{font-size:52px;color:#8fb8d8;text-align:center}.gap-question .label{margin-bottom:23px}.gap-question h2{font-size:43px;letter-spacing:-1.2px;margin-bottom:24px}.gap-question em{font-style:normal;color:var(--blue)}.gap-question p{max-width:470px}.small-rule{width:52px;height:3px;background:var(--blue);margin:25px 0}.rq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}.rq-grid article{border-top:3px solid #b3cee3;padding-top:25px;position:relative}.rq-grid article:last-child{border-color:var(--blue)}.rq-number{font-size:50px;font-weight:700;color:#a3bfd5;letter-spacing:-2px;margin-bottom:23px}.rq-grid article:last-child .rq-number{color:var(--blue)}.rq-grid h2{font-size:31px;margin-bottom:20px}.rq-grid p{font-size:20px;min-height:90px}.rq-method{display:block;margin-top:27px;border-top:1px solid var(--line);padding-top:20px;color:var(--blue);font-size:15px}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px}.method{padding:24px 30px;background:#f3f6f9;border-top:3px solid #9aafbf}.method.agent{background:var(--pale);border-color:var(--blue)}.method h2{font-size:30px;margin:12px 0 15px}.method h2 span{color:#aebdca;font-weight:400}.method-flow{display:flex;flex-direction:column;align-items:center;gap:4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:17px;font-size:20px}.method-flow b{font-size:19px;color:#769dbb;font-weight:400}.method p{font-size:17px;margin-top:9px}.method p strong{display:inline-block;width:92px;font-size:14px;color:var(--blue)}.paper-figure{margin:0;min-width:0;display:flex;flex-direction:column;align-items:center}.figure-zoom{background:white;padding:0;border:0;display:block;position:relative;width:100%;line-height:0;text-align:center}.figure-zoom img{display:block;width:100%;height:auto;object-fit:contain}.zoom-hint{position:absolute;bottom:6px;right:6px;background:#003359ed;color:white;padding:9px 12px;line-height:1;font-size:12px;opacity:0;transition:opacity .15s;border-radius:3px}.figure-zoom:hover .zoom-hint,.figure-zoom:focus-visible .zoom-hint{opacity:1}figcaption{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.3;text-align:center}figcaption span{color:#8494a3}.figure-split{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:30px;align-items:center}.architecture-layout{grid-template-columns:minmax(0,900px) 330px;gap:45px;align-items:center;justify-content:start}.dataset-layout .figure-zoom img{max-height:414px}.stat-aside{border-left:1px solid var(--line);padding-left:30px}.big-stat{font-size:88px;font-weight:700;letter-spacing:-5px;color:var(--blue);line-height:1}.stat-caption{font-size:18px;margin-top:10px}.aside-rule{height:1px;background:var(--line);margin:22px 0}.stat-aside h2{font-size:22px;margin-bottom:8px}.stat-aside p:not(.stat-caption){font-size:17px;margin-bottom:20px}.metric-ribbon{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:0}.metric-ribbon>div{border-left:2px solid var(--line);padding-left:25px}.metric-ribbon>div:first-child{border-color:var(--blue)}.metric-ribbon strong{font-size:62px;letter-spacing:-2px;color:var(--blue);display:block;line-height:1.15;margin:9px 0 4px}.metric-ribbon strong span{font-size:30px;margin-left:3px}.metric-ribbon p{font-size:17px}.metric-context{display:flex;flex-direction:column;justify-content:center;gap:17px}.metric-context p{font-size:21px}.results-table{margin-top:12px}.results-table img{max-height:217px}.footnote{font-size:13px;color:#687c8b;line-height:1.4}.efficiency-table img{max-height:245px}.three-findings{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;margin-top:3px}.three-findings article{border-top:1px solid var(--line);padding-top:16px;position:relative}.finding-index{color:#9aaebb;position:absolute;right:0;top:19px;font-size:12px}.three-findings h2{font-size:22px}.finding-value{font-size:39px;color:var(--blue);font-weight:700;letter-spacing:-1px;margin:10px 0}.finding-value small{font-size:20px;letter-spacing:0;font-weight:400}.three-findings p{font-size:16px}.overlap-figure img{max-height:350px}.inline-insights{display:flex;justify-content:space-around;gap:25px;border-top:1px solid var(--line);padding-top:20px}.inline-insights p{font-size:19px}.inline-insights b{color:var(--blue)}.artifact-strip{display:flex;gap:12px}.artifact-tag{font-size:16px;color:var(--blue);background:var(--pale);padding:9px 15px}.artifact-table img{max-height:290px}.evidence-note{display:flex;align-items:center;gap:25px}.evidence-note>strong{font-size:42px;color:var(--blue);letter-spacing:-1px}.evidence-note p{font-size:17px}.evidence-note>span{font-size:18px;color:var(--muted);margin-left:auto;line-height:1.4}.failure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}.failure-grid article{background:#f4f7fa;padding:30px 28px 24px;border-top:3px solid #b7ccdc}.failure-grid article:last-child{border-color:var(--orange)}.failure-grid .label{margin-top:27px;margin-bottom:16px;font-size:11px}.failure-grid h2{font-size:29px;margin-bottom:22px;min-height:68px}.failure-grid p{font-size:19px;min-height:109px}.failure-bottom{padding-top:17px;border-top:1px solid #d7e1e9;color:var(--blue);font-size:16px}.failure-glyph{height:44px;display:flex;align-items:center}.failure-glyph span{width:26px;height:26px;border:2px solid var(--blue);background:var(--blue);border-radius:50%}.failure-glyph span.missing{border-style:dashed;background:none;border-color:#94a9ba}.failure-glyph i{width:55px;height:2px;background:var(--blue)}.failure-glyph i.dashed{background:none;border-top:2px dashed #9bafbe}.failure-glyph b{font-size:32px;color:var(--orange);width:55px;text-align:center}.file-glyph{display:flex;gap:10px;height:44px;align-items:center}.file-glyph code{font-size:20px;padding:8px 10px;border:1px solid #93b2cb;color:var(--blue);background:white}.file-glyph .skipped{border-style:dashed;border-color:#d09c75;color:var(--orange)}.mapping-head,.mapping-row{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:40px;align-items:center}.mapping-head{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.2px;padding-bottom:17px;border-bottom:2px solid #b1cbdc}.mapping-row{padding:26px 0;border-bottom:1px solid var(--line);font-size:22px}.mapping-row>strong{font-size:22px}.mapping-row>span{font-size:23px;color:var(--blue);font-weight:700;line-height:1.35}.mapping-row small{font-size:16px;font-weight:400;color:var(--muted)}.mapping-row p{font-size:20px}.cluefl-definition{display:flex;gap:24px;align-items:center;margin-top:4px}.cluefl-definition strong{font-size:38px;color:var(--blue);letter-spacing:-1px}.cluefl-definition p{font-size:16px}.framework-figure img{max-height:372px}.phase-labels{display:flex;justify-content:center;gap:64px;margin-top:5px;font-size:17px}.phase-labels b{color:var(--blue);margin-right:12px}.gain-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}.gain-grid>div{border-left:3px solid var(--blue);padding-left:23px}.gain-grid strong{display:block;font-size:56px;line-height:1.1;color:var(--blue);letter-spacing:-2px;margin:10px 0}.gain-grid small{font-size:26px;letter-spacing:0}.gain-grid p{font-size:20px}.gain-grid p span{font-size:15px;margin-left:20px;color:#788b9b}.cluefl-table img{max-height:236px}.contribution-list{display:flex;flex-direction:column}.contribution-list article{display:flex;gap:30px;align-items:center;padding:29px 0;border-bottom:1px solid var(--line)}.contribution-list article:last-child{border-bottom:0}.contribution-list article>span{font-size:52px;font-weight:700;letter-spacing:-2px;color:#98b8d0;width:80px}.contribution-list h2{font-size:30px;margin-bottom:11px}.contribution-list p{font-size:19px;max-width:880px}.contribution-list article>b{margin-left:auto;font-size:14px;color:var(--blue);width:94px;text-align:right}.closing-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:100px;align-items:center}.closing-message h2{font-size:72px;line-height:1.04;letter-spacing:-2px;margin:25px 0}.closing-message h2 span{color:var(--blue)}.closing-message p{font-size:20px}.text-button{border:0;background:none;color:var(--blue);padding:0;font-size:16px;margin-top:30px}.text-button:hover{text-decoration:underline}.limits>.label{margin-bottom:20px}.limits>div{padding:17px 0;border-top:1px solid var(--line)}.limits strong{font-size:22px}.limits p{font-size:18px;margin-top:7px}.backup-method img{max-height:495px}.ablation-table img{max-height:346px}
+.app-footer{height:66px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;gap:20px;background:#f5f7fa;border-top:1px solid #d7e0e8}.chapters{display:flex;gap:22px;align-items:center}.chapter-button{background:none;border:0;border-top:2px solid transparent;padding:10px 0;font-size:11px;color:#71818e;letter-spacing:.3px;white-space:nowrap}.chapter-button.active{border-color:var(--blue);color:var(--blue);font-weight:700}.nav-controls{display:flex;align-items:center;gap:12px}.page-count{font-size:12px;font-variant-numeric:tabular-nums;color:#748492;min-width:67px;text-align:center}.page-count strong{color:var(--ink);font-size:15px}.nav-arrow{border:1px solid #d4dee7;border-radius:50%;width:34px;height:34px;background:white;display:grid;place-items:center}.nav-arrow:hover:not(:disabled){background:var(--pale);color:var(--blue)}.global-progress{position:fixed;bottom:0;left:0;height:2px;background:var(--blue);width:0;transition:width .15s}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.notes-panel{position:fixed;bottom:80px;right:28px;width:420px;max-width:calc(100vw - 32px);max-height:50vh;overflow:auto;background:#fff;border:1px solid #c5d7e5;border-radius:10px;padding:25px;box-shadow:0 10px 60px #00335926;z-index:5}.notes-panel h2{font-size:14px;margin:0 0 13px;color:var(--blue)}.notes-panel p{font-size:15px;line-height:1.8}.notes-title{display:flex;justify-content:space-between;align-items:center}.notes-title button{border:0;background:none;font-size:20px;color:var(--muted)}dialog{border:1px solid #d4e0e9;border-radius:12px;padding:26px;color:var(--ink);max-width:calc(100vw - 40px);max-height:calc(100dvh - 40px);box-shadow:0 20px 100px #00152b40}dialog::backdrop{background:#09253bcc;backdrop-filter:blur(5px)}.dialog-header{display:flex;justify-content:space-between;align-items:center;gap:25px;margin-bottom:23px}.dialog-header h2{font-size:22px}.dialog-close{border:1px solid var(--line);background:white;min-width:32px;height:32px;border-radius:5px;font-size:22px}#overview{width:1000px}.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.overview-item{padding:16px;text-align:left;background:#f4f7fa;border:1px solid transparent;border-radius:5px;display:flex;gap:13px;min-height:86px;align-items:flex-start}.overview-item:hover{border-color:#9ec3df}.overview-item.current{border-color:var(--blue);background:var(--pale)}.overview-item .number{font-size:17px;font-weight:bold;color:var(--blue);min-width:27px}.overview-item .overview-text{font-size:13px;line-height:1.4;font-weight:600}.overview-item small{font-size:9px;letter-spacing:.6px;color:#6e8699;display:block;margin-bottom:6px;text-transform:uppercase}.overview-section{grid-column:1/-1;font-size:11px;letter-spacing:1px;color:var(--muted);margin:12px 0 3px}#figure-dialog{width:min(1400px,96vw);padding:22px}#figure-dialog img{display:block;width:100%;max-height:calc(100dvh - 180px);object-fit:contain;background:white}#figure-dialog .dialog-header{margin-bottom:15px}#figure-title{font-size:16px}#figure-source{display:inline-block;font-size:13px;color:var(--blue);margin-top:16px}#help-dialog{width:450px}#help-dialog dl{display:grid;grid-template-columns:140px 1fr;gap:15px;font-size:14px}#help-dialog dt{font-family:monospace;color:var(--blue)}#help-dialog dd{margin:0;color:var(--muted)}body:fullscreen .app-header,body:fullscreen .app-footer{display:none}body:fullscreen .viewport{height:100dvh;padding:0;background:#0c1c29}body:fullscreen .stage{box-shadow:none}.toast{position:fixed;top:75px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:13px;padding:12px 18px;border-radius:5px;z-index:20}
+@media (max-width:1050px){.app-subtitle,.duration{display:none}.chapters{gap:13px}.chapter-button{font-size:10px}.app-header,.app-footer{padding-left:18px;padding-right:18px}.tool-label{display:none}}
+@media (max-width:680px){.app-header{height:54px;padding:0 12px;gap:10px}.app-brand{font-size:11px;gap:8px}.app-tools{gap:5px}.app-logo{width:24px;height:28px}.tool-button{min-width:31px;padding:6px}.tool-print{display:none}.viewport{height:calc(100dvh - 112px);padding:10px}.app-footer{height:58px;padding:0 12px}.chapters{overflow-x:auto;flex:1;gap:15px;scrollbar-width:none}.chapter-button{font-size:10px}.nav-controls{gap:6px}.nav-arrow{width:29px;height:29px}.page-count{min-width:50px}.overview-grid{grid-template-columns:1fr 1fr}dialog{padding:16px;max-width:calc(100vw - 20px)}.overview-item{padding:10px;gap:8px}.overview-item .overview-text{font-size:12px}.overview-item small{font-size:8px}.dialog-header h2{font-size:18px}.notes-panel{right:16px;bottom:70px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+@page{size:1440px 810px;margin:0}
+@media print{html,body{margin:0!important;padding:0!important;background:white!important}.app-header,.app-footer,.global-progress,.notes-panel,dialog,.toast,.sr-only{display:none!important}.viewport{height:auto!important;padding:0!important;display:block!important;overflow:visible!important}.stage-wrap,.stage{width:1440px!important;height:auto!important;transform:none!important;box-shadow:none!important}.slide{display:flex!important;break-after:page;page-break-after:always;print-color-adjust:exact;-webkit-print-color-adjust:exact}.slide[data-backup]{display:none!important}.slide:nth-child(18){break-after:auto;page-break-after:auto}.zoom-hint,.text-button{display:none!important}.figure-zoom{border:0!important}a{text-decoration:none!important}}
+
+/* Research defense: original architecture, observed cases, mechanisms, and study controls. */
+.arc-layout { display:grid; grid-template-columns:minmax(0,1fr) 305px; gap:28px; align-items:center; }
+.architecture-original img { max-height:500px; }
+.architecture-original figcaption { font-size:12px; }
+.architecture-reading { border-left:2px solid var(--blue); padding-left:28px; align-self:center; }
+.architecture-intro .label { font-size:16px; line-height:1.3; letter-spacing:1.7px; margin-bottom:18px; }
+.architecture-intro p { font-size:28px; line-height:1.22; color:var(--ink); letter-spacing:-.4px; max-width:310px; }
+.architecture-claim { font-size:19px; color:var(--blue); border-top:2px solid var(--blue); padding-top:17px; }
+.gap-detail { font-size:17px; margin-top:16px; }
+.method .model-detail { font-size:14px; color:var(--blue); margin:0 0 10px; }
+.case-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.case-grid article { background:#f4f7fa; border-top:3px solid #8eb6d3; padding:23px 24px; }
+.case-grid article:last-child { border-color:var(--orange); }
+.case-grid .label { font-size:10px; letter-spacing:1px; margin-bottom:16px; }
+.case-grid h2 { font-size:29px; margin-bottom:17px; }
+.case-grid p { font-size:17px; line-height:1.4; }
+.case-grid .case-failure { color:var(--ink); font-weight:700; min-height:49px; margin-bottom:12px; }
+.case-evidence { margin:17px 0 12px; padding:13px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.case-evidence span { display:block; font-size:9px; color:var(--muted); letter-spacing:.45px; margin-bottom:9px; }
+.case-evidence code { font-size:17px; font-weight:700; color:var(--blue); overflow-wrap:anywhere; }
+.case-grid .case-lesson { color:var(--blue); font-size:16px; }
+.case-comparison { display:grid; grid-template-columns:1fr 1.3fr 1.05fr; gap:18px; }
+.case-comparison > div { padding:20px; background:#f3f6f9; }
+.case-comparison .comparison-context { background:transparent; padding-left:0; }
+.comparison-context strong { display:block; font-size:21px; line-height:1.35; margin:16px 0; }
+.comparison-context code { font-size:15px; color:var(--muted); }
+.case-comparison .guided-path { background:var(--pale); border-left:3px solid var(--blue); }
+.case-comparison h2 { font-size:24px; margin:15px 0 12px; }
+.case-comparison p { font-size:16px; line-height:1.7; min-height:54px; }
+.case-comparison .label { font-size:10px; }
+.case-outcome { display:block; font-size:15px; font-weight:700; color:var(--blue); margin-top:12px; }
+.guidance-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:2px; }
+.guidance-cards article { border-top:1px solid var(--line); padding-top:20px; }
+.guidance-cards .label { font-size:10px; }
+.guidance-cards h2 { font-size:24px; margin:12px 0 10px; }
+.guidance-cards p { font-size:18px; }
+.framework-operational img { max-height:300px; }
+.operating-rules { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; border-top:1px solid var(--line); padding-top:17px; }
+.operating-rules .label { font-size:11px; margin-bottom:10px; }
+.operating-rules p { font-size:18px; }
+.operating-rules code { color:var(--blue); font-size:16px; }
+.defense-closing > * { min-width:0; }
+.defense-closing { display:grid; grid-template-columns:1.05fr 1fr; gap:72px; }
+.conclusion-evidence > .label { margin-bottom:19px; }
+.closing-result { display:flex; align-items:center; gap:27px; padding:19px 0; border-top:1px solid var(--line); }
+.closing-result > strong { color:var(--blue); font-size:48px; letter-spacing:-2px; min-width:179px; }
+.closing-result small { font-size:21px; letter-spacing:0; }
+.closing-result p { font-size:18px; line-height:1.5; }
+.closing-result b { font-size:16px; font-weight:500; color:var(--ink); }
+.closing-signature { display:flex; justify-content:space-between; align-items:center; border-top:2px solid var(--blue); padding-top:21px; }
+.closing-signature > span { font-size:22px; font-weight:700; color:var(--blue); }
+.closing-signature .text-button { margin:0; font-size:14px; }
+.defense-limits > .label { font-size:10px; letter-spacing:1px; }
+.defense-limits strong { font-size:21px; }
+.defense-limits p { font-size:17px; }
+.defense-limits .next-study { color:var(--blue); margin-top:15px; font-size:17px; }
+.control-table img { max-height:315px; }
+.protocol-notes { display:grid; grid-template-columns:1fr 1fr; gap:45px; padding-top:15px; border-top:1px solid var(--line); }
+.protocol-notes .label { font-size:11px; margin-bottom:9px; }
+.protocol-notes p { font-size:18px; }
+.notes-panel { width:500px; max-height:65vh; }
+.notes-panel p { white-space:pre-line; }
+
+/* Final professor-facing polish: stronger evidence hierarchy and quieter chrome. */
+.title-slide .title-prelude{font-size:27px;letter-spacing:.2px;color:var(--blue);font-weight:600}
+.title-slide .title-main{font-size:70px;line-height:1.03}
+.title-slide .title-visual{box-shadow:18px 18px 0 #dceaf4}
+.slide-heading h1{max-width:1180px}
+.slide:not(.title-slide)::after{content:'';position:absolute;left:64px;top:96px;width:34px;height:2px;background:var(--blue);opacity:.8}
+.evidence-bar{display:flex;gap:0;border:1px solid var(--line);background:#f8fafc;margin-top:12px;min-height:43px;align-items:center}
+.evidence-bar span{padding:0 20px;border-right:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.2}
+.evidence-bar span:last-child{border-right:0;margin-left:auto;color:var(--blue);font-style:italic}
+.evidence-bar b{font-size:19px;color:var(--blue);margin-right:5px}
+.architecture-claim b{color:var(--ink)}
+.closing-signature>span{font-size:19px;letter-spacing:.1px}
+
+/* Keep slide 9 footnote from colliding with takeaway. */
+#s9 .footnote { display: none; }
+
+.deployment-figure img{width:100%;max-height:255px;object-fit:contain}.deployment-figure figcaption{margin-top:10px}.deployment-phases{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}.deployment-phases>div{border-top:2px solid var(--blue);padding-top:13px}.deployment-phases span{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:1px}.deployment-phases h2{margin:8px 0 7px;font-size:22px}.deployment-phases p{font-size:16px;line-height:1.35}.deployment-slide .takeaway{margin-top:8px}.deployment-slide .slide-body{gap:16px}.agenda-list{display:flex;flex-direction:column;gap:0;max-width:1040px;margin:0 auto;width:100%}.agenda-list article{display:grid;grid-template-columns:90px 1fr;gap:25px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}.agenda-list article>span{font-size:34px;font-weight:700;color:#9ab8ce}.agenda-list h2{font-size:25px;margin-bottom:4px}.agenda-list p{font-size:17px}</style>
+</head>
+<body>
+<header class="app-header"><div class="app-brand"><span class="app-logo" aria-hidden="true">≡</span><span>Thesis Defense<span class="app-subtitle">Tianhao Gu / TUM</span></span></div><div class="app-tools"><span class="duration">18 MIN TALK · 7 MIN Q&amp;A</span><button type="button" id="overview-toggle" class="tool-button tool-overview" title="Overview (O)" aria-label="Overview" ><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg><span class="tool-label">Overview</span></button><button type="button" id="notes-toggle" class="tool-button tool-notes" title="Notes (N)" aria-label="Notes" aria-pressed="false" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 8h8M8 12h8M8 16h5"/></svg></button><button type="button" id="print-toggle" class="tool-button tool-print" title="Print" aria-label="Print" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7V3h10v4M7 17H3V8h18v9h-4M7 14h10v7H7z"/></svg></button><button type="button" id="fullscreen-toggle" class="tool-button tool-fullscreen" title="Fullscreen (F)" aria-label="Fullscreen" aria-pressed="false" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button><button type="button" id="help-toggle" class="tool-button tool-help" title="Shortcuts (?)" aria-label="Shortcuts" ><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .6-1.5 1-1.5 2M12 17h.01"/></svg></button></div></header>
+<main class="viewport" aria-label="Thesis presentation"><div class="stage-wrap"><div class="stage"><section class="slide title-slide" id="s1" data-seconds="30" data-chapter="Master’s thesis defense" data-title="Exploring and Improving Fault Localization in LLM Inference Engines" data-note="讲述重点｜本研究的问题是：只拿到 issue 与修复前仓库，如何把开发者实际修改的文件排到前面。开场直接给对象、输入和目标。
+
+教授可能追问｜这和自动修复有什么不同？
+
+答复依据与边界｜只定位文件，不生成补丁，也不证明唯一根因。英文开场可用：I study how to rank the developer’s fault location using only an issue report and its pre-fix repository."  aria-label="01: Exploring and Improving Fault Localization in LLM Inference Engines" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Master’s thesis defense</div><h1>Exploring and Improving Fault Localization in LLM Inference Engines</h1></header>
+<div class="slide-body">
+<div class="title-layout"><div class="title-copy"><div class="title-rule"></div><div class="title-main">Exploring and Improving Fault Localization<br><span>in LLM Inference Engines</span></div><div class="author"><strong>Tianhao Gu</strong><span>Software Engineering &amp; AI (SEAI)<br>Technical University of Munich<br><span class="advisor">Examiner: Prof. Dr. Chunyang Chen<br>Supervisor: Dr. Mark Huasong Meng</span></span></div></div>
+<div class="title-visual" aria-hidden="true"><div class="visual-label">FROM FAILURE TO FAULT LOCATION</div><div class="issue-chip"><span class="orange-dot"></span> Issue report</div><div class="trace-line"></div><div class="repo-tree"><div class="tree-root">inference-engine /</div><div class="tree-line">├─ server /</div><div class="tree-line">├─ runner /</div><div class="tree-line">├─ backend /</div><div class="tree-target">└─ <b>CMakeLists.txt</b><span>←</span></div></div><div class="visual-bottom"></div></div></div>
+</div>
+
+<footer class="slide-footer"><span>Master’s thesis defense · Tianhao Gu</span></footer>
+</section><section class="slide agenda-slide" id="s2-agenda" data-seconds="35" data-chapter="Presentation structure" data-title="Research background, three research questions, contributions, and discussion" data-note="讲述重点｜本页先交代报告结构：背景与挑战、问题与数据、方法评估、失败分析、ClueFL 与结论。" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Presentation outline</h1></header>
+<div class="slide-body"><div class="agenda-list"><article><span>01</span><div><h2>Research Background</h2><p>Why fault localization matters in complex LLM inference engines.</p></div></article><article><span>02</span><div><h2>RQ1 · Feasibility</h2><p>Can execution-free methods identify the repair file?</p></div></article><article><span>03</span><div><h2>RQ2 · Failure mechanisms</h2><p>Why do LLM agents miss the correct fault location?</p></div></article><article><span>04</span><div><h2>RQ3 · Improvement</h2><p>Can domain knowledge improve localization through ClueFL?</p></div></article><article><span>05</span><div><h2>Contributions &amp; Discussion</h2><p>What the thesis contributes, and where the evidence remains limited.</p></div></article></div></div>
+<footer class="slide-footer"><span>Research story · Tianhao Gu</span><span>03<span class="footer-total"> / 16</span></span></footer>
+</section>
+<section class="slide deployment-slide" id="s2-deployment" data-seconds="55" data-chapter="01 / Background" data-title="How is an LLM deployed?" data-note="讲述重点｜部署分为 engine setup、model conversion 和 inference/serving 三个阶段。推理引擎贯穿这三个阶段。引用 Liu et al. Figure 1。" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>How is an LLM deployed?</h1></header>
+<div class="slide-body">
+<figure class="paper-figure deployment-figure"><img src="llm_deployment_workflow.png" alt="Workflow of LLM deployment: engine setup, model conversion, and inference or serving." draggable="false"><figcaption>Workflow of LLM deployment · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 1</figcaption></figure>
+<div class="deployment-phases"><div><span>01</span><h2>Engine setup</h2><p>Install or compile the inference engine and verify hardware compatibility.</p></div><div><span>02</span><h2>Model conversion</h2><p>Convert, optimize, and package the model for the selected engine and environment.</p></div><div><span>03</span><h2>Inference / serving</h2><p>Load the model, process requests, and generate responses.</p></div></div>
+</div>
+<footer class="slide-footer"><a href="https://arxiv.org/html/2506.09713v1#S2.F1" target="_blank" rel="noopener">Liu et al. · Fig. 1 · Workflow of LLM deployment ↗</a><span>02<span class="footer-total"> / 16</span></span></footer>
+</section>
+<section class="slide " id="s2" data-seconds="70" data-chapter="01 / Background" data-title="LLM inference-engine architecture" data-note="讲述重点｜先用手势沿原图的 Request Parser → Job Manager → Input Processor → Operators → Output Processor 讲一遍请求流，再指出 Resource Manager 与 Backend Adapter 如何跨越这条路径。最后连接下一页的症状—修复距离。
+
+教授可能追问｜这张通用架构图是你的贡献吗？
+
+答复依据与边界｜不是。这是 Liu et al. Fig. 2 的背景图，已标注来源。我的工作使用 Ollama 专属导航映射来指导文件定位；它与这张通用背景图不同。图中的测试/监控组件也不意味着本实验执行它们。"  aria-label="02: LLM inference-engine architecture" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>LLM inference-engine architecture</h1></header>
+<div class="slide-body">
+
+<div class="arc-layout">
+<figure class="paper-figure architecture-original"><button class="figure-zoom" data-figure="llm_inference_engine_arc.png" data-caption="Liu et al. · Architecture of LLM inference engine · Fig. 2" data-source="https://arxiv.org/html/2506.09713v1#S2.F2" aria-label="Enlarge LLM inference engine architecture"><img src="llm_inference_engine_arc.png" alt="LLM inference engine architecture: service and job configurations, model loader, request parser, job manager, input and output processors, operators, resource manager, backend adapter, platforms and devices." draggable="false"><span class="zoom-hint">↗ Enlarge architecture</span></button><figcaption>Architecture overview · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 2</figcaption></figure>
+<aside class="architecture-reading"><div class="architecture-intro"><span class="label">WHY FAULT LOCALIZATION IS<br>CHALLENGING</span><p>Large codebases, coupled components, and limited evidence complicate fault localization.</p></div></aside>
+</div>
+
+</div>
+
+<footer class="slide-footer"><a href="https://arxiv.org/html/2506.09713v1#S2.F2" target="_blank" rel="noopener">Liu et al. · Fig. 2 · Background figure; thesis §2.3 ↗</a><span>02<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s5" data-seconds="45" data-chapter="01 / Background" data-title="Research gap: existing techniques lack repository evidence in this setting." data-note="讲述重点｜把研究缺口限定到推理引擎、执行自由、文件级修复位置。承认 IR、bug taxonomy 和 repository agents 已存在，解释为什么仍需要这个领域的实证评估。
+
+教授可能追问｜新颖性到底在哪里？
+
+答复依据与边界｜不声称发明通用检索或 agent。贡献是这个任务设置下的仓库数据集与系统评估、失败机制理解、以及经实验检验的领域引导框架。"  aria-label="05: Research gap: existing techniques lack repository evidence in this setting." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Research gap: existing techniques lack repository evidence in this setting.</h1></header>
+<div class="slide-body">
+
+<div class="gap-layout"><div class="gap-known"><span class="label">ESTABLISHED KNOWLEDGE</span><h2>Three starting points</h2><div class="research-row"><span>01</span> Engine bug taxonomies</div><div class="research-row"><span>02</span> IR-based file retrieval</div><div class="research-row"><span>03</span> Repository agents</div><p class="gap-detail">These methods require evaluation on this task.</p></div><div class="gap-line"><span>→</span></div><div class="gap-question"><span class="label">OPEN EMPIRICAL QUESTION</span><h2>Can they rank<br><em>the fault location?</em></h2><p>Inference-engine issues, a pre-fix repository, and no new execution evidence.</p><div class="small-rule"></div><p class="small">This thesis evaluates the setting, analyzes failure cases, and measures domain guidance.</p></div></div>
+
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=27" target="_blank" rel="noopener">Thesis Ch. 3 · Research positioning ↗</a><span>05<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s6" data-seconds="35" data-chapter="01 / Background" data-title="Research questions." data-note="讲述重点｜快速讲三问之间的因果关系：先确认能否做，再定位失败机制，最后把机制转成方法并验证。不要逐字朗读。"  aria-label="06: Research questions." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Research questions.</h1></header>
+<div class="slide-body">
+<div class="rq-grid"><article><div class="rq-number">RQ1</div><h2>Establish<br>feasibility</h2><p>Can existing methods localize fault locations without execution?</p><span class="rq-method">IR + LLM agents</span></article><article><div class="rq-number">RQ2</div><h2>Explain<br>failures</h2><p>Where and why does agent exploration break down?</p><span class="rq-method">Trajectory analysis</span></article><article><div class="rq-number">RQ3</div><h2>Guide<br>localization</h2><p>Can domain-specific knowledge improve the ranking?</p><span class="rq-method">ClueFL</span></article></div>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=13" target="_blank" rel="noopener">Thesis Ch. 1 · Research questions ↗</a><span>06<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s7" data-seconds="55" data-chapter="02 / RQ1 · Methods" data-title="Comparison of retrieval and agent-based methods." data-note="讲述重点｜IR 用适配多语言仓库的文本与结构表示；SWE-agent 迭代收集证据。明确是本论文的 multilingual adaptations，而非声称直接运行原作者未修改的实现。
+
+教授可能追问｜Baseline 比较是否公平？
+
+答复依据与边界｜实例、预修复快照、候选范围与 scorer 一致。跨 backbone 配置并不 prompt-matched，因此结果解读限于配置；RQ3 则在每个 backbone 内匹配。"  aria-label="07: Comparison of retrieval and agent-based methods." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Methods</div><h1>Comparison of retrieval and agent-based methods.</h1></header>
+<div class="slide-body">
+<div class="method-grid"><article class="method"><span class="label">MULTILINGUAL IR ADAPTATIONS</span><h2>BugLocator <span>/</span> BLUiR</h2><div class="method-flow"><span>Issue text</span><b>↓</b><span>Text / structural similarity</span><b>↓</b><span>Ranked repository files</span></div><p><strong>Strength</strong> Deterministic retrieval</p><p><strong>Challenge</strong> Failure–fault location vocabulary mismatch</p></article><article class="method agent"><span class="label">LLM-BASED EXPLORATION</span><h2>SWE-agent</h2><p class="model-detail">GPT-5.2 / DeepSeek V4 Pro configurations</p><div class="method-flow"><span>Issue + repository</span><b>↓</b><span>Iterative inspection and reasoning</span><b>↓</b><span>Ranked repository files</span></div><p><strong>Strength</strong> Semantic, multi-step exploration</p><p><strong>Challenge</strong> Computation and exploration failures</p></article></div>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=32" target="_blank" rel="noopener">Thesis §4.2 · Figs. 4.2–4.3 in backup ↗</a><span>07<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s8" data-seconds="75" data-chapter="02 / RQ1 · Dataset" data-title="Dataset: 145 validated cases with one fault-location label." data-note="讲述重点｜沿原图只讲三个检查：改动可达、issue–fix一致、清洗后唯一合格标签。保留原表述与正文定义的区别。
+
+教授可能追问｜145例是否挑选太强、是否只保留只改一个文件的PR？
+
+答复依据与边界｜是单标签样本带来的外部有效性限制；原始PR可修改多个文件，清洗后只留一个合格修复标签。原图“Remove tests”是概括性措辞；§4.1.3 明确保留相关 maintained test source，数据集中有一个这样的标签。"  aria-label="08: Dataset: 145 validated cases with one fault-location label." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Dataset</div><h1>Dataset: 145 validated cases with one fault-location label.</h1></header>
+<div class="slide-body">
+<div class="figure-split dataset-layout"><div><figure class="paper-figure "><button class="figure-zoom" data-figure="images/fig4-1-dataset.svg" data-caption="Fig. 4.1 · Dataset construction · p. 19" data-page="29" aria-label="Enlarge: Eight-stage construction of the Ollama evaluation dataset, from issue–PR mining to 145 retained instances."><img src="images/fig4-1-dataset.svg" alt="Eight-stage construction of the Ollama evaluation dataset, from issue–PR mining to 145 retained instances." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.1 · Dataset construction · p. 19 <span>· Original thesis figure / table</span></figcaption></figure></div><aside class="stat-aside"><div class="big-stat">145</div><p class="stat-caption">Ollama issue–fix pairs</p><div class="aside-rule"></div><h2>One final label</h2><p>After reachability, artifact, and relevance checks; the label is patch-derived.</p><h2>Target fix withheld</h2><p>PR, patch, label, and post-fix content are withheld.</p></aside></div>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=29" target="_blank" rel="noopener">Thesis Fig. 4.1 · §4.1 · pp. 19–21 ↗</a><span>08<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s9" data-seconds="60" data-chapter="02 / RQ1 · Results" data-title="Fault-location ranking results." data-note="讲述重点｜先说Top-1是第一文件命中，Top-5是前五个文件覆盖，MRR@5反映前五的排序位置。再报94/145与129/145，把比例落到可理解的案例数。
+
+教授可能追问｜是否有统计显著性或重复试验？
+
+答复依据与边界｜没有足以估计run-to-run variance的重复运行。说 observed improvement 或 higher in these runs，不用 statistically significant。"  aria-label="09: Fault-location ranking results." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Results</div><h1>Fault-location ranking results.</h1></header>
+<div class="slide-body">
+<div class="metric-ribbon"><div><span class="label">BEST OBSERVED TOP-1</span><strong>64.83<span>%</span></strong><p>SWE-agent · DeepSeek V4 Pro</p></div><div><span class="label">BEST OBSERVED TOP-5</span><strong>88.97<span>%</span></strong><p>129 of 145 fault locations</p></div><div class="metric-context"><p>IR retrieves roughly half<br>of fault locations within Top-5.</p><p><b>Agents improve early ranking.</b></p></div></div>
+<figure class="paper-figure results-table"><button class="figure-zoom" data-figure="images/table4-4-effectiveness.svg" data-caption="Table 4.4 · Localization effectiveness · p. 27" data-page="37" aria-label="Enlarge: Original Table 4.4: Top-1, Top-3, Top-5 and MRR@5 for BugLocator, BLUiR and the two SWE-agent configurations."><img src="images/table4-4-effectiveness.svg" alt="Original Table 4.4: Top-1, Top-3, Top-5 and MRR@5 for BugLocator, BLUiR and the two SWE-agent configurations." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 4.4 · Localization effectiveness · p. 27 <span>· Original thesis figure / table</span></figcaption></figure>
+<div class="evidence-bar"><span><b>145</b> shared cases</span><span><b>4</b> configurations</span><span><b>1</b> archived run / case</span><span>Metrics are descriptive observations</span></div><p class="footnote">Top-k: fault location appears in the first k predictions. MRR@5: mean reciprocal rank, scored zero beyond rank 5. ↓: gap from the column best.</p>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=37" target="_blank" rel="noopener">Thesis Table 4.4 · pp. 27–28 ↗</a><span>09<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s12" data-seconds="55" data-chapter="03 / RQ2 · Failure evidence" data-title="Top-5 ranking performance for non-code fault locations." data-note="讲述重点｜先交代112 code/script与33 non-code的扩展名分组，再指向GPT Top-5下降30.62pp。用该现象引出手工看trajectory的动机。
+
+教授可能追问｜分组是否等同于失败模式？
+
+答复依据与边界｜不是。定量分组按扩展名；non-source under-inspection机制还可涉及被分入可执行脚本组的构建/安装脚本。分组差距本身不能证明因果机制。"  aria-label="10: Top-5 ranking performance for non-code fault locations." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure evidence</div><h1>Top-5 ranking performance for non-code fault locations.</h1></header>
+<div class="slide-body">
+<div class="artifact-strip"><span class="artifact-tag">Configuration</span><span class="artifact-tag">Build specifications</span><span class="artifact-tag">Model metadata</span><span class="artifact-tag">Templates &amp; docs</span></div>
+<figure class="paper-figure artifact-table"><button class="figure-zoom" data-figure="images/table4-6-artifacts.svg" data-caption="Table 4.6 · Effectiveness by fault location artifact · p. 32" data-page="42" aria-label="Enlarge: Original Table 4.6: every evaluated configuration loses effectiveness on non-source fault locations compared with source code."><img src="images/table4-6-artifacts.svg" alt="Original Table 4.6: every evaluated configuration loses effectiveness on non-source fault locations compared with source code." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 4.6 · Effectiveness by fault location artifact · p. 32 <span>· Original thesis figure / table</span></figcaption></figure>
+<div class="evidence-note"><strong>−30.62 pp</strong><p>GPT-5.2 agent’s Top-5 gap:<br><b>82.14% source → 51.52% non-source</b></p><span><b>112 code / script · 33 non-code</b><br>Inspect the archived failure trajectories.</span></div>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=42" target="_blank" rel="noopener">Thesis Table 4.6 · §4.6 ↗</a><span>10<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s13" data-seconds="80" data-chapter="03 / RQ2 · Failure patterns" data-title="Failure mechanisms identified from execution trajectories." data-note="讲述重点｜逐个讲具体遗漏：Case126忽略CPU启动文件；Case86在Go到native producer边界停止；Case103看到文档链接却不打开。每类都讲观察到的动作和遗漏，而不是泛泛说LLM不理解。
+
+教授可能追问｜谁做了编码，有没有一致性检验、频率统计？
+
+答复依据与边界｜论文报告了手工trajectory分析与案例，但没有在这里提供编码者一致性或各类频率。不要临场编造kappa、双人标注或分布。三类机制可以重叠。"  aria-label="11: Failure mechanisms identified from execution trajectories." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure patterns</div><h1>Failure mechanisms identified from execution trajectories.</h1></header>
+<div class="slide-body">
+
+<div class="case-grid">
+<article><span class="label">CASE 126 / SEARCH COVERAGE</span><h2>Evidence<br>non-reachability</h2><p class="case-failure">Windows startup on a GPU-less machine</p><p>GPU-discovery logs keep both agents in GPU-related paths.</p><div class="case-evidence"><span>FAULT LOCATION FILE NEVER OPENED</span><code>discover/<wbr>cpu_windows.go</code></div><p class="case-lesson">A neighboring CPU startup path stays outside the context.</p></article>
+<article><span class="label">CASE 86 / CAUSAL DEPTH</span><h2>Causal-chain<br>truncation</h2><p class="case-failure">Streaming response loses its final token</p><p>GPT-5.2 stops at Go-side scanning; DeepSeek inspects the native producer.</p><div class="case-evidence"><span>DEEPSEEK RANKS THE FAULT LOCATION FIRST</span><code>llm/ext_server/<wbr>server.cpp</code></div><p class="case-lesson">The relevant chain crosses a language and process boundary.</p></article>
+<article><span class="label">CASE 103 / ARTIFACT SCOPE</span><h2>Non-source<br>under-inspection</h2><p class="case-failure">API documentation requires a fault location</p><p>GPT-5.2 encounters a documentation link but continues reading code.</p><div class="case-evidence"><span>DEEPSEEK RANKS THE DOCUMENT FIFTH</span><code>docs/api.md</code></div><p class="case-lesson">Seeing a reference is not the same as inspecting its evidence.</p></article>
+</div>
+
+</div>
+
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=44" target="_blank" rel="noopener">Thesis §4.6.1–4.6.3 · Cases 126, 86, 103 · pp. 34–35 ↗</a><span>11<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s15" data-seconds="80" data-chapter="04 / RQ3 · Framework" data-title="ClueFL uses repository evidence to rank candidate files." data-note="讲述重点｜解释原图和下方操作规则：非零层分数决定源码探索范围；非源码文件做完整检查；用deps/pkg_summary/func控制读取粒度；最后每个文件给相关性分数和证据理由。
+
+教授可能追问｜层分数和文件分数怎么校准，排零的层会不会错过？
+
+答复依据与边界｜分数是LLM判断，不是校准概率。层分数为零会限制后续源码搜索，是潜在遗漏风险。k只决定最后读取多少排名，不改变探索流程；最终返回全部非零候选。"  aria-label="13: ClueFL uses repository evidence to rank candidate files." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Framework</div><h1>ClueFL uses repository evidence to rank candidate files.</h1></header>
+<div class="slide-body">
+<figure class="paper-figure framework-figure framework-operational"><button class="figure-zoom" data-figure="images/fig5-1-cluefl.svg" data-caption="Fig. 5.1 · Original ClueFL framework · p. 39" data-page="49" aria-label="Enlarge: Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking."><img src="images/fig5-1-cluefl.svg" alt="Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 5.1 · Original ClueFL framework · p. 39 <span>· Original thesis figure / table</span></figcaption></figure>
+<div class="operating-rules"><div><span class="label">01 / SELECT SEARCH LAYERS</span><p>Retain layers with a non-zero<br>suspiciousness score.</p></div><div><span class="label">02 / COLLECT EVIDENCE</span><p>Inspect non-source artifacts;<br><code>deps</code> · <code>pkg_summary</code> · <code>func</code></p></div><div><span class="label">03 / RANK FILES</span><p>Relevance score + justification;<br>return all non-zero candidates.</p></div></div>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=49" target="_blank" rel="noopener">Thesis Fig. 5.1 · §5.1 ↗</a><span>13<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s16" data-seconds="80" data-chapter="04 / RQ3 · Results" data-title="ClueFL improves early ranking, especially with layer knowledge." data-note="讲述重点｜先报净增案例11和4，再说对应7.59pp与2.76pp。GPT覆盖也提升，DeepSeek Top-5不变，改善集中在前排优先级。
+
+教授可能追问｜是否是更多工具、更多信息而不是领域知识在起作用？
+
+答复依据与边界｜主比较评估完整配置：指导、历史、artifact策略和导航一起变。不能把全增益归于单一组件；下一页消融提供组件敏感性证据。"  aria-label="14: Effect of domain guidance on fault-location ranking." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Results</div><h1>Effect of domain guidance on fault-location ranking.</h1></header>
+<div class="slide-body">
+<div class="gain-grid"><div><span class="label">GPT-5.2 · TOP-1</span><strong>+7.59 <small>pp</small></strong><p>51.03% → 58.62% <span>74 → 85 cases</span></p></div><div><span class="label">DEEPSEEK V4 PRO · TOP-1</span><strong>+2.76 <small>pp</small></strong><p>64.83% → 67.59% <span>94 → 98 cases</span></p></div></div>
+<figure class="paper-figure cluefl-table"><button class="figure-zoom" data-figure="images/table5-2-cluefl.svg" data-caption="Table 5.2 · Matched baseline vs. ClueFL · p. 44" data-page="54" aria-label="Enlarge: Original Table 5.2: matched SWE-agent and ClueFL comparisons. GPT-5.2 improves across all cutoffs; DeepSeek improves Top-1 and Top-3 while Top-5 stays at 88.97%."><img src="images/table5-2-cluefl.svg" alt="Original Table 5.2: matched SWE-agent and ClueFL comparisons. GPT-5.2 improves across all cutoffs; DeepSeek improves Top-1 and Top-3 while Top-5 stays at 88.97%." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.2 · Matched baseline vs. ClueFL · p. 44 <span>· Original thesis figure / table</span></figcaption></figure>
+<p class="footnote">Within each pair: same backbone, issues, pre-fix snapshots, and scorer. Guidance + exploration workflow change together. One run per instance.</p>
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=54" target="_blank" rel="noopener">Thesis Table 5.2 · §5.2–5.3 ↗</a><span>14<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s17" data-seconds="65" data-chapter="04 / RQ3 · Component ablation" data-title="Effect of removing domain guidance." data-note="讲述重点｜把消融作为贡献证据，解释每次去掉一个组件、其他保留。两个backbone都对layer knowledge移除最敏感；不要把整张表逐格读出来。
+
+教授可能追问｜消融是否证明8层架构是唯一原因？
+
+答复依据与边界｜不证明。消融差值包含组件交互、不可相加，每配置每issue只有一次运行。观察到的模式支持该设计，但需要重复实验评估稳定性。"  aria-label="15: Effect of removing domain guidance." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Component ablation</div><h1>Effect of removing domain guidance.</h1></header>
+<div class="slide-body">
+<figure class="paper-figure ablation-table"><button class="figure-zoom" data-figure="images/table5-4-ablation.svg" data-caption="Table 5.4 · Leave-one-component-out ablation · p. 47" data-page="57" aria-label="Enlarge: Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline."><img src="images/table5-4-ablation.svg" alt="Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.4 · Leave-one-component-out ablation · p. 47 <span>· Original thesis table</span></figcaption></figure>
+<div class="inline-insights"><p><b>−4.14 pp</b> without layer knowledge · GPT-5.2</p><p><b>−2.07 pp</b> without layer knowledge · DeepSeek</p></div>
+
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=57" target="_blank" rel="noopener">Thesis Table 5.4 · §5.4.3 · pp. 47–48 ↗</a><span>15<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide closing-slide" id="s18" data-seconds="40" data-chapter="05 / Contributions &amp; discussion" data-title="Conclusion and main findings." data-note="讲述重点｜先用145例、3种机制、最大7.59pp回收三个贡献，再诚实点出最重要的construct/internal/external validity边界。最后一句：The result is a better first-file recommendation on this benchmark, with generalization and developer benefit still to be tested.
+
+教授可能追问｜怎么安排下一步最有说服力？
+
+答复依据与边界｜先重复匹配实验量化方差与效率，再做跨引擎、多文件评估，最后做developer study。输入防泄漏不等于排除预训练污染；也不要声称本研究已经节省真实开发时间。"  aria-label="16: Conclusion and main findings." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">05 / Contributions &amp; discussion</div><h1>Conclusion and main findings.</h1></header>
+<div class="slide-body">
+
+<div class="defense-closing"><div class="conclusion-evidence"><span class="label">THESIS CONTRIBUTIONS FROM THE INTRODUCTION</span><div class="closing-result"><strong>IR</strong><p>First systematic evaluation<br><b>Execution-free fault localization for LLM inference-engine bugs.</b></p></div><div class="closing-result"><strong>Agent</strong><p>Repository-derived dataset<br><b>145 validated Ollama issue–fix pairs with pre-fix snapshots.</b></p></div><div class="closing-result"><strong>ClueFL</strong><p>Domain-specific ClueFL framework<br><b>External knowledge and workflow improve fault-location ranking.</b></p></div><div class="closing-signature"><span>Evaluate systematically → Release reusable data → Improve with domain knowledge</span><button class="text-button" data-go="15">Supporting evidence →</button></div></div></div>
+
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=62" target="_blank" rel="noopener">Thesis Ch. 1 · §5.3–5.4 · Ch. 6 · Contributions & validity ↗</a><span>16<span class="footer-total"> / 16</span></span></footer>
+</section><section class="slide " id="s19" data-chapter="Backup / Method details" data-title="BugLocator: two evidence channels, one ranking." data-note="讲述重点｜按文件文本证据与历史证据两路解释融合，不逐个朗读预处理框。
+
+教授可能追问｜是否是原版BugLocator，历史如何防泄漏？
+
+答复依据与边界｜论文是多语言适配实现；两路分数分别min–max归一化，以alpha=0.2融合；其历史修复需早于目标issue创建。" data-backup="true" aria-label="B01: BugLocator: two evidence channels, one ranking." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BugLocator: two evidence channels, one ranking.</h1></header>
+<div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-2-buglocator.svg" data-caption="Fig. 4.2 · Multilingual BugLocator adaptation · p. 22" data-page="32" aria-label="Enlarge: Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking."><img src="images/fig4-2-buglocator.svg" alt="Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.2 · Multilingual BugLocator adaptation · p. 22 <span>· Original thesis figure / table</span></figcaption></figure></div>
+
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=32" target="_blank" rel="noopener">Thesis Fig. 4.2 · §4.2.1 ↗</a><span>BACKUP · B01<span class="footer-total"> / 05</span></span></footer>
+</section><section class="slide " id="s20" data-chapter="Backup / Method details" data-title="BLUiR: structured retrieval with a text fallback." data-note="讲述重点｜说明repository结构字段与issue标题/正文两个查询字段，再指向plain-text fallback。
+
+教授可能追问｜非源码是不是被BLUiR排除了？
+
+答复依据与边界｜不是。非源码和解析失败回退纯文本，只填identifier字段；可以参选，但结构证据不如代码丰富。冷启动耗时包括这些表示与索引重建。" data-backup="true" aria-label="B02: BLUiR: structured retrieval with a text fallback." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BLUiR: structured retrieval with a text fallback.</h1></header>
+<div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-3-bluir.svg" data-caption="Fig. 4.3 · Multilingual BLUiR adaptation · p. 24" data-page="34" aria-label="Enlarge: Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval."><img src="images/fig4-3-bluir.svg" alt="Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.3 · Multilingual BLUiR adaptation · p. 24 <span>· Original thesis figure / table</span></figcaption></figure></div>
+
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=34" target="_blank" rel="noopener">Thesis Fig. 4.3 · §4.2.1 ↗</a><span>BACKUP · B02<span class="footer-total"> / 05</span></span></footer>
+</section><section class="slide " id="s21" data-chapter="Backup / Success overlap" data-title="Improvement does not mean strict superset coverage." data-note="讲述重点｜分别解释新增成功与baseline独有成功，净改善不是成功集合严格包含。
+
+教授可能追问｜为什么提高了还会退步？
+
+答复依据与边界｜模型探索是随机的，加入指导也会改变搜索选择。GPT新增15、失去4，DeepSeek新增10、失去6；这只是归档运行的交集事实，尚未估计逐实例稳定性。" data-backup="true" aria-label="B03: Improvement does not mean strict superset coverage." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Success overlap</div><h1>Improvement does not mean strict superset coverage.</h1></header>
+<div class="slide-body"><figure class="paper-figure overlap-figure"><button class="figure-zoom" data-figure="images/fig5-2-overlap.svg" data-caption="Fig. 5.2 · Baseline–ClueFL Top-1 intersections · p. 45" data-page="55" aria-label="Enlarge: Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10."><img src="images/fig5-2-overlap.svg" alt="Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 5.2 · Baseline–ClueFL Top-1 intersections · p. 45 <span>· Original thesis figure / table</span></figcaption></figure><div class="inline-insights"><p><b>GPT-5.2:</b> 15 newly solved; 4 baseline-only.</p><p><b>DeepSeek:</b> 10 newly solved; 6 baseline-only.</p></div></div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=55" target="_blank" rel="noopener">Thesis Fig. 5.2 · §5.4.1 ↗</a><span>BACKUP · B03<span class="footer-total"> / 05</span></span></footer>
+</section><section class="slide " id="s22" data-chapter="Backup / Experimental controls" data-title="What is held fixed—and what changes?" data-note="讲述重点｜用原表逐项区分fixed与changed。历史只允许目标快照的祖先修复；对照在每个backbone内部进行。
+
+教授可能追问｜公平比较还有哪些没有完全控制？
+
+答复依据与边界｜无法控制随机种子，只有单次归档运行；完整ClueFL包中多个设计一起变化；跨模型prompt/endpoint也不统一。离线架构映射在所有issue中固定，并非每个历史快照都重建。" data-backup="true" aria-label="B04: What is held fixed—and what changes?" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Experimental controls</div><h1>What is held fixed—and what changes?</h1></header>
+<div class="slide-body">
+<figure class="paper-figure control-table"><button class="figure-zoom" data-figure="images/table5-1-controls.svg" data-caption="Table 5.1 · Controlled settings for the RQ3 comparison · p. 44" data-page="54" aria-label="Enlarge: Original table of fixed settings and intended differences between generic SWE-agent and ClueFL."><img src="images/table5-1-controls.svg" alt="Original table of fixed settings and intended differences between generic SWE-agent and ClueFL." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.1 · Controlled settings for the RQ3 comparison · p. 44 <span>· Original thesis table</span></figcaption></figure>
+<div class="protocol-notes"><div><span class="label">HISTORY BOUNDARY</span><p>Only fixes ancestral to each target pre-fix snapshot; exclude the target fix and later changes.</p></div><div><span class="label">INTERPRETATION</span><p>Estimate the full ClueFL configuration change within each backbone. Individual components are probed by ablation.</p></div></div>
+
+</div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=54" target="_blank" rel="noopener">Thesis Table 5.1 · §5.2 · pp. 43–44 ↗</a><span>BACKUP · B04<span class="footer-total"> / 05</span></span></footer>
+</section><section class="slide " id="s23" data-chapter="Backup / Artifact analysis" data-title="ClueFL’s gains are not uniform across artifacts." data-note="讲述重点｜直面负结果：DeepSeek非源码Top-1从54.55%到51.52%，Top-5也下降；GPT两类均改善。
+
+教授可能追问｜领域引导为什么没有普遍改善？
+
+答复依据与边界｜论文结果不支持普遍改善。非源码仅33例，观察提示artifact与配置存在交互，但具体归因需更多运行和针对性分析，不能编造机制或显著性。" data-backup="true" aria-label="B05: ClueFL’s gains are not uniform across artifacts." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Artifact analysis</div><h1>ClueFL’s gains are not uniform across artifacts.</h1></header>
+<div class="slide-body"><figure class="paper-figure ablation-table"><button class="figure-zoom" data-figure="images/table5-3-artifacts.svg" data-caption="Table 5.3 · Matched results by artifact type · p. 46" data-page="56" aria-label="Enlarge: Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%."><img src="images/table5-3-artifacts.svg" alt="Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.3 · Matched results by artifact type · p. 46 <span>· Original thesis figure / table</span></figcaption></figure><div class="inline-insights"><p><b>112</b> source-code cases</p><p><b>33</b> non-source cases</p><p><b>−3.03 pp</b> DeepSeek non-source Top-1</p></div></div>
+<footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=56" target="_blank" rel="noopener">Thesis Table 5.3 · §5.4.2 ↗</a><span>BACKUP · B05<span class="footer-total"> / 05</span></span></footer>
+</section></div></div></main>
+<footer class="app-footer"><nav class="chapters" aria-label="Presentation chapters"><button class="chapter-button" data-go="0">Background</button><button class="chapter-button" data-go="6">RQ1 · Feasibility</button><button class="chapter-button" data-go="9">RQ2 · Failures</button><button class="chapter-button" data-go="11">RQ3 · ClueFL</button><button class="chapter-button" data-go="14">Conclusion</button><button class="chapter-button" data-go="15">Backup</button></nav><div class="nav-controls"><button id="prev" class="nav-arrow" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span id="page-count" class="page-count"></span><button id="next" class="nav-arrow" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></footer>
+<div id="progress" class="global-progress" aria-hidden="true"></div><div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+<aside id="notes" class="notes-panel" aria-label="Speaker notes" hidden><div class="notes-title"><h2 id="notes-number">Speaker notes</h2><button id="notes-close" aria-label="Close speaker notes">×</button></div><p id="notes-copy" lang="zh-CN"></p></aside>
+<dialog id="overview" aria-labelledby="overview-title"><div class="dialog-header"><h2 id="overview-title">Presentation overview <small>· 15 slides + 5 backup</small></h2><button class="dialog-close" data-close="overview" aria-label="Close overview">×</button></div><div id="overview-grid" class="overview-grid"></div></dialog>
+<dialog id="figure-dialog" aria-labelledby="figure-title"><div class="dialog-header"><h2 id="figure-title">Original thesis figure</h2><button class="dialog-close" data-close="figure-dialog" aria-label="Close enlarged figure">×</button></div><img id="figure-image" alt=""><a id="figure-source" target="_blank" rel="noopener">Open this page in the thesis PDF ↗</a></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-header"><h2 id="help-title">Presentation shortcuts</h2><button class="dialog-close" data-close="help-dialog" aria-label="Close shortcuts">×</button></div><dl><dt>← / →</dt><dd>Previous / next slide</dd><dt>Space / Shift Space</dt><dd>Next / previous slide</dd><dt>Home / End</dt><dd>First / last main slide</dd><dt>O</dt><dd>Slide overview + backup</dd><dt>N</dt><dd>Chinese speaker notes</dd><dt>F</dt><dd>Fullscreen presentation</dd><dt>Esc</dt><dd>Close a dialog or notes</dd><dt>Click a figure</dt><dd>Enlarge the thesis original</dd></dl><p style="font-size:13px;margin-top:20px">Print exports the 16 main slides. On touch screens, swipe left or right to navigate.</p></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><style>.slide:first-child{display:flex}.stage{transform:scale(.7);transform-origin:top left}</style><p>This presentation needs JavaScript for navigation. Please enable JavaScript to view all slides.</p></noscript>
+<script>
+'use strict';
+(() => {
+ const slides = [...document.querySelectorAll('.slide')];
+ const totalMain = slides.filter(s => !s.dataset.backup).length;
+ const stageWrap = document.querySelector('.stage-wrap');
+ const viewport = document.querySelector('.viewport');
+ const prev = document.querySelector('#prev');
+ const next = document.querySelector('#next');
+ const overview = document.querySelector('#overview');
+ const figureDialog = document.querySelector('#figure-dialog');
+ const helpDialog = document.querySelector('#help-dialog');
+ const notes = document.querySelector('#notes');
+ const notesButton = document.querySelector('#notes-toggle');
+ let current = 0;
+ let touch = null;
+ let toastTimeout;
+ const hashIndex = () => { const match = location.hash.match(/^#s(\d+)$/); return match ? Math.max(0, Math.min(slides.length - 1, Number(match[1]) - 1)) : 0; };
+ function fit() {
+  const style = getComputedStyle(viewport);
+  const w = viewport.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const h = viewport.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  const scale = Math.max(.05, Math.min(w / 1440, h / 810));
+  document.documentElement.style.setProperty('--stage-scale', scale);
+  stageWrap.style.width = `${1440 * scale}px`;
+  stageWrap.style.height = `${810 * scale}px`;
+ }
+ function go(index, updateHash = true) {
+  const candidate = Number(index);
+  if (!Number.isFinite(candidate)) return;
+  current = Math.max(0, Math.min(slides.length - 1, Math.trunc(candidate)));
+  const previousActive = document.activeElement;
+  const shouldRestoreFocus = previousActive?.closest('.slide') && previousActive.closest('.slide') !== slides[current];
+  slides.forEach((slide, i) => {
+   const active = i === current;
+   slide.classList.toggle('active', active);
+   slide.setAttribute('aria-hidden', String(!active));
+   slide.inert = !active;
+  });
+  if (shouldRestoreFocus) slides[current].focus({preventScroll:true});
+  const backup = current >= totalMain;
+  document.querySelector('#page-count').innerHTML = backup ? `<strong>B${String(current - totalMain + 1).padStart(2, '0')}</strong> / 05` : `<strong>${String(current + 1).padStart(2, '0')}</strong> / ${totalMain}`;
+  document.querySelector('#progress').style.width = `${Math.min(current + 1, totalMain) / totalMain * 100}%`;
+  prev.disabled = current === 0;
+  next.disabled = current === slides.length - 1;
+  next.setAttribute('aria-label', current === totalMain - 1 ? 'Open backup slides' : 'Next slide');
+  document.querySelector('#notes-copy').textContent = slides[current].dataset.note;
+  const seconds = Number(slides[current].dataset.seconds || 0);
+  const duration = seconds ? ` · ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')} suggested` : '';
+  document.querySelector('#notes-number').textContent = `Speaker notes · ${backup ? 'Backup ' + (current - totalMain + 1) : current + 1}${duration}`;
+  document.querySelector('#announcement').textContent = `Slide ${current + 1} of ${slides.length}. ${slides[current].dataset.title}`;
+  document.querySelectorAll('.chapter-button').forEach((button, i, all) => {
+   const start = Number(button.dataset.go);
+   const end = i + 1 < all.length ? Number(all[i + 1].dataset.go) : slides.length;
+   const active = current >= start && current < end;
+   button.classList.toggle('active', active);
+   if (active) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('.overview-item').forEach((button, i) => button.classList.toggle('current', i === current));
+  if (updateHash && location.hash !== `#s${current + 1}`) {
+   try { history.replaceState(null, '', `#s${current + 1}`); } catch { location.hash = `s${current + 1}`; }
+  }
+ }
+ function toggleNotes() {
+  notes.hidden = !notes.hidden;
+  notesButton.setAttribute('aria-pressed', String(!notes.hidden));
+ }
+ function toast(message) {
+  const el = document.querySelector('#toast');
+  el.textContent = message; el.hidden = false;
+  clearTimeout(toastTimeout); toastTimeout = setTimeout(() => {el.hidden = true;}, 3500);
+ }
+ async function fullscreen() {
+  try {
+   if (document.fullscreenElement) await document.exitFullscreen();
+   else if (document.body.requestFullscreen) await document.body.requestFullscreen();
+   else toast('Fullscreen is not supported in this browser.');
+  } catch { toast('Fullscreen was unavailable. Use your browser’s fullscreen command.'); }
+ }
+ const grid = document.querySelector('#overview-grid');
+ slides.forEach((slide, i) => {
+  if (i === totalMain) {
+   const label = document.createElement('div');
+   label.className = 'overview-section'; label.textContent = 'SUPPORTING EVIDENCE · Q&A'; grid.append(label);
+  }
+  const button = document.createElement('button');
+  button.type = 'button'; button.className = 'overview-item'; button.dataset.go = i;
+  const number = document.createElement('span'); number.className = 'number';
+  number.textContent = i >= totalMain ? `B${i - totalMain + 1}` : String(i + 1).padStart(2, '0');
+  const text = document.createElement('span'); text.className = 'overview-text';
+  const small = document.createElement('small'); small.textContent = slide.dataset.chapter;
+  text.append(small, document.createTextNode(slide.dataset.title)); button.append(number, text); grid.append(button);
+ });
+ function openOverview() {
+  overview.showModal();
+  const currentButton = grid.querySelectorAll('.overview-item')[current];
+  currentButton.focus({preventScroll:true}); currentButton.scrollIntoView({block:'nearest'});
+ }
+ document.addEventListener('click', event => {
+  const target = event.target.closest('button');
+  if (!target) return;
+  if (target.dataset.go !== undefined) {
+   if (overview.open) overview.close();
+   go(target.dataset.go);
+  } else if (target.dataset.figure) {
+   document.querySelector('#figure-image').src = target.dataset.figure;
+   document.querySelector('#figure-image').alt = target.querySelector('img').alt;
+   document.querySelector('#figure-title').textContent = target.dataset.caption;
+   const sourceLink = document.querySelector('#figure-source');
+   sourceLink.href = target.dataset.source || `masterthesis_informatics_tianhaogu.pdf#page=${target.dataset.page}`;
+   sourceLink.textContent = target.dataset.source ? 'Open the original paper and figure ↗' : 'Open this page in the thesis PDF ↗';
+   figureDialog.showModal();
+  } else if (target.dataset.close) {
+   document.getElementById(target.dataset.close).close();
+  }
+ });
+ prev.addEventListener('click', () => go(current - 1));
+ next.addEventListener('click', () => go(current + 1));
+ document.querySelector('#overview-toggle').addEventListener('click', openOverview);
+ notesButton.addEventListener('click', toggleNotes);
+ document.querySelector('#notes-close').addEventListener('click', () => {toggleNotes(); notesButton.focus();});
+ document.querySelector('#fullscreen-toggle').addEventListener('click', fullscreen);
+ document.querySelector('#help-toggle').addEventListener('click', () => helpDialog.showModal());
+ document.querySelector('#print-toggle').addEventListener('click', () => window.print());
+ document.addEventListener('keydown', event => {
+  if (event.ctrlKey || event.metaKey || event.altKey || event.target.matches('input, textarea, select, [contenteditable="true"]')) return;
+  if (document.querySelector('dialog[open]')) return;
+  if (event.key === 'Escape' && !notes.hidden) {toggleNotes(); return;}
+  if (event.target.closest('button, a') && [' ', 'Enter'].includes(event.key)) return;
+  const actions = {ArrowRight: () => go(current + 1), ArrowDown: () => go(current + 1), PageDown: () => go(current + 1), ' ': () => go(current + (event.shiftKey ? -1 : 1)), ArrowLeft: () => go(current - 1), ArrowUp: () => go(current - 1), PageUp: () => go(current - 1), Home: () => go(0), End: () => go(totalMain - 1), o: openOverview, n: toggleNotes, f: fullscreen, '?': () => helpDialog.showModal()};
+  const action = actions[event.key] || actions[event.key.toLowerCase()];
+  if (action) {event.preventDefault(); action();}
+ });
+ viewport.addEventListener('touchstart', event => {
+  if (event.touches.length !== 1 || event.target.closest('button, a')) {touch = null; return;}
+  touch = {x: event.touches[0].clientX, y: event.touches[0].clientY};
+ }, {passive:true});
+ viewport.addEventListener('touchend', event => {
+  if (!touch || document.querySelector('dialog[open]')) return;
+  const dx = event.changedTouches[0].clientX - touch.x;
+  const dy = event.changedTouches[0].clientY - touch.y;
+  touch = null;
+  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) go(current + (dx < 0 ? 1 : -1));
+ }, {passive:true});
+ viewport.addEventListener('touchcancel', () => {touch = null;}, {passive:true});
+ window.addEventListener('hashchange', () => go(hashIndex(), false));
+ window.addEventListener('resize', fit);
+ document.addEventListener('fullscreenchange', () => {
+  document.querySelector('#fullscreen-toggle').setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+  fit();
+ });
+ new ResizeObserver(fit).observe(viewport);
+ go(hashIndex()); fit();
+})();
+</script>
+</body>
+</html>

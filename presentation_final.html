@@ -105,7 +105,7 @@
 教授可能追问｜这和自动修复有什么不同？
 
 答复依据与边界｜只定位文件，不生成补丁，也不证明唯一根因。英文开场可用：I study how to rank the developer’s fault location using only an issue report and its pre-fix repository."  aria-label="01: Exploring and Improving Fault Localization in LLM Inference Engines" tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Master’s thesis defense</div><h1>Exploring and Improving Fault Localization in LLM Inference Engines</h1></header>
 <div class="slide-body">
 <div class="title-layout"><div class="title-copy"><div class="title-rule"></div><div class="title-main">Exploring and Improving Fault Localization<br><span>in LLM Inference Engines</span></div><div class="author"><strong>Tianhao Gu</strong><span>Software Engineering &amp; AI (SEAI)<br>Technical University of Munich<br><span class="advisor">Examiner: Prof. Dr. Chunyang Chen<br>Supervisor: Dr. Mark Huasong Meng</span></span></div></div>
@@ -114,16 +114,16 @@
 
 <footer class="slide-footer"><span>Master’s thesis defense · Tianhao Gu</span></footer>
 </section><section class="slide agenda-slide" id="s2-agenda" data-seconds="35" data-chapter="Presentation structure" data-title="Research background, three research questions, contributions, and discussion" data-note="讲述重点｜本页先交代报告结构：背景与挑战、问题与数据、方法评估、失败分析、ClueFL 与结论。" tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Presentation outline</h1></header>
 <div class="slide-body"><div class="agenda-list"><article><span>01</span><div><h2>Research Background</h2><p>Why fault localization matters in complex LLM inference engines.</p></div></article><article><span>02</span><div><h2>RQ1 · Feasibility</h2><p>Can execution-free methods identify the repair file?</p></div></article><article><span>03</span><div><h2>RQ2 · Failure mechanisms</h2><p>Why do LLM agents miss the correct fault location?</p></div></article><article><span>04</span><div><h2>RQ3 · Improvement</h2><p>Can domain knowledge improve localization through ClueFL?</p></div></article><article><span>05</span><div><h2>Contributions &amp; Discussion</h2><p>What the thesis contributes, and where the evidence remains limited.</p></div></article></div></div>
 <footer class="slide-footer"><span>Research story · Tianhao Gu</span><span>03<span class="footer-total"> / 16</span></span></footer>
 </section>
 <section class="slide deployment-slide" id="s2-deployment" data-seconds="55" data-chapter="01 / Background" data-title="How is an LLM deployed?" data-note="讲述重点｜部署分为 engine setup、model conversion 和 inference/serving 三个阶段。推理引擎贯穿这三个阶段。引用 Liu et al. Figure 1。" tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>How is an LLM deployed?</h1></header>
 <div class="slide-body">
-<figure class="paper-figure deployment-figure"><img src="llm_deployment_workflow.png" alt="Workflow of LLM deployment: engine setup, model conversion, and inference or serving." draggable="false"><figcaption>Workflow of LLM deployment · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 1</figcaption></figure>
+<figure class="paper-figure deployment-figure"><img src="images/llm_deployment_workflow.png" alt="Workflow of LLM deployment: engine setup, model conversion, and inference or serving." draggable="false"><figcaption>Workflow of LLM deployment · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 1</figcaption></figure>
 <div class="deployment-phases"><div><span>01</span><h2>Engine setup</h2><p>Install or compile the inference engine and verify hardware compatibility.</p></div><div><span>02</span><h2>Model conversion</h2><p>Convert, optimize, and package the model for the selected engine and environment.</p></div><div><span>03</span><h2>Inference / serving</h2><p>Load the model, process requests, and generate responses.</p></div></div>
 </div>
 <footer class="slide-footer"><a href="https://arxiv.org/html/2506.09713v1#S2.F1" target="_blank" rel="noopener">Liu et al. · Fig. 1 · Workflow of LLM deployment ↗</a><span>02<span class="footer-total"> / 16</span></span></footer>
@@ -133,12 +133,12 @@
 教授可能追问｜这张通用架构图是你的贡献吗？
 
 答复依据与边界｜不是。这是 Liu et al. Fig. 2 的背景图，已标注来源。我的工作使用 Ollama 专属导航映射来指导文件定位；它与这张通用背景图不同。图中的测试/监控组件也不意味着本实验执行它们。"  aria-label="02: LLM inference-engine architecture" tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>LLM inference-engine architecture</h1></header>
 <div class="slide-body">
 
 <div class="arc-layout">
-<figure class="paper-figure architecture-original"><button class="figure-zoom" data-figure="llm_inference_engine_arc.png" data-caption="Liu et al. · Architecture of LLM inference engine · Fig. 2" data-source="https://arxiv.org/html/2506.09713v1#S2.F2" aria-label="Enlarge LLM inference engine architecture"><img src="llm_inference_engine_arc.png" alt="LLM inference engine architecture: service and job configurations, model loader, request parser, job manager, input and output processors, operators, resource manager, backend adapter, platforms and devices." draggable="false"><span class="zoom-hint">↗ Enlarge architecture</span></button><figcaption>Architecture overview · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 2</figcaption></figure>
+<figure class="paper-figure architecture-original"><button class="figure-zoom" data-figure="images/llm_inference_engine_arc.png" data-caption="Liu et al. · Architecture of LLM inference engine · Fig. 2" data-source="https://arxiv.org/html/2506.09713v1#S2.F2" aria-label="Enlarge LLM inference engine architecture"><img src="images/llm_inference_engine_arc.png" alt="LLM inference engine architecture: service and job configurations, model loader, request parser, job manager, input and output processors, operators, resource manager, backend adapter, platforms and devices." draggable="false"><span class="zoom-hint">↗ Enlarge architecture</span></button><figcaption>Architecture overview · Liu et al., <i>A First Look at Bugs in LLM Inference Engines</i>, Fig. 2</figcaption></figure>
 <aside class="architecture-reading"><div class="architecture-intro"><span class="label">WHY FAULT LOCALIZATION IS<br>CHALLENGING</span><p>Large codebases, coupled components, and limited evidence complicate fault localization.</p></div></aside>
 </div>
 
@@ -150,7 +150,7 @@
 教授可能追问｜新颖性到底在哪里？
 
 答复依据与边界｜不声称发明通用检索或 agent。贡献是这个任务设置下的仓库数据集与系统评估、失败机制理解、以及经实验检验的领域引导框架。"  aria-label="05: Research gap: existing techniques lack repository evidence in this setting." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Research gap: existing techniques lack repository evidence in this setting.</h1></header>
 <div class="slide-body">
 
@@ -159,7 +159,7 @@
 </div>
 <footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=27" target="_blank" rel="noopener">Thesis Ch. 3 · Research positioning ↗</a><span>05<span class="footer-total"> / 16</span></span></footer>
 </section><section class="slide " id="s6" data-seconds="35" data-chapter="01 / Background" data-title="Research questions." data-note="讲述重点｜快速讲三问之间的因果关系：先确认能否做，再定位失败机制，最后把机制转成方法并验证。不要逐字朗读。"  aria-label="06: Research questions." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Research questions.</h1></header>
 <div class="slide-body">
 <div class="rq-grid"><article><div class="rq-number">RQ1</div><h2>Establish<br>feasibility</h2><p>Can existing methods localize fault locations without execution?</p><span class="rq-method">IR + LLM agents</span></article><article><div class="rq-number">RQ2</div><h2>Explain<br>failures</h2><p>Where and why does agent exploration break down?</p><span class="rq-method">Trajectory analysis</span></article><article><div class="rq-number">RQ3</div><h2>Guide<br>localization</h2><p>Can domain-specific knowledge improve the ranking?</p><span class="rq-method">ClueFL</span></article></div>
@@ -170,7 +170,7 @@
 教授可能追问｜Baseline 比较是否公平？
 
 答复依据与边界｜实例、预修复快照、候选范围与 scorer 一致。跨 backbone 配置并不 prompt-matched，因此结果解读限于配置；RQ3 则在每个 backbone 内匹配。"  aria-label="07: Comparison of retrieval and agent-based methods." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">02 / RQ1 · Methods</div><h1>Comparison of retrieval and agent-based methods.</h1></header>
 <div class="slide-body">
 <div class="method-grid"><article class="method"><span class="label">MULTILINGUAL IR ADAPTATIONS</span><h2>BugLocator <span>/</span> BLUiR</h2><div class="method-flow"><span>Issue text</span><b>↓</b><span>Text / structural similarity</span><b>↓</b><span>Ranked repository files</span></div><p><strong>Strength</strong> Deterministic retrieval</p><p><strong>Challenge</strong> Failure–fault location vocabulary mismatch</p></article><article class="method agent"><span class="label">LLM-BASED EXPLORATION</span><h2>SWE-agent</h2><p class="model-detail">GPT-5.2 / DeepSeek V4 Pro configurations</p><div class="method-flow"><span>Issue + repository</span><b>↓</b><span>Iterative inspection and reasoning</span><b>↓</b><span>Ranked repository files</span></div><p><strong>Strength</strong> Semantic, multi-step exploration</p><p><strong>Challenge</strong> Computation and exploration failures</p></article></div>
@@ -181,7 +181,7 @@
 教授可能追问｜145例是否挑选太强、是否只保留只改一个文件的PR？
 
 答复依据与边界｜是单标签样本带来的外部有效性限制；原始PR可修改多个文件，清洗后只留一个合格修复标签。原图“Remove tests”是概括性措辞；§4.1.3 明确保留相关 maintained test source，数据集中有一个这样的标签。"  aria-label="08: Dataset: 145 validated cases with one fault-location label." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">02 / RQ1 · Dataset</div><h1>Dataset: 145 validated cases with one fault-location label.</h1></header>
 <div class="slide-body">
 <div class="figure-split dataset-layout"><div><figure class="paper-figure "><button class="figure-zoom" data-figure="images/fig4-1-dataset.svg" data-caption="Fig. 4.1 · Dataset construction · p. 19" data-page="29" aria-label="Enlarge: Eight-stage construction of the Ollama evaluation dataset, from issue–PR mining to 145 retained instances."><img src="images/fig4-1-dataset.svg" alt="Eight-stage construction of the Ollama evaluation dataset, from issue–PR mining to 145 retained instances." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.1 · Dataset construction · p. 19 <span>· Original thesis figure / table</span></figcaption></figure></div><aside class="stat-aside"><div class="big-stat">145</div><p class="stat-caption">Ollama issue–fix pairs</p><div class="aside-rule"></div><h2>One final label</h2><p>After reachability, artifact, and relevance checks; the label is patch-derived.</p><h2>Target fix withheld</h2><p>PR, patch, label, and post-fix content are withheld.</p></aside></div>
@@ -192,7 +192,7 @@
 教授可能追问｜是否有统计显著性或重复试验？
 
 答复依据与边界｜没有足以估计run-to-run variance的重复运行。说 observed improvement 或 higher in these runs，不用 statistically significant。"  aria-label="09: Fault-location ranking results." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">02 / RQ1 · Results</div><h1>Fault-location ranking results.</h1></header>
 <div class="slide-body">
 <div class="metric-ribbon"><div><span class="label">BEST OBSERVED TOP-1</span><strong>64.83<span>%</span></strong><p>SWE-agent · DeepSeek V4 Pro</p></div><div><span class="label">BEST OBSERVED TOP-5</span><strong>88.97<span>%</span></strong><p>129 of 145 fault locations</p></div><div class="metric-context"><p>IR retrieves roughly half<br>of fault locations within Top-5.</p><p><b>Agents improve early ranking.</b></p></div></div>
@@ -205,7 +205,7 @@
 教授可能追问｜分组是否等同于失败模式？
 
 答复依据与边界｜不是。定量分组按扩展名；non-source under-inspection机制还可涉及被分入可执行脚本组的构建/安装脚本。分组差距本身不能证明因果机制。"  aria-label="10: Top-5 ranking performance for non-code fault locations." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure evidence</div><h1>Top-5 ranking performance for non-code fault locations.</h1></header>
 <div class="slide-body">
 <div class="artifact-strip"><span class="artifact-tag">Configuration</span><span class="artifact-tag">Build specifications</span><span class="artifact-tag">Model metadata</span><span class="artifact-tag">Templates &amp; docs</span></div>
@@ -218,7 +218,7 @@
 教授可能追问｜谁做了编码，有没有一致性检验、频率统计？
 
 答复依据与边界｜论文报告了手工trajectory分析与案例，但没有在这里提供编码者一致性或各类频率。不要临场编造kappa、双人标注或分布。三类机制可以重叠。"  aria-label="11: Failure mechanisms identified from execution trajectories." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure patterns</div><h1>Failure mechanisms identified from execution trajectories.</h1></header>
 <div class="slide-body">
 
@@ -236,7 +236,7 @@
 教授可能追问｜层分数和文件分数怎么校准，排零的层会不会错过？
 
 答复依据与边界｜分数是LLM判断，不是校准概率。层分数为零会限制后续源码搜索，是潜在遗漏风险。k只决定最后读取多少排名，不改变探索流程；最终返回全部非零候选。"  aria-label="13: ClueFL uses repository evidence to rank candidate files." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">04 / RQ3 · Framework</div><h1>ClueFL uses repository evidence to rank candidate files.</h1></header>
 <div class="slide-body">
 <figure class="paper-figure framework-figure framework-operational"><button class="figure-zoom" data-figure="images/fig5-1-cluefl.svg" data-caption="Fig. 5.1 · Original ClueFL framework · p. 39" data-page="49" aria-label="Enlarge: Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking."><img src="images/fig5-1-cluefl.svg" alt="Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 5.1 · Original ClueFL framework · p. 39 <span>· Original thesis figure / table</span></figcaption></figure>
@@ -248,7 +248,7 @@
 教授可能追问｜是否是更多工具、更多信息而不是领域知识在起作用？
 
 答复依据与边界｜主比较评估完整配置：指导、历史、artifact策略和导航一起变。不能把全增益归于单一组件；下一页消融提供组件敏感性证据。"  aria-label="14: Effect of domain guidance on fault-location ranking." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">04 / RQ3 · Results</div><h1>Effect of domain guidance on fault-location ranking.</h1></header>
 <div class="slide-body">
 <div class="gain-grid"><div><span class="label">GPT-5.2 · TOP-1</span><strong>+7.59 <small>pp</small></strong><p>51.03% → 58.62% <span>74 → 85 cases</span></p></div><div><span class="label">DEEPSEEK V4 PRO · TOP-1</span><strong>+2.76 <small>pp</small></strong><p>64.83% → 67.59% <span>94 → 98 cases</span></p></div></div>
@@ -261,7 +261,7 @@
 教授可能追问｜消融是否证明8层架构是唯一原因？
 
 答复依据与边界｜不证明。消融差值包含组件交互、不可相加，每配置每issue只有一次运行。观察到的模式支持该设计，但需要重复实验评估稳定性。"  aria-label="15: Effect of removing domain guidance." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">04 / RQ3 · Component ablation</div><h1>Effect of removing domain guidance.</h1></header>
 <div class="slide-body">
 <figure class="paper-figure ablation-table"><button class="figure-zoom" data-figure="images/table5-4-ablation.svg" data-caption="Table 5.4 · Leave-one-component-out ablation · p. 47" data-page="57" aria-label="Enlarge: Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline."><img src="images/table5-4-ablation.svg" alt="Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.4 · Leave-one-component-out ablation · p. 47 <span>· Original thesis table</span></figcaption></figure>
@@ -274,7 +274,7 @@
 教授可能追问｜怎么安排下一步最有说服力？
 
 答复依据与边界｜先重复匹配实验量化方差与效率，再做跨引擎、多文件评估，最后做developer study。输入防泄漏不等于排除预训练污染；也不要声称本研究已经节省真实开发时间。"  aria-label="16: Conclusion and main findings." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">05 / Contributions &amp; discussion</div><h1>Conclusion and main findings.</h1></header>
 <div class="slide-body">
 
@@ -287,7 +287,7 @@
 教授可能追问｜是否是原版BugLocator，历史如何防泄漏？
 
 答复依据与边界｜论文是多语言适配实现；两路分数分别min–max归一化，以alpha=0.2融合；其历史修复需早于目标issue创建。" data-backup="true" aria-label="B01: BugLocator: two evidence channels, one ranking." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BugLocator: two evidence channels, one ranking.</h1></header>
 <div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-2-buglocator.svg" data-caption="Fig. 4.2 · Multilingual BugLocator adaptation · p. 22" data-page="32" aria-label="Enlarge: Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking."><img src="images/fig4-2-buglocator.svg" alt="Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.2 · Multilingual BugLocator adaptation · p. 22 <span>· Original thesis figure / table</span></figcaption></figure></div>
 
@@ -297,7 +297,7 @@
 教授可能追问｜非源码是不是被BLUiR排除了？
 
 答复依据与边界｜不是。非源码和解析失败回退纯文本，只填identifier字段；可以参选，但结构证据不如代码丰富。冷启动耗时包括这些表示与索引重建。" data-backup="true" aria-label="B02: BLUiR: structured retrieval with a text fallback." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BLUiR: structured retrieval with a text fallback.</h1></header>
 <div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-3-bluir.svg" data-caption="Fig. 4.3 · Multilingual BLUiR adaptation · p. 24" data-page="34" aria-label="Enlarge: Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval."><img src="images/fig4-3-bluir.svg" alt="Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 4.3 · Multilingual BLUiR adaptation · p. 24 <span>· Original thesis figure / table</span></figcaption></figure></div>
 
@@ -307,7 +307,7 @@
 教授可能追问｜为什么提高了还会退步？
 
 答复依据与边界｜模型探索是随机的，加入指导也会改变搜索选择。GPT新增15、失去4，DeepSeek新增10、失去6；这只是归档运行的交集事实，尚未估计逐实例稳定性。" data-backup="true" aria-label="B03: Improvement does not mean strict superset coverage." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Backup / Success overlap</div><h1>Improvement does not mean strict superset coverage.</h1></header>
 <div class="slide-body"><figure class="paper-figure overlap-figure"><button class="figure-zoom" data-figure="images/fig5-2-overlap.svg" data-caption="Fig. 5.2 · Baseline–ClueFL Top-1 intersections · p. 45" data-page="55" aria-label="Enlarge: Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10."><img src="images/fig5-2-overlap.svg" alt="Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Fig. 5.2 · Baseline–ClueFL Top-1 intersections · p. 45 <span>· Original thesis figure / table</span></figcaption></figure><div class="inline-insights"><p><b>GPT-5.2:</b> 15 newly solved; 4 baseline-only.</p><p><b>DeepSeek:</b> 10 newly solved; 6 baseline-only.</p></div></div>
 <footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=55" target="_blank" rel="noopener">Thesis Fig. 5.2 · §5.4.1 ↗</a><span>BACKUP · B03<span class="footer-total"> / 05</span></span></footer>
@@ -316,7 +316,7 @@
 教授可能追问｜公平比较还有哪些没有完全控制？
 
 答复依据与边界｜无法控制随机种子，只有单次归档运行；完整ClueFL包中多个设计一起变化；跨模型prompt/endpoint也不统一。离线架构映射在所有issue中固定，并非每个历史快照都重建。" data-backup="true" aria-label="B04: What is held fixed—and what changes?" tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Backup / Experimental controls</div><h1>What is held fixed—and what changes?</h1></header>
 <div class="slide-body">
 <figure class="paper-figure control-table"><button class="figure-zoom" data-figure="images/table5-1-controls.svg" data-caption="Table 5.1 · Controlled settings for the RQ3 comparison · p. 44" data-page="54" aria-label="Enlarge: Original table of fixed settings and intended differences between generic SWE-agent and ClueFL."><img src="images/table5-1-controls.svg" alt="Original table of fixed settings and intended differences between generic SWE-agent and ClueFL." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.1 · Controlled settings for the RQ3 comparison · p. 44 <span>· Original thesis table</span></figcaption></figure>
@@ -329,7 +329,7 @@
 教授可能追问｜领域引导为什么没有普遍改善？
 
 答复依据与边界｜论文结果不支持普遍改善。非源码仅33例，观察提示artifact与配置存在交互，但具体归因需更多运行和针对性分析，不能编造机制或显著性。" data-backup="true" aria-label="B05: ClueFL’s gains are not uniform across artifacts." tabindex="-1">
-<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="tum_logo.png" alt="TUM"></div>
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
 <header class="slide-heading"><div class="eyebrow">Backup / Artifact analysis</div><h1>ClueFL’s gains are not uniform across artifacts.</h1></header>
 <div class="slide-body"><figure class="paper-figure ablation-table"><button class="figure-zoom" data-figure="images/table5-3-artifacts.svg" data-caption="Table 5.3 · Matched results by artifact type · p. 46" data-page="56" aria-label="Enlarge: Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%."><img src="images/table5-3-artifacts.svg" alt="Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Table 5.3 · Matched results by artifact type · p. 46 <span>· Original thesis figure / table</span></figcaption></figure><div class="inline-insights"><p><b>112</b> source-code cases</p><p><b>33</b> non-source cases</p><p><b>−3.03 pp</b> DeepSeek non-source Top-1</p></div></div>
 <footer class="slide-footer"><a href="masterthesis_informatics_tianhaogu.pdf#page=56" target="_blank" rel="noopener">Thesis Table 5.3 · §5.4.2 ↗</a><span>BACKUP · B05<span class="footer-total"> / 05</span></span></footer>

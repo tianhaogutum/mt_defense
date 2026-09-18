@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Tianhao Gu’s TUM master’s thesis defense: execution-free fault localization in LLM inference engines and the ClueFL framework.">
+<title>A Better First File Recommendation · Tianhao Gu · TUM</title>
+<style>
+:root{--blue:#0065bd;--navy:#003359;--ink:#132a40;--muted:#2e465a;--line:#dce5ed;--pale:#eef5fb;--orange:#c45d12;--green:#267351;--bg-soft:#f4f7fa;--bg-soft-2:#f3f6f9;--bg-soft-3:#f5f7fa;--border-soft:#d7e0e8;--accent-mid:#9ab5cc;--muted-2:#5b7184;--mint:#4fd1a5;--shadow:#21364c;--orange-bright:#ffb578;--orange-bg:#fbeee3;--orange-border:#d9a689;--orange-ink:#8c4a1f;--code-bg:#e7eef4;--orange-code-bg:#f5ddc9;--card-bg:var(--bg-soft);--card-border:var(--accent-mid);--card-border-kept:var(--blue);--card-border-excluded:var(--orange-border);--on-navy-muted:#d9e8f3;--stage-scale:1;font-family:Arial,Helvetica,sans-serif;color:var(--ink);color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:#e9eef3;-webkit-font-smoothing:antialiased}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #e37222;outline-offset:5px}button:disabled{cursor:default;opacity:.3}a{color:inherit;text-decoration:none}button{color:inherit}button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}button .icon{display:flex}button[hidden],[hidden]{display:none!important}
+.app-header{height:64px;padding:0 30px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-soft);background:var(--bg-soft-3);gap:20px}.app-brand{display:flex;align-items:center;gap:13px;font-size:13px;font-weight:700;letter-spacing:.01em}.app-logo{background:var(--blue);color:white;width:28px;height:32px;display:grid;place-items:center;border-radius:3px}.app-subtitle{color:#71808e;font-weight:400;margin-left:12px}.app-tools{display:flex;gap:8px;align-items:center}.duration{font-size:11px;letter-spacing:.05em;color:var(--muted);margin-right:14px}.tool-button{border:1px solid #d8e1e9;border-radius:6px;background:#fff;min-height:34px;min-width:36px;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 10px;font-size:12px}.tool-button:hover{background:#eaf2f9;border-color:#9abbd6}.tool-button[aria-pressed="true"]{background:var(--navy);color:#fff}.viewport{height:calc(100dvh - 130px);display:flex;justify-content:center;align-items:center;padding:20px 28px;overflow:hidden}.stage-wrap{position:relative;width:1440px;height:810px;flex-shrink:0}.stage{width:1440px;height:810px;transform:scale(var(--stage-scale));transform-origin:top left;background:white;box-shadow:0 8px 34px var(--shadow)16,0 1px 4px var(--shadow)12;position:relative}.slide{display:none;width:1440px;height:810px;background:white;padding:38px 64px 25px;flex-direction:column;overflow:hidden}.slide.active{display:flex}.slide-top{height:29px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.slide-top>span:first-child{font-size:13px;font-weight:700;letter-spacing:1.35px;color:var(--muted)}.slide-top i{font-style:normal;color:var(--accent-mid);margin:0 12px}.tum-wordmark{display:block;width:auto;height:72px;object-fit:contain;flex-shrink:0}.slide-heading{margin-top:36px;flex-shrink:0}.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}h1{font-size:44px;font-weight:700;line-height:1.12;letter-spacing:-1.6px;margin:0;max-width:1250px;text-wrap:balance}h2{font-size:26px;line-height:1.18;letter-spacing:-.5px;margin:0;color:var(--ink)}p{font-size:20px;line-height:1.45;margin:0;color:var(--muted)}strong{color:var(--ink)}.slide-body{margin-top:28px;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:20px}.slide-footer{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:15px;margin-top:20px;align-items:center;flex-shrink:0;font-size:14px;color:var(--muted);font-weight:500;letter-spacing:.15px}.slide-footer a:hover{text-decoration:underline;color:var(--blue)}.slide-footer>span:last-child{font-size:14px;font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums}.footer-total{color:var(--muted);font-weight:500}.takeaway{display:flex;align-items:center;gap:22px;border-left:4px solid var(--blue);padding:13px 20px;background:var(--pale);margin-top:20px;flex-shrink:0;min-height:55px}.takeaway>span{font-size:10px;letter-spacing:1.3px;font-weight:700;color:var(--blue);flex-shrink:0}.takeaway p{font-size:19px;color:var(--navy);line-height:1.3}.label{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--blue);display:block}.split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.lead{font-size:36px;line-height:1.25;letter-spacing:-.7px;color:var(--ink)}.muted{margin-top:24px;max-width:490px}.small{font-size:18px}.engine-names{display:flex;gap:28px;margin-top:35px;font-size:20px;font-weight:bold;color:var(--blue)}.stack{display:flex;flex-direction:column;gap:10px}.stack-end{padding:13px 20px;background:var(--bg-soft-2);display:flex;justify-content:space-between;font-weight:700;font-size:18px}.stack-end span{font-size:14px;color:var(--muted);font-weight:400}.engine-box{border:1.5px solid #9dc3e2;padding:19px 22px}.engine-box .label{margin-bottom:12px}.layer{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:20px;font-weight:700}.layer span{font-size:15px;color:var(--muted);font-weight:400;padding-left:15px;align-self:center}.cross-layer{padding-top:15px;color:var(--blue);font-size:16px}.title-slide .slide-heading h1{display:none}.title-slide .slide-heading{margin-top:45px}.title-slide .slide-body{margin-top:12px}.title-layout{display:grid;grid-template-columns:1.75fr 1fr;gap:54px;height:100%;align-items:center}.title-rule{height:5px;background:var(--blue);width:66px;margin-bottom:27px}.title-prelude{font-size:30px;margin-bottom:11px;color:var(--ink);letter-spacing:-.5px}.title-main{font-size:68px;line-height:1.06;letter-spacing:-2.6px;font-weight:700;color:var(--blue)}.title-main>span{color:var(--ink)}.author{display:flex;gap:32px;margin-top:34px;align-items:flex-start}.author strong{font-size:22px}.author-date{display:block;margin-top:7px;font-size:17px;font-weight:500;color:var(--muted);white-space:nowrap}.author>span{font-size:19px;line-height:1.5;color:var(--ink);font-weight:600;border-left:2px solid var(--accent-mid);padding-left:26px}.author .advisor{display:inline-block;margin-top:4px;font-size:17px;line-height:1.55;color:var(--muted);font-weight:500}.title-visual{height:420px;background:var(--navy);padding:30px 27px;color:white;position:relative;border-top:5px solid var(--blue)}.visual-label{font-size:10px;letter-spacing:2px;color:var(--on-navy-muted)}.issue-chip{padding:17px 16px;background:#ffffff0d;border:1px solid #ffffff30;font-size:16px;margin-top:28px;display:flex;align-items:center;gap:12px}.github-icon{flex-shrink:0;color:#fff;opacity:.85}.orange-dot{width:8px;height:8px;border-radius:50%;background:var(--orange-bright)}.trace-line{height:27px;width:1px;background:#7394af;margin-left:23px}.repo-tree{font-family:Consolas,Menlo,monospace;font-size:16px;line-height:1.95;color:var(--on-navy-muted)}.tree-root{color:white;margin-bottom:8px}.tree-line{padding-left:8px}.tree-target{padding-left:8px;color:white;background:#0065bd;padding-right:13px;display:flex;gap:10px}.tree-target span{margin-left:auto;color:var(--orange-bright)}.visual-bottom{margin-top:20px;font-size:12px;line-height:1.6;color:var(--on-navy-muted);display:flex;gap:16px}.visual-bottom>span{font-size:32px;color:#5a92ba;font-weight:bold;line-height:1.2}.failure{padding:20px 25px;background:var(--orange-bg);display:flex;gap:25px;align-items:center;border-left:4px solid var(--orange)}.failure .label{color:var(--orange-ink);font-size:11px}.failure strong{font-size:25px}.case-tag{font-size:14px;color:var(--orange-ink);margin-left:auto;white-space:nowrap}.causal-path{display:flex;gap:20px;align-items:center}.path-item{flex:1;background:var(--card-bg);padding:27px 22px;min-height:210px}.step-id{font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:700;margin-bottom:22px}.path-item h2{font-size:25px;margin-bottom:10px}.path-item p{font-size:18px;margin-bottom:22px}.path-item code{font-size:16px}.path-item.target{background:var(--pale);border-bottom:4px solid var(--card-border-kept)}.path-item.target code{color:var(--blue);font-weight:700}.path-arrow{font-size:32px;color:var(--blue);flex-shrink:0}.question-line{font-size:30px;font-weight:700;letter-spacing:-.5px;margin-top:8px}.contract{display:flex;align-items:center;gap:22px}.contract-input{flex:1}.contract-input>.label{margin-bottom:15px}.document{background:var(--bg-soft);padding:17px 20px;position:relative;padding-left:58px}.document strong{display:block;font-size:20px}.document p{font-size:15px;margin-top:6px}.doc-icon{position:absolute;left:19px;top:22px;color:var(--blue);font-size:25px}.plus{display:block;text-align:center;font-size:21px;color:var(--muted);height:27px}.localizer{width:256px;background:var(--navy);padding:35px 25px;min-height:249px;display:flex;flex-direction:column;justify-content:center}.localizer .label{color:#8cc5f0}.localizer strong{color:white;font-size:36px;margin:17px 0 20px}.localizer>span:last-child{font-size:14px;color:#c1d9e9}.ranking{width:408px}.ranking>.label{margin-bottom:18px}.rank{padding:17px 12px;border-bottom:1px solid var(--line);display:flex;gap:13px;font-size:16px;align-items:center}.rank b{color:#8498a9;font-size:20px}.rank.first{background:var(--pale);color:var(--blue);border-left:3px solid var(--blue)}.rank.first b{color:var(--blue)}code{font-family:Consolas,Menlo,monospace}.constraints{display:flex;gap:15px;margin-top:20px}.constraints span{padding:10px 19px;border:1px solid var(--line);font-size:16px;color:var(--muted)}.constraints span:before{content:'−';color:var(--orange);margin-right:10px}.gap-layout{display:grid;grid-template-columns:1fr 90px 1.2fr;align-items:center;gap:35px}.gap-known{padding:35px;background:var(--bg-soft-2)}.gap-known h2{font-size:31px;margin:18px 0 26px}.research-row{padding:17px 0;border-top:1px solid #d8e2ea;font-size:24px}.research-row span{font-size:14px;color:#8da1b2;display:inline-block;width:40px}.gap-line{font-size:52px;color:#8fb8d8;text-align:center}.gap-question .label{margin-bottom:23px}.gap-question h2{font-size:43px;letter-spacing:-1.2px;margin-bottom:24px}.gap-question em{font-style:normal;color:var(--blue)}.gap-question p{max-width:470px}.small-rule{width:52px;height:3px;background:var(--blue);margin:25px 0}.rq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}.rq-grid article{border-top:3px solid #b3cee3;padding-top:25px;position:relative}.rq-number{font-size:50px;font-weight:700;color:var(--blue);letter-spacing:-2px;margin-bottom:23px}.rq-grid h2{font-size:31px;margin-bottom:20px}.rq-grid p{font-size:20px;min-height:90px}.rq-method{display:block;margin-top:27px;border-top:1px solid var(--line);padding-top:20px;color:var(--blue);font-size:15px}.rq-grid.rq-grid-full p{font-size:17px;line-height:1.5;min-height:0}.rq-grid.rq-grid-full p strong{color:var(--ink);font-weight:700}.rq-grid.rq-grid-full .rq-method{border-top:0;margin-top:22px;padding-top:0;font-size:15px}.rq-grid.rq-grid-full .rq-method i{font-style:normal;font-weight:700}.rq-grid.rq-grid-full{grid-template-columns:1fr}#s6 .slide-body{margin-top:18px;justify-content:flex-start;gap:14px}#s6 .rq-grid.rq-grid-full{padding-top:0;gap:18px}#s6 .rq-grid article{padding-top:20px}#s6 .rq-number{margin-bottom:16px}#s6 .rq-grid.rq-grid-full .rq-method{margin-top:16px}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px}.method{padding:24px 30px;background:var(--card-bg);border-top:3px solid var(--card-border)}.method.agent{background:var(--pale);border-color:var(--card-border-kept)}.method h2{font-size:30px;margin:12px 0 15px}.method h2 span{color:#aebdca;font-weight:400}.method-flow{display:flex;flex-direction:column;align-items:center;gap:4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:17px;font-size:20px}.method-flow b{font-size:19px;color:#769dbb;font-weight:400}.method p{font-size:17px;margin-top:9px}.method p strong{display:inline-block;width:92px;font-size:14px;color:var(--blue)}.paper-figure{margin:0;min-width:0;display:flex;flex-direction:column;align-items:center}.figure-zoom{background:white;padding:0;border:0;display:block;position:relative;width:100%;line-height:0;text-align:center}.figure-zoom img{display:block;width:100%;height:auto;object-fit:contain}.zoom-hint{position:absolute;bottom:6px;right:6px;background:#003359ed;color:white;padding:9px 12px;line-height:1;font-size:12px;opacity:0;transition:opacity .15s;border-radius:3px}.figure-zoom:hover .zoom-hint,.figure-zoom:focus-visible .zoom-hint{opacity:1}figcaption{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.3;text-align:center}figcaption span{color:#8494a3}.figure-split{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:30px;align-items:center}.architecture-layout{grid-template-columns:minmax(0,900px) 330px;gap:45px;align-items:center;justify-content:start}.dataset-layout{grid-template-columns:minmax(0,1.15fr) 250px;gap:28px;align-items:center}.dataset-layout .paper-figure{max-width:700px;justify-self:center}.dataset-layout .figure-zoom{display:flex;justify-content:center;align-items:center;background:#fff;border-radius:8px;overflow:hidden}.dataset-layout .figure-zoom img{display:block;width:100%;max-width:100%;height:auto;max-height:414px;object-fit:contain;background:#fff}.stat-aside{border-left:1px solid var(--line);padding-left:30px}.big-stat{font-size:88px;font-weight:700;letter-spacing:-5px;color:var(--blue);line-height:1}.stat-caption{font-size:18px;margin-top:10px}.aside-rule{height:1px;background:var(--line);margin:22px 0}.stat-aside h2{font-size:22px;margin-bottom:8px}.stat-aside p:not(.stat-caption){font-size:17px;margin-bottom:20px}.metric-ribbon{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:0}.metric-ribbon>div{border-left:2px solid var(--line);padding-left:25px}.metric-ribbon>div:first-child{border-color:var(--blue)}.metric-ribbon strong{font-size:62px;letter-spacing:-2px;color:var(--blue);display:block;line-height:1.15;margin:9px 0 4px}.metric-ribbon strong span{font-size:30px;margin-left:3px}.metric-ribbon p{font-size:17px}.metric-context{display:flex;flex-direction:column;justify-content:center;gap:17px}.metric-context p{font-size:21px}.results-table{margin-top:12px}.results-table img{max-height:217px}.footnote{font-size:15px;color:var(--muted);line-height:1.5}.efficiency-table img{max-height:245px}.three-findings{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;margin-top:3px}.three-findings article{border-top:1px solid var(--line);padding-top:16px;position:relative}.finding-index{color:#9aaebb;position:absolute;right:0;top:19px;font-size:12px}.three-findings h2{font-size:22px}.finding-value{font-size:39px;color:var(--blue);font-weight:700;letter-spacing:-1px;margin:10px 0}.finding-value small{font-size:20px;letter-spacing:0;font-weight:400}.three-findings p{font-size:16px}.overlap-figure img{max-height:350px}.inline-insights{display:flex;justify-content:space-around;gap:25px;border-top:1px solid var(--line);padding-top:20px}.inline-insights p{font-size:19px}.inline-insights b{color:var(--blue)}.artifact-strip{display:flex;gap:12px}.artifact-tag{font-size:16px;color:var(--blue);background:var(--pale);padding:9px 15px}.artifact-table img{max-height:290px}.evidence-note{display:flex;align-items:center;gap:25px}.evidence-note>strong{font-size:42px;color:var(--blue);letter-spacing:-1px}.evidence-note p{font-size:17px}.evidence-note>span{font-size:18px;color:var(--muted);margin-left:auto;line-height:1.4}.failure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}.failure-grid article{background:var(--bg-soft);padding:30px 28px 24px;border-top:3px solid #b7ccdc}.failure-grid article:last-child{border-color:var(--orange)}.failure-grid .label{margin-top:27px;margin-bottom:16px;font-size:11px}.failure-grid h2{font-size:29px;margin-bottom:22px;min-height:68px}.failure-grid p{font-size:19px;min-height:109px}.failure-bottom{padding-top:17px;border-top:1px solid #d7e1e9;color:var(--blue);font-size:16px}.failure-glyph{height:44px;display:flex;align-items:center}.failure-glyph span{width:26px;height:26px;border:2px solid var(--blue);background:var(--blue);border-radius:50%}.failure-glyph span.missing{border-style:dashed;background:none;border-color:#94a9ba}.failure-glyph i{width:55px;height:2px;background:var(--blue)}.failure-glyph i.dashed{background:none;border-top:2px dashed #9bafbe}.failure-glyph b{font-size:32px;color:var(--orange);width:55px;text-align:center}.file-glyph{display:flex;gap:10px;height:44px;align-items:center}.file-glyph code{font-size:20px;padding:8px 10px;border:1px solid #93b2cb;color:var(--blue);background:white}.file-glyph .skipped{border-style:dashed;border-color:var(--orange-border);color:var(--orange)}.mapping-head,.mapping-row{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:40px;align-items:center}.mapping-head{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.2px;padding-bottom:17px;border-bottom:2px solid #b1cbdc}.mapping-row{padding:26px 0;border-bottom:1px solid var(--line);font-size:22px}.mapping-row>strong{font-size:22px}.mapping-row>span{font-size:23px;color:var(--blue);font-weight:700;line-height:1.35}.mapping-row small{font-size:16px;font-weight:400;color:var(--muted)}.mapping-row p{font-size:20px}.cluefl-definition{display:flex;gap:24px;align-items:center;margin-top:4px}.cluefl-definition strong{font-size:38px;color:var(--blue);letter-spacing:-1px}.cluefl-definition p{font-size:16px}.framework-figure img{max-height:372px}.phase-labels{display:flex;justify-content:center;gap:64px;margin-top:5px;font-size:17px}.phase-labels b{color:var(--blue);margin-right:12px}.gain-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}.gain-grid>div{border-left:3px solid var(--blue);padding-left:23px}.gain-grid strong{display:block;font-size:56px;line-height:1.1;color:var(--blue);letter-spacing:-2px;margin:10px 0}.gain-grid small{font-size:26px;letter-spacing:0}.gain-grid p{font-size:20px}.gain-grid p span{font-size:15px;margin-left:20px;color:#788b9b}.cluefl-table img{max-height:236px}.contribution-list{display:flex;flex-direction:column}.contribution-list article{display:flex;gap:30px;align-items:center;padding:29px 0;border-bottom:1px solid var(--line)}.contribution-list article:last-child{border-bottom:0}.contribution-list article>span{font-size:52px;font-weight:700;letter-spacing:-2px;color:#98b8d0;width:80px}.contribution-list h2{font-size:30px;margin-bottom:11px}.contribution-list p{font-size:19px;max-width:880px}.contribution-list article>b{margin-left:auto;font-size:14px;color:var(--blue);width:94px;text-align:right}.closing-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:100px;align-items:center}.closing-message h2{font-size:72px;line-height:1.04;letter-spacing:-2px;margin:25px 0}.closing-message h2 span{color:var(--blue)}.closing-message p{font-size:20px}.text-button{border:0;background:none;color:var(--blue);padding:0;font-size:16px;margin-top:30px}.text-button:hover{text-decoration:underline}.limits>.label{margin-bottom:20px}.limits>div{padding:17px 0;border-top:1px solid var(--line)}.limits strong{font-size:22px}.limits p{font-size:18px;margin-top:7px}.backup-method img{max-height:495px}.ablation-table img{max-height:346px}
+.app-footer{height:66px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;gap:20px;background:var(--bg-soft-3);border-top:1px solid var(--border-soft)}.chapters{display:flex;gap:22px;align-items:center}.chapter-button{background:none;border:0;border-top:2px solid transparent;padding:10px 0;font-size:11px;color:#71818e;letter-spacing:.3px;white-space:nowrap}.chapter-button.active{border-color:var(--blue);color:var(--blue);font-weight:700}.nav-controls{display:flex;align-items:center;gap:12px}.page-count{font-size:12px;font-variant-numeric:tabular-nums;color:#748492;min-width:67px;text-align:center}.page-count strong{color:var(--ink);font-size:15px}.nav-arrow{border:1px solid #d4dee7;border-radius:50%;width:34px;height:34px;background:white;display:grid;place-items:center}.nav-arrow:hover:not(:disabled){background:var(--pale);color:var(--blue)}.global-progress{position:fixed;bottom:0;left:0;height:2px;background:var(--blue);width:0;transition:width .15s}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.notes-panel{position:fixed;bottom:80px;right:28px;width:420px;max-width:calc(100vw - 32px);max-height:50vh;overflow:auto;background:#fff;border:1px solid #c5d7e5;border-radius:10px;padding:25px;box-shadow:0 10px 60px #00335926;z-index:5}.notes-panel h2{font-size:14px;margin:0 0 13px;color:var(--blue)}.notes-panel p{font-size:15px;line-height:1.8}.notes-title{display:flex;justify-content:space-between;align-items:center}.notes-title button{border:0;background:none;font-size:20px;color:var(--muted)}dialog{border:1px solid #d4e0e9;border-radius:12px;padding:26px;color:var(--ink);max-width:calc(100vw - 40px);max-height:calc(100dvh - 40px);box-shadow:0 20px 100px #00152b40}dialog::backdrop{background:#09253bcc;backdrop-filter:blur(5px)}.dialog-header{display:flex;justify-content:space-between;align-items:center;gap:25px;margin-bottom:23px}.dialog-header h2{font-size:22px}.dialog-close{border:1px solid var(--line);background:white;min-width:32px;height:32px;border-radius:5px;font-size:22px}#overview{width:1000px}.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.overview-item{padding:16px;text-align:left;background:var(--bg-soft);border:1px solid transparent;border-radius:5px;display:flex;gap:13px;min-height:86px;align-items:flex-start}.overview-item:hover{border-color:#9ec3df}.overview-item.current{border-color:var(--blue);background:var(--pale)}.overview-item .number{font-size:17px;font-weight:bold;color:var(--blue);min-width:27px}.overview-item .overview-text{font-size:13px;line-height:1.4;font-weight:600}.overview-item small{font-size:9px;letter-spacing:.6px;color:#6e8699;display:block;margin-bottom:6px;text-transform:uppercase}.overview-section{grid-column:1/-1;font-size:11px;letter-spacing:1px;color:var(--muted);margin:12px 0 3px}#figure-dialog{width:min(1400px,96vw);padding:22px}#figure-dialog img{display:block;width:100%;max-height:calc(100dvh - 180px);object-fit:contain;background:white}#figure-dialog .dialog-header{margin-bottom:15px}#figure-title{font-size:16px}#figure-source{display:inline-block;font-size:13px;color:var(--blue);margin-top:16px}#help-dialog{width:450px}#help-dialog dl{display:grid;grid-template-columns:140px 1fr;gap:15px;font-size:14px}#help-dialog dt{font-family:monospace;color:var(--blue)}#help-dialog dd{margin:0;color:var(--muted)}body:fullscreen .app-header,body:fullscreen .app-footer{display:none}body:fullscreen .viewport{height:100dvh;padding:0;background:#0c1c29}body:fullscreen .stage{box-shadow:none}.toast{position:fixed;top:75px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:13px;padding:12px 18px;border-radius:5px;z-index:20}
+@media (max-width:1050px){.app-subtitle,.duration{display:none}.chapters{gap:13px}.chapter-button{font-size:10px}.app-header,.app-footer{padding-left:18px;padding-right:18px}.tool-label{display:none}}
+@media (max-width:680px){.app-header{height:54px;padding:0 12px;gap:10px}.app-brand{font-size:11px;gap:8px}.app-tools{gap:5px}.app-logo{width:24px;height:28px}.tool-button{min-width:31px;padding:6px}.tool-print{display:none}.viewport{height:calc(100dvh - 112px);padding:10px}.app-footer{height:58px;padding:0 12px}.chapters{overflow-x:auto;flex:1;gap:15px;scrollbar-width:none}.chapter-button{font-size:10px}.nav-controls{gap:6px}.nav-arrow{width:29px;height:29px}.page-count{min-width:50px}.overview-grid{grid-template-columns:1fr 1fr}dialog{padding:16px;max-width:calc(100vw - 20px)}.overview-item{padding:10px;gap:8px}.overview-item .overview-text{font-size:12px}.overview-item small{font-size:8px}.dialog-header h2{font-size:18px}.notes-panel{right:16px;bottom:70px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+@page{size:1440px 810px;margin:0}
+@media print{html,body{margin:0!important;padding:0!important;background:white!important}.app-header,.app-footer,.global-progress,.notes-panel,dialog,.toast,.sr-only{display:none!important}.viewport{height:auto!important;padding:0!important;display:block!important;overflow:visible!important}.stage-wrap,.stage{width:1440px!important;height:auto!important;transform:none!important;box-shadow:none!important}.slide{display:flex!important;break-after:page;page-break-after:always;print-color-adjust:exact;-webkit-print-color-adjust:exact}.slide[data-backup]{display:none!important}.slide:nth-child(18){break-after:auto;page-break-after:auto}.zoom-hint,.text-button{display:none!important}.figure-zoom{border:0!important}a{text-decoration:none!important}}
+
+/* Research defense: original architecture, observed cases, mechanisms, and study controls. */
+.arc-layout { display:grid; grid-template-columns:minmax(0,1fr) 460px; gap:48px; align-items:center; }
+.architecture-visual { display:flex; flex-direction:column; align-items:flex-start; gap:18px; }
+.arc-layout .architecture-original { justify-self:start; width:min(100%,585px); }
+.architecture-original img { max-height:390px; }
+.architecture-original figcaption { font-size:12px; }
+.architecture-reading { border-left:2px solid var(--blue); padding-left:30px; align-self:stretch; display:flex; align-items:center; margin-left:-12px; }
+.architecture-intro p { font-size:23px; line-height:1.3; color:var(--ink); letter-spacing:-.35px; max-width:650px; margin:0; }
+.architecture-cards { display:grid; grid-template-columns:1fr; gap:22px; width:100%; }
+.architecture-card { background:#fff3c4; border-left:5px solid #e8b923; padding:27px 27px 25px; border-radius:10px; color:#5c4a06; font-size:25px; line-height:1.28; font-weight:700; box-shadow:0 6px 20px rgba(0,21,43,.08); margin-left:-12px; }
+.architecture-card span { display:block; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#8a6b00; margin-bottom:11px; }
+.gap-detail { font-size:17px; margin-top:16px; }
+.method .model-detail { font-size:14px; color:var(--blue); margin:0 0 10px; }
+.case-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.case-grid article { background:var(--bg-soft); border-top:3px solid var(--accent-mid); padding:23px 24px; }
+.case-grid article:last-child { border-color:var(--orange); }
+.case-grid .label { font-size:10px; letter-spacing:1px; margin-bottom:16px; }
+.case-grid h2 { font-size:29px; margin-bottom:17px; }
+.case-grid p { font-size:17px; line-height:1.4; }
+.case-grid .case-failure { color:var(--ink); font-weight:700; min-height:49px; margin-bottom:12px; }
+.case-evidence { margin:17px 0 12px; padding:13px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.case-evidence span { display:block; font-size:9px; color:var(--muted); letter-spacing:.45px; margin-bottom:9px; }
+.case-evidence code { font-size:17px; font-weight:700; color:var(--blue); overflow-wrap:anywhere; }
+.case-grid .case-lesson { color:var(--blue); font-size:16px; }
+.trajectory-slide .slide-body{display:flex;align-items:stretch;justify-content:center;padding-top:8px}
+.trajectory{display:flex;align-items:stretch;gap:0;width:100%}
+.traj-step{flex:1;background:var(--card-bg);border-top:4px solid var(--card-border);padding:22px 20px;display:flex;flex-direction:column;gap:10px;min-height:220px}
+.traj-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:15px;flex:none}
+.traj-step h3{font-size:16px;margin:0;color:var(--ink);line-height:1.25}
+.traj-step p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.5}
+.traj-step p code{font-size:12.5px;font-weight:700;color:var(--ink);background:var(--code-bg);padding:1px 5px;border-radius:3px}
+.traj-arrow{display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:24px;color:var(--accent-mid);flex:none}
+.traj-step.traj-miss{background:var(--orange-bg);border-top-color:var(--orange)}
+.traj-step.traj-miss .traj-num{background:var(--orange)}
+.traj-step.traj-miss h3{color:var(--orange)}
+.traj-step.traj-miss code{background:var(--orange-code-bg)}
+.pattern-intro .slide-body{display:flex;align-items:center;justify-content:center}
+.pattern-card{text-align:center;max-width:660px;margin:0 auto}
+.pattern-eyebrow{display:inline-block;font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:16px;text-transform:uppercase}
+.pattern-title{font-size:54px;line-height:1.08;color:var(--ink);margin:0 0 20px;letter-spacing:-.5px}
+.pattern-title span{color:var(--orange)}
+.pattern-desc{font-size:20px;color:var(--ink);line-height:1.55;margin:0 auto 24px;max-width:560px}
+.pattern-count{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--navy);background:var(--pale);padding:9px 20px;border-radius:20px}
+
+
+.case-comparison { display:grid; grid-template-columns:1fr 1.3fr 1.05fr; gap:18px; }
+.case-comparison > div { padding:20px; background:var(--bg-soft-2); }
+.case-comparison .comparison-context { background:transparent; padding-left:0; }
+.comparison-context strong { display:block; font-size:21px; line-height:1.35; margin:16px 0; }
+.comparison-context code { font-size:15px; color:var(--muted); }
+.case-comparison .guided-path { background:var(--pale); border-left:3px solid var(--blue); }
+.case-comparison h2 { font-size:24px; margin:15px 0 12px; }
+.case-comparison p { font-size:16px; line-height:1.7; min-height:54px; }
+.case-comparison .label { font-size:10px; }
+.case-outcome { display:block; font-size:15px; font-weight:700; color:var(--blue); margin-top:12px; }
+.guidance-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:2px; }
+.guidance-cards article { border-top:1px solid var(--line); padding-top:20px; }
+.guidance-cards .label { font-size:10px; }
+.guidance-cards h2 { font-size:24px; margin:12px 0 10px; }
+.guidance-cards p { font-size:18px; }
+.framework-operational img { max-height:300px; }
+.operating-rules { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; border-top:1px solid var(--line); padding-top:17px; }
+.operating-rules .label { font-size:11px; margin-bottom:10px; }
+.operating-rules p { font-size:18px; }
+.operating-rules code { color:var(--blue); font-size:16px; }
+.defense-closing > * { min-width:0; }
+.defense-closing { display:grid; grid-template-columns:1.05fr 1fr; gap:72px; }
+.conclusion-evidence > .label { margin-bottom:19px; }
+.closing-result { display:flex; align-items:center; gap:27px; padding:19px 0; border-top:1px solid var(--line); }
+.closing-result > strong { color:var(--blue); font-size:48px; letter-spacing:-2px; min-width:179px; }
+.closing-result small { font-size:21px; letter-spacing:0; }
+.closing-result p { font-size:18px; line-height:1.5; }
+.closing-result b { font-size:16px; font-weight:500; color:var(--ink); }
+.closing-signature { display:flex; justify-content:space-between; align-items:center; border-top:2px solid var(--blue); padding-top:21px; }
+.closing-signature > span { font-size:22px; font-weight:700; color:var(--blue); }
+.closing-signature .text-button { margin:0; font-size:14px; }
+.defense-limits > .label { font-size:10px; letter-spacing:1px; }
+.defense-limits strong { font-size:21px; }
+.defense-limits p { font-size:17px; }
+.defense-limits .next-study { color:var(--blue); margin-top:15px; font-size:17px; }
+.control-table img { max-height:315px; }
+.protocol-notes { display:grid; grid-template-columns:1fr 1fr; gap:45px; padding-top:15px; border-top:1px solid var(--line); }
+.protocol-notes .label { font-size:11px; margin-bottom:9px; }
+.protocol-notes p { font-size:18px; }
+.notes-panel { width:500px; max-height:65vh; }
+.notes-panel p { white-space:pre-line; }
+
+/* Final professor-facing polish: stronger evidence hierarchy and quieter chrome. */
+.title-slide .title-prelude{font-size:27px;letter-spacing:.2px;color:var(--blue);font-weight:600}
+.title-slide .title-main{font-size:70px;line-height:1.03}
+.title-slide .title-visual{box-shadow:18px 18px 0 #dceaf4}
+.slide-heading h1{max-width:1180px}
+.slide:not(.title-slide)::after{content:'';position:absolute;left:64px;top:96px;width:34px;height:2px;background:var(--blue);opacity:.8}
+.evidence-bar{display:flex;gap:0;border:1px solid var(--line);background:#f8fafc;margin-top:12px;min-height:43px;align-items:center}
+.evidence-bar span{padding:0 20px;border-right:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.2}
+.evidence-bar span:last-child{border-right:0;margin-left:auto;color:var(--blue);font-style:italic}
+.evidence-bar b{font-size:19px;color:var(--blue);margin-right:5px}
+.architecture-claim b{color:var(--ink)}
+.closing-signature>span{font-size:19px;letter-spacing:.1px}
+
+/* Keep slide 9 footnote from colliding with takeaway. */
+#s9 .footnote { display: none; }
+
+.deployment-figure img{width:100%;max-height:255px;object-fit:contain}.deployment-figure figcaption{margin-top:10px}.deployment-phases{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}.deployment-phases>div{border-top:2px solid var(--blue);padding-top:13px}.deployment-phases span{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:1px}.deployment-phases h2{margin:8px 0 7px;font-size:22px}.deployment-phases p{font-size:16px;line-height:1.35}.deployment-slide .takeaway{margin-top:8px}.deployment-slide .slide-body{gap:16px}.agenda-list{display:flex;flex-direction:column;gap:0;max-width:1040px;margin:0 auto;width:100%}.agenda-list article{display:grid;grid-template-columns:90px 1fr;gap:25px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}.agenda-list article>span{font-size:38px;font-weight:700;color:var(--accent-mid)}.agenda-list h2{font-size:29px;margin-bottom:4px}.agenda-list p{font-size:19px}
+.highlight-callout{background:#fff3c4;border-left:4px solid #e8b923;padding:14px 20px;font-size:19px;font-weight:600;color:#5c4a06;margin-top:6px}
+.contract-strip{display:flex;align-items:center;gap:18px;font-size:18px;color:var(--muted);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:4px}.contract-strip b{color:var(--blue)}.contract-strip span:nth-child(2){color:var(--accent-mid);font-size:22px}
+
+/* FL method landscape (background): five families narrowed to two feasible ones. */
+.fl-landscape{display:flex;flex-direction:column;gap:18px;justify-content:center;height:100%}
+.fl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.challenge-lead{font-size:20px;color:var(--ink);max-width:1100px;margin:0 0 4px}.challenge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;flex:1;align-items:stretch}
+.step-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.fl-card{background:var(--card-bg);border-top:3px solid var(--card-border);padding:16px 16px 14px;display:flex;flex-direction:column;min-height:0}
+#s4-fl .fl-card p{font-size:19px;line-height:1.45}.challenge-grid .fl-card p{font-size:15px;line-height:1.38}#s3-fl-challenge .slide-body{justify-content:flex-start;gap:12px}#s3-fl-challenge .takeaway{margin-top:4px;min-height:50px}#s3-fl-challenge .takeaway p{font-size:16px;line-height:1.35}
+.why-hard-grid{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch;flex:1}.why-hard-row{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:center;background:var(--card-bg);border-left:5px solid #b7ccdc;border-radius:12px;padding:22px 26px}.why-hard-row .label,.ollama-stat-card .label,.ollama-card .label{font-size:11px;letter-spacing:1.4px;color:var(--blue);font-weight:700}.why-hard-stat{display:flex;flex-direction:column;gap:8px;justify-content:center}.why-hard-stat strong{display:block;font-size:54px;line-height:.92;color:var(--blue);letter-spacing:-2px}.why-hard-stat span{display:block;font-size:16px;line-height:1.35;color:var(--muted);font-weight:600}.why-hard-copy h2,.ollama-card h2{font-size:27px;margin:0 0 8px;letter-spacing:-.4px}.why-hard-copy p,.ollama-card p{font-size:18px;line-height:1.42;margin:0;color:var(--ink)}.ollama-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:20px;align-items:stretch;flex:1}.ollama-stat-card{display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,#eef5fb 0%,#fff 100%);border-top-color:var(--blue)}.ollama-stat-card .fl-stat{font-size:72px;line-height:.95;margin:12px 0 10px}.ollama-stat-card .fl-stat small{display:block;font-size:18px;color:var(--muted);font-weight:500;letter-spacing:0;margin-top:8px}.ollama-stat-card p{font-size:17px;line-height:1.45;margin:0;color:var(--ink)}.ollama-right{display:grid;grid-template-rows:1fr 1fr;gap:20px}.ollama-card{display:flex;flex-direction:column;gap:12px}.ollama-list{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:2px}.ollama-list span{display:inline-block;background:var(--pale);color:var(--navy);padding:7px 10px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.25}.ollama-card p strong{color:var(--blue)}
+.fl-card .label{font-size:10px;letter-spacing:1.1px}
+.fl-card h2{font-size:26px;margin:11px 0 9px;letter-spacing:-.3px}
+.fl-card h2 span{display:block;font-size:16px;font-weight:400;color:var(--muted);margin-top:3px;letter-spacing:0}
+.fl-card p{font-size:18px;line-height:1.45;color:var(--ink)}
+#s8b .trajectory{flex-direction:column;gap:16px}#s8b .traj-arrow{display:none}#s8b .traj-step h3{font-size:22px;margin-top:6px}#s8b .traj-step p{font-size:16px}#s8d .step-grid-linked{grid-template-columns:1fr 44px 1fr;align-items:center}
+#s8d .step-grid-linked .traj-arrow{font-size:26px}
+#s8d .fl-card{padding:26px 28px 24px}
+#s8d .fl-card h2{font-size:24px;line-height:1.25;margin:12px 0 10px}
+#s8d .fl-card p{font-size:16.5px;line-height:1.55}
+#s8d .formula-badge{display:inline-block;margin-left:10px;padding:3px 10px;border-radius:6px;background:var(--pale);color:var(--blue);font-size:15px;font-weight:700;letter-spacing:.2px;vertical-align:middle}
+.fl-stat{font-size:44px;font-weight:700;color:var(--blue);line-height:1;margin:14px 0 12px;letter-spacing:-1.5px}.fl-stat span{display:block;font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0;margin-top:6px}.fl-card .fl-stat{font-size:33px;font-weight:700;color:var(--blue);letter-spacing:-1px;margin:8px 0 7px;line-height:1.1}.fl-card .fl-stat small{display:block;font-size:13.5px;font-weight:400;color:var(--muted);letter-spacing:0;margin-top:3px}
+.fl-card .fl-sub{margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
+.fl-card .fl-sub:first-of-type{margin-top:0;padding-top:0;border-top:0}
+.fl-card .fl-sub strong{display:block;font-size:17px;color:var(--ink);margin-bottom:3px}
+.fl-card .fl-cite{display:block;font-size:13px;color:var(--muted);font-style:italic;margin-top:10px;line-height:1.45}.fl-cite a{color:inherit;text-decoration:underline;text-decoration-color:#9eb4c5;text-underline-offset:2px}.fl-cite a:hover{color:var(--blue);text-decoration-color:currentColor}.footnote-cite{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.footnote-cite a{color:inherit}.footnote-cite a:hover{color:var(--blue)}.cite-num{font-size:10px;font-weight:700;vertical-align:super;line-height:0;margin-left:2px;color:var(--blue);text-decoration:none}.cite-num:hover{text-decoration:underline}
+.fl-card .fl-verdict{margin-top:auto;padding-top:13px;border-top:1px solid var(--line);display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;line-height:1.3}
+.fl-card .fl-mark{font-size:17px;flex-shrink:0}
+.fl-card.kept{background:var(--pale);border-color:var(--card-border-kept)}
+.fl-card.kept .fl-verdict{color:var(--blue)}
+.fl-card.excluded .fl-verdict{color:var(--orange)}
+.fl-card.excluded{border-color:var(--card-border-excluded)}
+
+/* Section dividers ("Part N") and outline checkpoint slides. */
+.section-divider .slide-body{display:flex;align-items:center}
+.divider-copy{max-width:660px}
+.divider-eyebrow{font-size:16px;font-weight:700;letter-spacing:3px;color:var(--blue)}
+.divider-title{font-size:56px;font-weight:700;letter-spacing:-2.2px;line-height:1.1;color:var(--ink);margin-top:16px}
+.divider-title span{color:var(--blue)}
+.divider-sub{font-size:21px;color:var(--muted);margin-top:22px;max-width:560px}
+.divider-rule{height:5px;width:64px;background:var(--blue);margin-top:24px}
+.divider-stepper{background:var(--navy);padding:30px 26px;border-top:5px solid var(--blue)}
+.divider-stepper .step{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #ffffff1f;font-size:14px;color:#7fa0bd;letter-spacing:.1px}
+.divider-stepper .step:last-child{border-bottom:0}
+.divider-stepper .dot{width:10px;height:10px;border-radius:50%;border:2px solid #4d7796;background:transparent;flex-shrink:0}
+.divider-stepper .step.done{color:#a9d6c4}
+.divider-stepper .step.done .dot{background:var(--mint);border-color:var(--mint)}
+.divider-stepper .step.current{color:#fff;font-weight:700}
+.divider-stepper .step.current .dot{background:var(--blue);border-color:#bcdcfb;box-shadow:0 0 0 4px #0065bd4d}
+.outline-return .slide-body{justify-content:center}
+.outline-return .agenda-list{position:relative}
+.outline-return .agenda-list article{position:relative}
+.outline-return .agenda-list article.done{opacity:.4}
+.outline-return .agenda-list article.done h2,.outline-return .agenda-list article.done p{text-decoration:line-through}
+.outline-return .agenda-list article.done>span{color:#b9c7d3}
+.outline-return .agenda-list article.current{border-color:var(--blue);background:var(--pale);border-bottom-color:var(--blue);padding-right:118px}
+.outline-return .agenda-list article.current>span{color:var(--blue)}
+.outline-return .agenda-list article.current::after{content:'NEXT';position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:1.6px;color:#fff;background:var(--blue);padding:8px 15px;border-radius:20px}
+.outline-progress{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.outline-progress span{width:34px;height:5px;border-radius:3px;background:var(--line)}
+.outline-progress span.done{background:#4fb884}
+.outline-progress span.current{background:var(--blue)}
+.fragment{opacity:0;transition:opacity .35s ease;}.fragment.visible{opacity:1}.fragment-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:1.5px;color:var(--accent-mid);text-transform:uppercase;opacity:.85}</style>
+</head>
+<body>
+<header class="app-header"><div class="app-brand"><span class="app-logo" aria-hidden="true">≡</span><span><span class="app-subtitle">Tianhao Gu / TUM</span></span></div><div class="app-tools"><span class="duration">18 MIN TALK · 7 MIN Q&amp;A</span><button type="button" id="overview-toggle" class="tool-button tool-overview" title="Overview (O)" aria-label="Overview" ><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg><span class="tool-label">Overview</span></button><button type="button" id="notes-toggle" class="tool-button tool-notes" title="Notes (N)" aria-label="Notes" aria-pressed="false" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 8h8M8 12h8M8 16h5"/></svg></button><button type="button" id="print-toggle" class="tool-button tool-print" title="Print" aria-label="Print" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7V3h10v4M7 17H3V8h18v9h-4M7 14h10v7H7z"/></svg></button><button type="button" id="fullscreen-toggle" class="tool-button tool-fullscreen" title="Fullscreen (F)" aria-label="Fullscreen" aria-pressed="false" ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button><button type="button" id="help-toggle" class="tool-button tool-help" title="Shortcuts (?)" aria-label="Shortcuts" ><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .6-1.5 1-1.5 2M12 17h.01"/></svg></button></div></header>
+<main class="viewport" aria-label="Thesis presentation"><div class="stage-wrap"><div class="stage"><section class="slide title-slide" id="s1" data-seconds="30" data-chapter="Master’s thesis defense" data-title="Exploring and Improving Fault Localization in LLM Inference Engines" data-note="讲述重点｜本研究的问题是：只拿到 issue 与修复前仓库，如何把开发者实际修改的文件排到前面。开场直接给对象、输入和目标。
+
+教授可能追问｜这和自动修复有什么不同？
+
+答复依据与边界｜只定位文件，不生成补丁，也不证明唯一根因。英文开场可用：I study how to rank the developer’s fault location using only an issue report and its pre-fix repository."  aria-label="01: Exploring and Improving Fault Localization in LLM Inference Engines" tabindex="-1">
+<div class="slide-top"><span>CHAIR OF SOFTWARE ENGINEERING &amp; AI</span></div>
+<header class="slide-heading"><div class="eyebrow"></div><h1>Exploring and Improving Fault Localization in LLM Inference Engines</h1></header>
+<div class="slide-body">
+<div class="title-layout"><div class="title-copy"><div class="title-rule"></div><div class="title-main">Exploring and Improving Fault Localization<br><span>in LLM Inference Engines</span></div><div class="author"><span><strong>Tianhao Gu</strong><span class="author-date">02.2026–08.2026</span></span><span>Software Engineering &amp; AI (SEAI)<br><span class="advisor">Examiner: Prof. Dr. Chunyang Chen<br>Supervisor: Dr. Mark Huasong Meng</span></span></div></div>
+<div class="title-visual" aria-hidden="true"><div class="visual-label">FROM FAILURE TO FAULT LOCATION</div><div class="issue-chip"><span class="orange-dot"></span> <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg> Issue report from GitHub</div><div class="trace-line"></div><div class="repo-tree"><div class="tree-root">inference-engine /</div><div class="tree-line">├─ server /</div><div class="tree-line">├─ runner /</div><div class="tree-line">├─ backend /</div><div class="tree-target">└─ <b>CMakeLists.txt</b><span>←</span></div></div><div class="visual-bottom"></div></div></div>
+</div>
+
+<footer class="slide-footer"><span></span></footer>
+</section><section class="slide agenda-slide" id="s2-agenda" data-seconds="35" data-chapter="Presentation structure" data-title="Research background, three research questions, contributions, and discussion" data-note="讲述重点｜本页先交代报告结构：背景与挑战、问题与数据、方法评估、失败分析、ClueFL 与结论。" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Outline</h1></header>
+<div class="slide-body"><div class="agenda-list"><article><span>01</span><div><h2>Research Background</h2><p>Why is fault localization in LLM inference engines important and challenging?</p></div></article><article><span>02</span><div><h2>RQ1 — Are the existing Fault Localization (FL) methods feasible?</h2><p>IRFL vs LLM-agent-based FL</p></div></article><article><span>03</span><div><h2>RQ2 — Why do LLM-agent-based methods fail in some cases?</h2><p>Are there recurring failure patterns?</p></div></article><article><span>04</span><div><h2>RQ3 — How does ClueFL (our agent) improve the baselines?</h2><p>Can domain knowledge and the designed workflow address observed failure patterns?</p></div></article><article><span>05</span><div><h2>Contribution and Discussion</h2></div></article></div></div>
+<footer class="slide-footer"><span>Outline · Exploring and Improving Fault Localization
+ in LLM Inference Engines</span><span>03<span class="footer-total"> / 24</span></span></footer>
+</section>
+
+<section class="slide section-divider" id="part1" data-chapter="Part I" data-title="Part I: Research Background" data-note="讲述重点｜章节过渡页，进入第一部分：研究背景。" aria-label="Part I: Research Background" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body"><div class="divider-copy"><div class="divider-eyebrow">PART I</div><div class="divider-title">Research <span>Background</span></div><div class="divider-rule"></div><p class="divider-sub">Why is fault localization in LLM inference engines important and challenging?</p></div></div>
+<footer class="slide-footer"><span>Part I · Research Background</span></footer>
+</section>
+<section class="slide deployment-slide" id="s2-deployment" data-seconds="55" data-chapter="01 / Background" data-title="How is an LLM deployed?" data-note="讲述重点｜部署分为 engine setup、model conversion 和 inference/serving 三个阶段。推理引擎贯穿这三个阶段；因此这一层一个缺陷即可影响整个系统。引用 Liu et al. Figure 1。" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>How is an LLM deployed?</h1></header>
+<div class="slide-body">
+<figure class="paper-figure deployment-figure fragment"><img src="images/llm_deployment_workflow.png" alt="Workflow of LLM deployment: engine setup, model conversion, and inference or serving." draggable="false"><figcaption>Workflow of LLM deployment [1]</figcaption></figure>
+<div class="deployment-phases fragment"><div><span>01</span><h2>Engine setup</h2><p>Install or compile the inference engine and verify hardware compatibility.</p></div><div><span>02</span><h2>Model conversion</h2><p>Convert, optimize, and package the model for the selected engine and environment.</p></div><div><span>03</span><h2>Inference / serving</h2><p>Load the model, process requests, and generate responses.</p></div></div>
+<div class="highlight-callout fragment">Inference engines sit at the intersection of deployment, hardware, and runtime.</div>
+<div class="highlight-callout fragment">A single bug in the LLM inference engine can cascade into unacceptable consequences across millions of LLM services.</div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] <a href="https://arxiv.org/html/2506.09713v1#S2.F1" target="_blank" rel="noopener">Liu et al. · Fig. 1 · Workflow of LLM deployment ↗</a></span><span>02<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s2" data-seconds="70" data-chapter="01 / Background" data-title="LLM inference engines have complex infrastructure." data-note="讲述重点｜先用手势沿原图的 Request Parser → Job Manager → Input Processor → Operators → Output Processor 讲一遍请求流，再指出 Resource Manager 与 Backend Adapter 如何跨越这条路径。核心信息是：推理引擎协调服务、模型执行、资源、后端和异构设备，因此其故障定位需要跨层追踪。最后连接下一页的症状—修复距离。
+
+教授可能追问｜这张通用架构图是你的贡献吗？
+
+答复依据与边界｜不是。这是 Liu et al. Fig. 2 的背景图，已标注来源。我的工作使用 Ollama 专属导航映射来指导文件定位；它与这张通用背景图不同。图中的测试/监控组件也不意味着本实验执行它们。"  aria-label="02: LLM inference engines have complex infrastructure" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>LLM inference engines have complex infrastructure.</h1></header>
+<div class="slide-body">
+
+<div class="arc-layout">
+<div class="architecture-visual"><figure class="paper-figure architecture-original"><button class="figure-zoom" data-figure="images/llm_inference_engine_arc.png" data-caption="Liu et al. · Architecture of LLM inference engine · Fig. 2" data-source="https://arxiv.org/html/2506.09713v1#S2.F2" aria-label="Enlarge LLM inference engine architecture"><img src="images/llm_inference_engine_arc.png" alt="LLM inference engine architecture: service and job configurations, model loader, request parser, job manager, input and output processors, operators, resource manager, backend adapter, platforms and devices." draggable="false"><span class="zoom-hint">↗ Enlarge architecture</span></button><figcaption>Architecture overview [1]</figcaption></figure><div class="architecture-intro"><p style="padding:16px;background:#f5f5f5;border:2px solid #333;border-radius:6px;margin:0;line-height:1.6;">The complex infrastructure coordinates request handling, model execution, resource management, backend adapters, and heterogeneous devices.</p></div></div>
+<aside class="architecture-reading"><div class="architecture-cards"><div class="architecture-card"><span>Module structure</span>Interdependent modules across the serving stack<br><em style="font-size: 0.85em; color: #666;">→ in which module does the fault actually lie in?</em></div><div class="architecture-card"><span>Lifecycle scope</span>Spans setup, conversion, and LLM inference<br><em style="font-size: 0.85em; color: #666;">→ which phase is the starting point of the failure?</em></div></div></aside>
+</div>
+
+</div>
+
+<footer class="slide-footer"><span class="footnote-cite">[1] <a href="https://arxiv.org/html/2506.09713v1#S2.F2" target="_blank" rel="noopener">Liu et al. · Fig. 2 · Background figure</a></span><span>02<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide" id="s3-fl-apr" data-seconds="50" data-chapter="01 / Background" data-title="What is Fault Localization?" data-note="讲述重点｜先把 FL 放回 Automated Program Repair 的大背景里。APR 常见流程是输入问题描述、代码与测试，先做 fault localization，再让 patch generation 生成候选补丁，最后 validation 检查。这里特别强调：在本研究设定里没有 executable test suite，所以输入改为 issue report 和 codebase。随后给出文件级 FL 定义，并说明本研究关注的是 FL 这一步。" aria-label="04: What is Fault Localization?" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>What is Fault Localization?</h1></header>
+<div class="slide-body">
+<div class="figure-split" style="grid-template-columns:minmax(0,820px) 1fr;gap:28px;align-items:stretch;">
+<figure class="paper-figure" style="align-items:stretch;position:relative;margin:0;">
+<div class="figure-zoom" style="padding:52px 16px 18px;border:1px solid var(--line);background:linear-gradient(180deg,#f7fafc 0%,#fff 100%);position:relative;overflow:hidden;">
+<div style="position:absolute;left:18px;top:14px;background:rgba(255,255,255,.96);border:1px solid #cbd5e1;color:var(--navy);padding:8px 12px;border-radius:10px;font-size:15px;font-weight:700;line-height:1.25;text-align:left;box-shadow:0 5px 14px rgba(15,23,42,.08);">Workflow of Automated Program Repair (APR)</div>
+<img src="images/apr_pipeline_raw.png" alt="Basic pipeline of automated program repair: inputs flow through fault localization, patch generation, and validation." draggable="false" style="max-height:420px;object-fit:contain;">
+</div>
+<div style="display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding-left:42px;color:#b42318;">
+<div style="font-size:30px;line-height:1;font-weight:800;">&#8593;</div>
+<div>
+<div style="font-size:21px;font-weight:800;line-height:1.15;">Issue report + codebase (our case)</div>
+<div style="font-size:13px;line-height:1.35;margin-top:4px;">No executable test suite</div>
+</div>
+</div>
+<figcaption style="margin-top:9px;font-size:11px;">APR pipeline [1]</figcaption>
+</figure>
+<div class="metric-context" style="gap:36px;padding-top:0;justify-content:center;display:flex;flex-direction:column;">
+<div style="padding:14px 16px;background:var(--pale);border-left:4px solid var(--blue);">
+<span class="label" style="margin-bottom:8px;">FAULT LOCALIZATION</span>
+<p style="font-size:17px;line-height:1.4;color:var(--navy);">“Given the bug report and codebase, FL techniques identify buggy code elements (e.g., files or functions).” <span class="footnote" style="display:block;margin-top:7px;font-size:12px;">Definition from the 2025 FL survey [1].</span></p>
+</div>
+<div style="padding:14px 16px;background:var(--pale);border-left:4px solid var(--blue);">
+<span class="label">Importance</span>
+<h2 style="font-size:28px;margin:10px 0 8px;line-height:1.2;">Failure of FL can directly cause failure of the whole APR process.</h2>
+<p style="font-size:16px;line-height:1.45;">APR needs to localize the bug before patch generation and validation.</p>
+</div>
+</div>
+</div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] Definition from 2505.19489 &middot; APR pipeline from Zhang et al. 2024, Fig. 1</span><span>04<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s3-fl-challenge" data-seconds="50" data-chapter="01 / Background" data-title="Why is fault localization hard for LLM inference engines?" data-note="讲述重点｜承上启下：解释为什么FL在这类系统上特别难。三点，均给出论文原文数字：①仓库规模与异质性——1,254个受跟踪文件、约32.4万行代码（23.8万Go+6.9万C/C+++1万TS），且逻辑还散布在配置、构建脚本、workflow、模型元数据等非源码文件里；②架构耦合导致症状与修复位置分离——28种root cause跨I/O、配置、功能、环境、资源管理，API可见症状可能要在别的层修复；③诊断证据有限——issue不一定带可执行失败测试、完整复现条件、日志或堆栈，复现还依赖特定模型/加速器/驱动/操作系统，静默或非确定性故障甚至没有pass/fail oracle。" aria-label="03: Why fault localization is hard for LLM inference engines" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Why is FL hard for LLM inference engines?</h1></header>
+<div class="slide-body">
+<div class="why-hard-grid">
+<article class="why-hard-row"><div class="why-hard-stat"><span class="label">Scale</span><strong>1,254</strong><span>tracked files · 324k LOC</span></div><div class="why-hard-copy"><h2>The candidate space is too large for a single LLM context.</h2><p>The repository cannot be fed directly into one prompt, so file-level localization must first narrow the search space before detailed reasoning begins.</p></div></article>
+<article class="why-hard-row"><div class="why-hard-stat"><span class="label">Heterogeneous bug types</span><strong>28</strong><span>root-cause categories <a class="cite-num" href="https://arxiv.org/abs/2506.09713" target="_blank" rel="noopener">[1]</a></span></div><div class="why-hard-copy"><h2>Issues and fault locations can live in different layers.</h2><p>Failures span configuration, runtime, I/O, and functional logic, so the issue description often points to a visible symptom rather than the actual file that needs to be fixed.</p></div></article>
+<article class="why-hard-row"><div class="why-hard-stat"><span class="label">Reproduction constraints</span><strong>0</strong><span>executable test suite</span></div><div class="why-hard-copy"><h2>Reliable reproduction evidence is often missing.</h2><p>Many cases depend on specific hardware, drivers, models, or deployment environments, and issues often lack failing tests, complete traces, or stable reproduction steps.</p></div></article>
+</div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite"><span>[1] Liu et al., arXiv:2506.09713</span></span><span>03<span class="footer-total"> / 24</span></span></footer>
+</section>
+</section><section class="slide " id="s6" data-seconds="35" data-chapter="01 / Background" data-title="Research questions." data-note="讲述重点｜快速讲三问之间的因果关系：先确认能否做，再定位失败机制，最后把机制转成方法并验证。不要逐字朗读。"  aria-label="05: Research questions." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">01 / Background</div><h1>Research questions.</h1></header>
+<div class="slide-body">
+<div class="rq-grid rq-grid-full"><article><div class="rq-number">RQ1</div><p><strong>Feasibility Exploration —</strong> Despite the aforementioned challenges, are representative IR-based and LLM-agent-based approaches feasible for execution-free file-level localization of the issues in the LLM inference engines?</p><span class="rq-method">Assessment: baseline feasibility</span></article><article><div class="rq-number">RQ2</div><p><strong>Failure Explainability —</strong> Do LLM-agent localization failures in LLM inference engines reduce to a small set of recurring, identifiable pitfalls?</p><span class="rq-method">Analysis: recurring failure patterns</span></article><article><div class="rq-number">RQ3</div><p><strong>Domain-Specific Improvement —</strong> Can incorporating domain-specific knowledge and a designed workflow address observed failure patterns?</p><span class="rq-method">Method proposal: ClueFL</span></article></div>
+</div>
+<footer class="slide-footer"><span>04<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide outline-return" id="outline-1" data-chapter="Outline" data-title="Outline — up next: RQ1 Feasibility" data-note="讲述重点｜回到大纲，划掉Part I，指向RQ1。" aria-label="Outline — up next: RQ1 Feasibility" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Outline</h1></header>
+<div class="slide-body"><div class="agenda-list">
+<article class="done"><span>01</span><div><h2>Research Background</h2><p>Why is fault localization in LLM inference engines important and challenging?</p></div></article>
+<article class="current"><span>02</span><div><h2>RQ1 — Are the existing Fault Localization (FL) methods feasible?</h2><p>IRFL vs LLM-agent-based FL</p></div></article>
+<article><span>03</span><div><h2>RQ2 — Why do LLM-agent-based methods fail in some cases?</h2><p>Are there recurring failure patterns?</p></div></article>
+<article><span>04</span><div><h2>RQ3 — How does ClueFL (our agent) improve the baselines?</h2><p>Can domain knowledge and the designed workflow address observed failure patterns?</p></div></article>
+<article><span>05</span><div><h2>Contribution and Discussion</h2></div></article>
+</div></div>
+<div class="outline-progress"><span class="done"></span><span class="current"></span><span></span><span></span><span></span></div>
+<footer class="slide-footer"><span>Up next: RQ1 · Feasibility</span></footer>
+</section>
+<section class="slide section-divider" id="part2" data-chapter="Part II" data-title="Part II: RQ1 · Feasibility" data-note="讲述重点｜章节过渡页，进入第二部分：RQ1可行性。" aria-label="Part II: RQ1 · Feasibility" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body"><div class="divider-copy"><div class="divider-eyebrow">PART II</div><div class="divider-title">RQ1 · <span>Feasibility</span></div><div class="divider-rule"></div><p class="divider-sub">Are the existing FL methods feasible?</p></div></div>
+<footer class="slide-footer"><span>Part II · RQ1 · Feasibility</span></footer>
+</section>
+<section class="slide " id="s8a" data-seconds="20" data-chapter="02 / RQ1 · OllamaFLBench" data-title="Why Ollama as the studied inference engine?" data-note="讲述重点｜说明为什么选Ollama作研究对象：8.9M开发者的真实采用规模；代码库覆盖模型获取管理、API服务与请求编排、资源调度、推理runner、硬件后端、构建部署产物等推理引擎全流程环节；多语言（Go/C/C++/TypeScript）真实工程复杂度，不是玩具项目。" aria-label="06: Why Ollama as the studied inference engine?" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · OllamaFLBench</div><h1>Why Ollama as the studied inference engine?</h1></header>
+<div class="slide-body">
+<div class="ollama-grid">
+<article class="ollama-stat-card"><span class="label">ADOPTION</span><h2>Widely used in practice</h2><div class="fl-stat">8.9M<small>developers served</small></div><p>Ollama is a live, widely adopted inference engine rather than a toy benchmark or research prototype.</p></article>
+<div class="ollama-right"><article class="ollama-card"><span class="label">FULL WORKFLOW COVERAGE</span><h2>It covers the whole inference-engine workflow.</h2><div class="ollama-list"><span>model acquisition</span><span>model management</span><span>API serving</span><span>request orchestration</span><span>resource-aware scheduling</span><span>inference runners</span><span>hardware backends</span><span>build and deployment artifacts</span></div></article><article class="ollama-card"><span class="label">REAL-WORLD ENGINEERING</span><h2>Its repository reflects production complexity.</h2><p><strong>Go</strong>, <strong>C/C++</strong>, and <strong>TypeScript</strong> coexist with configuration, build, and workflow files, which makes it a realistic study target for repository-scale fault localization.</p></article></div>
+</div>
+<div class="takeaway"><span>WHY OLLAMA</span><p>A representative real-world case study for fault localization in LLM inference engines, not a synthetic benchmark.</p></div>
+</div>
+<footer class="slide-footer"><span>05<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s8b" data-seconds="20" data-chapter="02 / RQ1 · OllamaFLBench" data-title="Three steps turn issue&#8211;PR history into the OllamaFLBench." data-note="讲述重点｜给出数据集构建的三步总览，再用后续三页分别展开：Issue Collection→Fault Location Identification→Manual Inspection，最终得到145个validated instances。" aria-label="07: Three steps turn issue-PR history into the OllamaFLBench." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · OllamaFLBench</div><h1>Three steps turn issue&#8211;PR history into the OllamaFLBench.</h1></header>
+<div class="slide-body">
+<div class="trajectory"><div class="traj-step"><span class="traj-num">1</span><h3>Issue Collection</h3><p>Mine closed, bug-labeled Ollama issues that were actually fixed by a merged pull request.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">2</span><h3>Fault Location Identification</h3><p>Reconstruct the pre-fix snapshot and derive the exact repair-location label from the accepted fix.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">3</span><h3>Manual Inspection</h3><p>Manually check every candidate so only clean, single-label instances remain.</p></div></div>
+
+</div>
+<footer class="slide-footer"><span>06<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s8c" data-seconds="30" data-chapter="02 / RQ1 · OllamaFLBench" data-title="Step 1 &#8212; Issue collection." data-note="讲述重点｜Step 1如何收集：从Ollama仓库拿到已关闭且带bug标签的issue；只保留通过merged PR关闭的issue（fixes/closes/resolves #N），并确认该PR确实被合并；两个例外直接排除：①一个PR修了不止一个issue；②PR只新建文件（没有pre-fix版本可定位）。" aria-label="08: Step 1 - Issue collection." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · OllamaFLBench</div><h1>Step 1 &#8212; Issue collection.</h1></header>
+<div class="slide-body">
+<div class="step-grid">
+<article class="fl-card"><span class="label">COLLECT</span><h2>Start from Ollama's issue tracker</h2><p>Pull closed issues that carry a bug label from the public Ollama GitHub repository.</p></article>
+<article class="fl-card"><span class="label">CONFIRM THE FIX</span><h2>Keep only issues closed by a merged PR</h2><p>Retain issues closed via an explicit reference (<code>fixes #N</code>, <code>closes #N</code>, <code>resolves #N</code>) to a pull request, and confirm that PR was actually merged.</p></article>
+</div>
+<div class="label" style="margin-top:22px">TWO EXCLUSIONS</div>
+<div class="constraints"><span>PR fixes more than one issue</span><span>PR only creates new files</span></div>
+<div class="takeaway"><span>WHY EXCLUDE</span><p>A multi-issue PR cannot be mapped back to a single issue, and a newly created file has no pre-fix version to localize.</p></div>
+</div>
+<footer class="slide-footer"><span>07<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s8d" data-seconds="30" data-chapter="02 / RQ1 · OllamaFLBench" data-title="Step 2 &#8212; Fault-location identification." data-note="讲述重点｜Step 2如何定位：先重建fix合并前的pre-fix快照；抽取该PR改动的每一个文件记录，如果任何一条记录在pre-fix快照里找不到，整个候选直接排除（不是只删那条记录）；再清洗掉vendored/生成/构建产物，做issue与PR的一致性检查，最后只保留恰好剩一个合格修复位置的候选。" aria-label="09: Step 2 - Fault-location identification." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · OllamaFLBench</div><h1>Step 2 &#8212; Fault-location identification.</h1></header>
+<div class="slide-body">
+<div class="step-grid step-grid-linked">
+<article class="fl-card"><span class="label">GROUND TRUTH</span><h2>The developer's own patch defines the label</h2><p>The merged PR's patch is used as ground truth — it is what a real developer actually changed to fix the issue, not a guess or an approximation.</p></article>
+<div class="traj-arrow">→</div>
+<article class="fl-card"><span class="label">AVOID AMBIGUITY</span><h2>Keep only a single ground-truth file<span class="formula-badge">GT = 1</span></h2><p>If the patch's repair location resolves to more than one plausible file, the candidate is dropped — every retained instance has exactly one ground-truth repair location.</p></article>
+</div>
+<div class="takeaway"><span>OUTPUT</span><p>Each surviving candidate has exactly one reachable, patch-derived ground-truth repair-location label.</p></div>
+</div>
+<footer class="slide-footer"><span>08<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s8e" data-seconds="25" data-chapter="02 / RQ1 · OllamaFLBench" data-title="Step 3 &#8212; Manual inspection." data-note="讲述重点｜Step 3人工核查：人工确认issue和PR描述的是同一个问题、不是表面提及；核实最终标签确实是修复改动的文件而不是讨论中提到的文件；通过后才计入最终145个实例，每个实例正好一个repair-location标签。" aria-label="10: Step 3 - Manual inspection." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · OllamaFLBench</div><h1>Step 3 &#8212; Manual inspection.</h1></header>
+<div class="slide-body">
+<div class="challenge-grid">
+<article class="fl-card"><span class="label">RELEVANCE</span><h2>Is the PR actually about the issue?</h2><p>Drop cases where the linked PR is unrelated or only mentions the issue in passing — a mislabeled link, not a real fix.</p></article>
+<article class="fl-card"><span class="label">BUG VS. FEATURE</span><h2>Is this really a bug?</h2><p>Drop issues that are feature requests or enhancements mistakenly tagged as bugs.</p></article>
+<article class="fl-card"><span class="label">INFORMATION LEAKAGE</span><h2>Does the issue leak the fix?</h2><p>Drop issues with too little diagnostic information to localize, or so much detail that they already reveal the repair location.</p></article>
+</div>
+<div class="label" style="margin-top:16px">AI-ASSISTED RECOVERY</div>
+<div class="step-grid">
+<article class="fl-card"><span class="label">MISSED BUGS</span><h2>Bugs never labeled "bug"</h2><p>An LLM scans the repository for issues that describe real bugs but were never tagged with the bug label.</p></article>
+<article class="fl-card"><span class="label">UNLINKED FIXES</span><h2>Fixes GitHub never auto-linked</h2><p>An LLM finds PRs that fix a bug issue but reference it in a format GitHub does not recognize, so no automatic issue&#8211;PR link is created.</p></article>
+</div>
+<div class="takeaway"><span>RESULT</span><p>Manual and AI-assisted checks together keep OllamaFLBench clean and recover cases that label- and keyword-based mining alone would miss — 145 validated instances in total.</p></div>
+</div>
+<footer class="slide-footer"><span>09<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s4-fl" data-seconds="65" data-chapter="02 / RQ1 · Baselines" data-title="Overview of existing fault-localization techniques." data-note="讲述重点｜先按证据来源把现有FL方法分成五类：IRFL（文本/结构相似度检索）、LLM-based FL（单次prompt直接读issue/代码）、LLM-agent-based FL（自主探索仓库）、SBFL（测试覆盖谱）、MBFL（变异体杀死模式）。然后现场做排除：SBFL和MBFL都需要可执行、可通过/失败的测试套件，这个数据集只有pre-fix仓库和issue，没有可运行的oracle，所以排除；LLM-based FL把整个仓库或大段代码塞进单次prompt，超出上下文长度，工程可行性差，排除。剩下IRFL与LLM-agent-based FL是唯一在这个设置下可行、不需要新执行证据的方法，这也是本论文RQ1实际评估的两类方法。最后引出研究缺口句子。
+
+教授可能追问｜为什么不做SBFL/MBFL的近似（比如用历史测试）？
+
+答复依据与边界｜数据集只保留pre-fix快照与issue，没有维护中的可执行测试oracle；构造近似测试超出本论文范围，留作未来工作。" aria-label="10: Overview of existing fault-localization techniques." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Baselines</div><h1>Overview of existing fault-localization techniques.</h1></header>
+<div class="slide-body">
+<div class="fl-landscape">
+<div class="fl-grid">
+<article class="fl-card excluded"><h2>LLM-based FL<span>e.g., LLMAO, AutoFL</span></h2><p>Feeds the bug report and large spans of source code directly into one LLM call to score suspicious files or lines.</p><span class="fl-cite"><a class="cite-num" href="https://doi.org/10.1145/3597503.3623342" target="_blank" rel="noopener">[5]</a></span><div class="fl-verdict"><span class="fl-mark">✗</span> Excluded in this setting — a full repository exceeds the usable context budget for single-pass prompting.</div></article>
+<article class="fl-card excluded"><h2>SBFL <span>/</span> MBFL</h2><div class="fl-sub"><strong>SBFL</strong><span>Correlates pass/fail test-coverage spectra with suspicious statements.</span></div><div class="fl-sub"><strong>MBFL</strong><span>Compares mutant-kill patterns between passing and failing tests.</span></div><span class="fl-cite"><a class="cite-num" href="https://doi.org/10.1145/1101908.1101949" target="_blank" rel="noopener">[6]</a> <a class="cite-num" href="https://doi.org/10.1002/stvr.1509" target="_blank" rel="noopener">[7]</a></span><div class="fl-verdict"><span class="fl-mark">✗</span> Excluded — requires an executable test suite</div></article>
+<article class="fl-card kept"><h2>IRFL<span>Information-Retrieval Fault Localization</span></h2><p>Ranks repository files by text and structural similarity between the bug report and the source code — no execution needed.</p><span class="fl-cite"><a class="cite-num" href="https://doi.org/10.1109/ICSE.2012.6227210" target="_blank" rel="noopener">[1]</a> <a class="cite-num" href="https://doi.org/10.1109/ASE.2013.6693093" target="_blank" rel="noopener">[2]</a></span><div class="fl-verdict"><span class="fl-mark">✓</span> Feasible — repository text only</div></article>
+<article class="fl-card kept"><h2>LLM-agent-based FL<span>e.g., SWE-agent, AutoCodeRover</span></h2><p>An LLM autonomously searches, opens, and reasons over the repository, then proposes candidate files from the issue alone.</p><span class="fl-cite"><a class="cite-num" href="https://arxiv.org/abs/2405.15793" target="_blank" rel="noopener">[3]</a> <a class="cite-num" href="https://doi.org/10.1145/3650212.3680384" target="_blank" rel="noopener">[4]</a></span><div class="fl-verdict"><span class="fl-mark">✓</span> Feasible — no execution required</div></article>
+</div>
+
+</div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] Zhou et al. 2012 &middot; [2] Saha et al. 2013 &middot; [3] Yang et al. 2024 &middot; [4] Zhang et al. 2024 &middot; [5] Wu et al. 2024 &middot; [6] Jones &amp; Harrold 2005 &middot; [7] Papadakis &amp; Le Traon 2012</span><span>10<span class="footer-total"> / 24</span></span></footer>
+<section class="slide " id="s7" data-seconds="55" data-chapter="02 / RQ1 · Baselines" data-title="Studied Baselines." data-note="讲述重点｜IR 用适配多语言仓库的文本与结构表示；SWE-agent 迭代收集证据。明确是本论文的 multilingual adaptations，而非声称直接运行原作者未修改的实现。IRFL 方法是确定性的：相同输入总是产生相同排序。LLM-agentic 方法（SWE-agent）每个 case 独立运行两次，取两次结果的平均值。
+
+教授可能追问｜Baseline 比较是否公平？
+
+答复依据与边界｜实例、预修复快照、候选范围与 scorer 一致。跨 backbone 配置并不 prompt-matched，因此结果解读限于配置；RQ3 则在每个 backbone 内匹配。"  aria-label="07: Studied Baselines." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Baselines</div><h1>Studied Baselines.</h1></header>
+<div class="slide-body">
+<div class="method-grid fragment"><article class="method"><span class="label">IRFL representative methods</span><h2>BugLocator <span>/</span> BLUiR<span class="cite-num right">[2]</span></h2><div class="method-flow"><span>Issue + repository</span><b>↓</b><span>Text / structural similarity</span><b>↓</b><span>relevance score of repository files</span></div><p><strong>Strength</strong> Deterministic retrieval</p><p><strong>Challenge</strong> Failure–fault location vocabulary mismatch</p></article><article class="method agent"><span class="label">llm-agent-based FL representative method</span><h2>SWE-agent<span class="cite-num right">[4]</span></h2><p class="model-detail">GPT-5.2 / DeepSeek V4 Pro configurations</p><div class="method-flow"><span>Issue + repository</span><b>↓</b><span>Iterative inspection and reasoning</span><b>↓</b><span>relevance score of repository files</span></div><p><strong>Strength</strong> Semantic, multi-step exploration</p><p><strong>Challenge</strong> Computation and exploration failures</p></article></div>
+<p class="footnote fragment">IRFL methods (BugLocator, BLUiR) are deterministic given the same input. LLM-agentic runs (SWE-agent) are executed twice per case, and the reported results are averaged over the two runs.</p>
+</div>
+<footer class="slide-footer"><span>11<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s9" data-seconds="60" data-chapter="02 / RQ1 · Results" data-title="Fault-location ranking results." data-note="讲述重点｜先说Top-1是第一文件命中，Top-5是前五个文件覆盖，MRR@5反映前五的排序位置。再报94/145与129/145，把比例落到可理解的案例数。
+
+教授可能追问｜是否有统计显著性或重复试验？
+
+答复依据与边界｜没有足以估计run-to-run variance的重复运行。说 observed improvement 或 higher in these runs，不用 statistically significant。"  aria-label="08: Fault-location ranking results." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">02 / RQ1 · Results</div><h1>Fault-location ranking results.</h1></header>
+<div class="slide-body">
+<figure class="paper-figure results-table fragment"><button class="figure-zoom" data-figure="images/table4-4-effectiveness.svg" data-caption="Table 4.4 · Localization effectiveness · p. 27" data-page="37" aria-label="Enlarge: Original Table 4.4: Top-1, Top-3, Top-5 and MRR@5 for BugLocator, BLUiR and the two SWE-agent configurations."><img src="images/table4-4-effectiveness.svg" alt="Original Table 4.4: Top-1, Top-3, Top-5 and MRR@5 for BugLocator, BLUiR and the two SWE-agent configurations." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Localization effectiveness [1]</figcaption></figure>
+<p class="footnote fragment">Top-k: fault location appears in the first k predictions. MRR@5: mean reciprocal rank, scored zero beyond rank 5. ↓: gap from the column best.</p>
+<div class="three-findings fragment">
+<article><span class="finding-index">FINDING 1</span><h2>Feasible despite the challenges</h2><p>Even with the vocabulary-mismatch and exploration challenges noted above, both IRFL and LLM-agent-based methods are feasible for execution-free fault localization on OllamaFLBench.</p></article>
+<article><span class="finding-index">FINDING 2</span><h2>Agents outperform IRFL</h2><p>Across the evaluated backbones, LLM-agent-based methods substantially outperform IRFL methods overall.</p></article>
+<article><span class="finding-index">FINDING 3</span><h2>Room to improve</h2><p>Considerable room for improvement remains; understanding how requires analyzing per-case exploration trajectories.</p></article>
+</div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>12<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide outline-return" id="outline-2" data-chapter="Outline" data-title="Outline — up next: RQ2 Failure mechanisms" data-note="讲述重点｜回到大纲，划掉Part I-II，指向RQ2。" aria-label="Outline — up next: RQ2 Failure mechanisms" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Outline</h1></header>
+<div class="slide-body"><div class="agenda-list">
+<article class="done"><span>01</span><div><h2>Research Background</h2><p>Why is fault localization in LLM inference engines important and challenging?</p></div></article>
+<article class="done"><span>02</span><div><h2>RQ1 — Are the existing Fault Localization (FL) methods feasible?</h2><p>IRFL vs LLM-agent-based FL</p></div></article>
+<article class="current"><span>03</span><div><h2>RQ2 — Why do LLM-agent-based methods fail in some cases?</h2><p>Are there recurring failure patterns?</p></div></article>
+<article><span>04</span><div><h2>RQ3 — How does ClueFL (our agent) improve the baselines?</h2><p>Can domain knowledge and the designed workflow address observed failure patterns?</p></div></article>
+<article><span>05</span><div><h2>Contribution and Discussion</h2></div></article>
+</div></div>
+<div class="outline-progress"><span class="done"></span><span class="done"></span><span class="current"></span><span></span><span></span></div>
+<footer class="slide-footer"><span>Up next: RQ2 · Failure mechanisms</span></footer>
+</section>
+<section class="slide section-divider" id="part3" data-chapter="Part III" data-title="Part III: RQ2 · Failure mechanisms" data-note="讲述重点｜章节过渡页，进入第三部分：RQ2失败机制。" aria-label="Part III: RQ2 · Failure mechanisms" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body"><div class="divider-copy"><div class="divider-eyebrow">PART III</div><div class="divider-title">RQ2 · <span>Failure Mechanisms</span></div><div class="divider-rule"></div><p class="divider-sub">Are there recurring failure patterns?</p></div></div>
+<footer class="slide-footer"><span>Part III · RQ2 · Failure mechanisms</span></footer>
+</section>
+<section class="slide pattern-intro" id="s12ns" data-seconds="25" data-chapter="03 / RQ2 · Failure evidence" data-title="Failure pattern — non-source under-inspection" data-note="讲述重点｜先报出第三种失败模式：agent 看到非源码产物的引用却不打开。用 4/145 与 Case 103（docs/api.md）作引子，下一页再用 Table 4.6 给出 source vs non-source 的定量差距。" aria-label="09: Failure pattern — non-source under-inspection" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body">
+<div class="pattern-card"><span class="pattern-eyebrow">Failure pattern</span><h1 class="pattern-title">Non-source<br><span>under-inspection</span></h1><p class="pattern-desc">Seeing a documentation or config reference is not the same as opening it — the repair file can sit in a linked artifact the agent never inspects.</p><span class="pattern-count">4 of 145 cases</span></div>
+</div>
+<footer class="slide-footer"><span>Failure pattern · Case 103</span><span>13<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s12" data-seconds="55" data-chapter="03 / RQ2 · Failure evidence" data-title="Top-5 ranking performance for non-source fault locations." data-note="讲述重点｜先交代112 source与33 non-source的扩展名分组，再指向GPT Top-5下降30.62pp。用该现象引出手工看trajectory的动机。
+
+教授可能追问｜分组是否等同于失败模式？
+
+答复依据与边界｜不是。定量分组按扩展名；non-source under-inspection机制还可涉及被分入可执行脚本组的构建/安装脚本。分组差距本身不能证明因果机制。"  aria-label="09: Top-5 ranking performance for non-source fault locations." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure evidence</div><h1>Top-5 ranking performance for non-source fault locations.</h1></header>
+<div class="slide-body">
+<div class="artifact-strip fragment"><span class="artifact-tag">Configuration</span><span class="artifact-tag">Build specifications</span><span class="artifact-tag">Model metadata</span><span class="artifact-tag">Templates &amp; docs</span></div>
+<figure class="paper-figure artifact-table fragment"><button class="figure-zoom" data-figure="images/table4-6-artifacts.svg" data-caption="Table 4.6 · Effectiveness by fault location artifact · p. 32" data-page="42" aria-label="Enlarge: Original Table 4.6: every evaluated configuration loses effectiveness on non-source fault locations compared with source code."><img src="images/table4-6-artifacts.svg" alt="Original Table 4.6: every evaluated configuration loses effectiveness on non-source fault locations compared with source code." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Effectiveness by fault location artifact [1]</figcaption></figure>
+<div class="evidence-note fragment"><strong>−30.62 pp</strong><p>GPT-5.2 agent’s Top-5 gap:<br><b>82.14% source → 51.52% non-source</b></p><span><b>112 source · 33 non-source</b><br>Inspect the archived failure trajectories.</span></div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>14<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide pattern-intro" id="s12a" data-seconds="25" data-chapter="03 / RQ2 · Failure evidence" data-title="Failure pattern — evidence non-reachability" data-note="讲述重点｜先报出模式名称与占比，再用下一页的Case126具体trajectory来支持这个结论。" aria-label="10: Failure pattern — evidence non-reachability" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body">
+<div class="pattern-card"><span class="pattern-eyebrow">Failure pattern</span><h1 class="pattern-title">Evidence<br><span>non-reachability</span></h1><p class="pattern-desc">A file that is never opened cannot be ranked — even when it sits right next to the code the agent does explore.</p><span class="pattern-count">5 of 145 cases</span></div>
+</div>
+<footer class="slide-footer"><span>Failure pattern 1 of 2</span><span>15<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide trajectory-slide" id="s12b" data-seconds="40" data-chapter="03 / RQ2 · Failure evidence" data-title="Both agents get stuck in the GPU-discovery branch." data-note="讲述重点｜带着观众逐步走一遍agent的探索路径：先看issue，再搜GPU相关代码，两个agent都停留在GPU分支，始终没打开真正的CPU启动文件。用轨迹本身说明遗漏，而不是直接下结论。" aria-label="11: Trajectory — Case 126, evidence non-reachability" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Case 126</div><h1>Both agents get stuck in the GPU-discovery branch.</h1></header>
+<div class="slide-body">
+<div class="trajectory"><div class="traj-step"><span class="traj-num">1</span><h3>Reads the issue</h3><p>Windows startup fails on a machine with no GPU installed.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">2</span><h3>Searches GPU discovery code</h3><p>Opens <code>discover/gpu_cuda.go</code> and <code>discover/gpu_rocm.go</code> to check GPU-detection logic.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">3</span><h3>Follows GPU-related logs</h3><p>Both GPT-5.2 and DeepSeek keep re-reading GPU-branch files referenced in the crash log.</p></div><div class="traj-arrow">→</div><div class="traj-step traj-miss"><span class="traj-num">✕</span><h3>Never opens the CPU startup path</h3><p>The actual fault location <code>discover/cpu_windows.go</code> stays outside the explored context in both runs.</p></div></div>
+</div>
+<footer class="slide-footer"><span>Case 126 of 145 · both configurations rank the fix outside their Top-5</span><span>16<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide pattern-intro" id="s12e" data-seconds="25" data-chapter="03 / RQ2 · Failure evidence" data-title="Failure pattern — causal-chain truncation" data-note="讲述重点｜同样先报名称与占比，再用下一页的Case86具体trajectory来支持。" aria-label="12: Failure pattern — causal-chain truncation" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body">
+<div class="pattern-card"><span class="pattern-eyebrow">Failure pattern</span><h1 class="pattern-title">Causal-chain<br><span>truncation</span></h1><p class="pattern-desc">When the fix crosses a language or process boundary, agents that stop exploring at that boundary miss it.</p><span class="pattern-count">7 of 145 cases</span></div>
+</div>
+<footer class="slide-footer"><span>Failure pattern 2 of 2</span><span>17<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide trajectory-slide" id="s12c" data-seconds="40" data-chapter="03 / RQ2 · Failure evidence" data-title="GPT-5.2 stops one hop before the native producer." data-note="讲述重点｜同样逐步走trajectory：GPT-5.2在Go侧扫描逻辑处停止，从未跨越语言边界进入native producer；DeepSeek越过这条边界并命中。先讲行为，再在下一页点出"causal-chain truncation"这个名字。" aria-label="13: Trajectory — Case 86, causal-chain truncation" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Case 86</div><h1>GPT-5.2 stops one hop before the native producer.</h1></header>
+<div class="slide-body">
+<div class="trajectory"><div class="traj-step"><span class="traj-num">1</span><h3>Reads the issue</h3><p>A streaming response is missing its final token.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">2</span><h3>Opens the Go-side scanning loop</h3><p>Follows the token-stream parser inside the Go server package.</p></div><div class="traj-arrow">→</div><div class="traj-step"><span class="traj-num">3</span><h3>Confirms the Go logic looks complete</h3><p>The scanning loop appears to read every chunk correctly.</p></div><div class="traj-arrow">→</div><div class="traj-step traj-miss"><span class="traj-num">✕</span><h3>Stops at the language boundary</h3><p>Never crosses into the native producer <code>llm/ext_server/server.cpp</code>, where the final token is actually dropped. DeepSeek V4 Pro continues past this boundary and ranks the file first.</p></div></div>
+</div>
+<footer class="slide-footer"><span>Case 86 of 145 · GPT-5.2 misses the fix; DeepSeek V4 Pro finds it</span><span>18<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide " id="s13" data-seconds="45" data-chapter="03 / RQ2 · Failure patterns" data-title="Three recurring failure mechanisms." data-note="讲述重点｜逐个讲具体遗漏：Case126忽略CPU启动文件；Case86在Go到native producer边界停止；Case103看到文档链接却不打开。每类都讲观察到的动作和遗漏，而不是泛泛说LLM不理解。
+
+教授可能追问｜谁做了编码，有没有一致性检验、频率统计？
+
+答复依据与边界｜论文报告了手工trajectory分析与案例，但没有在这里提供编码者一致性或各类频率。不要临场编造kappa、双人标注或分布。三类机制可以重叠。"  aria-label="14: Three recurring failure mechanisms." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">03 / RQ2 · Failure patterns</div><h1>Three recurring failure mechanisms.</h1></header>
+<div class="slide-body">
+
+<div class="case-grid">
+<article><span class="label">CASE 126 · 5 OF 145 CASES</span><h2>Evidence<br>non-reachability</h2><p class="case-lesson">A neighboring path stays outside the explored context.</p></article>
+<article><span class="label">CASE 86 · 7 OF 145 CASES</span><h2>Causal-chain<br>truncation</h2><p class="case-lesson">The relevant chain crosses a language and process boundary.</p></article>
+<article><span class="label">CASE 103 · 4 OF 145 CASES</span><h2>Non-source<br>under-inspection</h2><p class="case-lesson">Seeing a reference is not the same as inspecting its evidence.</p></article>
+</div>
+
+</div>
+
+<footer class="slide-footer"><span>19<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide outline-return" id="outline-3" data-chapter="Outline" data-title="Outline — up next: RQ3 Improvement (ClueFL)" data-note="讲述重点｜回到大纲，划掉Part I-III，指向RQ3。" aria-label="Outline — up next: RQ3 Improvement (ClueFL)" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Outline</h1></header>
+<div class="slide-body"><div class="agenda-list">
+<article class="done"><span>01</span><div><h2>Research Background</h2><p>Why is fault localization in LLM inference engines important and challenging?</p></div></article>
+<article class="done"><span>02</span><div><h2>RQ1 · Feasibility</h2><p>IRFL vs LLM-agent-based FL</p></div></article>
+<article class="done"><span>03</span><div><h2>RQ2 · Failure mechanisms</h2><p>Are there recurring failure patterns?</p></div></article>
+<article class="current"><span>04</span><div><h2>RQ3 · Improvement</h2><p>Can domain knowledge and the designed workflow address observed failure patterns?</p></div></article>
+<article><span>05</span><div><h2>Contributions &amp; Discussion</h2></div></article>
+</div></div>
+<div class="outline-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span></div>
+<footer class="slide-footer"><span>Up next: RQ3 · Improvement (ClueFL)</span></footer>
+</section>
+<section class="slide section-divider" id="part4" data-chapter="Part IV" data-title="Part IV: RQ3 · Improvement (ClueFL)" data-note="讲述重点｜章节过渡页，进入第四部分：RQ3领域知识改进。" aria-label="Part IV: RQ3 · Improvement (ClueFL)" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body"><div class="divider-copy"><div class="divider-eyebrow">PART IV</div><div class="divider-title">RQ3 · <span>Improvement</span></div><div class="divider-rule"></div><p class="divider-sub">How does ClueFL (our agent) improve baselines?</p></div></div>
+<footer class="slide-footer"><span>Part IV · RQ3 · Improvement</span></footer>
+</section>
+<section class="slide " id="s15" data-seconds="80" data-chapter="04 / RQ3 · Framework" data-title="ClueFL uses repository evidence to rank candidate files." data-note="讲述重点｜解释原图和下方操作规则：非零层分数决定源码探索范围；非源码文件做完整检查；用deps/pkg_summary/func控制读取粒度；最后每个文件给相关性分数和证据理由。
+
+教授可能追问｜层分数和文件分数怎么校准，排零的层会不会错过？
+
+答复依据与边界｜分数是LLM判断，不是校准概率。层分数为零会限制后续源码搜索，是潜在遗漏风险。k只决定最后读取多少排名，不改变探索流程；最终返回全部非零候选。"  aria-label="16: ClueFL uses repository evidence to rank candidate files." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Framework</div><h1>ClueFL uses repository evidence to rank candidate files.</h1></header>
+<div class="slide-body">
+<figure class="paper-figure framework-figure framework-operational fragment"><button class="figure-zoom" data-figure="images/fig5-1-cluefl.svg" data-caption="Fig. 5.1 · Original ClueFL framework · p. 39" data-page="49" aria-label="Enlarge: Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking."><img src="images/fig5-1-cluefl.svg" alt="Original Figure 5.1: ClueFL combines project-specific knowledge, historical retrieval and root-cause expansion, then non-source inspection and repository navigation, followed by relevance ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>ClueFL framework [1]</figcaption></figure>
+<div class="operating-rules fragment"><div><span class="label">01 / SELECT SEARCH LAYERS</span><p>Retain layers with a non-zero<br>suspiciousness score.</p></div><div><span class="label">02 / COLLECT EVIDENCE</span><p>Inspect non-source artifacts;<br><code>deps</code> · <code>pkg_summary</code> · <code>func</code></p></div><div><span class="label">03 / RANK FILES</span><p>Relevance score + justification;<br>return all non-zero candidates.</p></div></div>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>21<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s16" data-seconds="80" data-chapter="04 / RQ3 · Results" data-title="ClueFL improves early ranking, especially with layer knowledge." data-note="讲述重点｜先报净增案例11和4，再说对应7.59pp与2.76pp。GPT覆盖也提升，DeepSeek Top-5不变，改善集中在前排优先级。
+
+教授可能追问｜是否是更多工具、更多信息而不是领域知识在起作用？
+
+答复依据与边界｜主比较评估完整配置：指导、历史、artifact策略和导航一起变。不能把全增益归于单一组件；下一页消融提供组件敏感性证据。"  aria-label="17: Effect of domain guidance on fault-location ranking." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Results</div><h1>Effect of domain guidance on fault-location ranking.</h1></header>
+<div class="slide-body">
+<div class="gain-grid fragment"><div><span class="label">GPT-5.2 · TOP-1</span><strong>+7.59 <small>pp</small></strong><p>51.03% → 58.62% <span>74 → 85 cases</span></p></div><div><span class="label">DEEPSEEK V4 PRO · TOP-1</span><strong>+2.76 <small>pp</small></strong><p>64.83% → 67.59% <span>94 → 98 cases</span></p></div></div>
+<figure class="paper-figure cluefl-table fragment"><button class="figure-zoom" data-figure="images/table5-2-cluefl.svg" data-caption="Table 5.2 · Matched baseline vs. ClueFL · p. 44" data-page="54" aria-label="Enlarge: Original Table 5.2: matched SWE-agent and ClueFL comparisons. GPT-5.2 improves across all cutoffs; DeepSeek improves Top-1 and Top-3 while Top-5 stays at 88.97%."><img src="images/table5-2-cluefl.svg" alt="Original Table 5.2: matched SWE-agent and ClueFL comparisons. GPT-5.2 improves across all cutoffs; DeepSeek improves Top-1 and Top-3 while Top-5 stays at 88.97%." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Baseline vs. ClueFL comparison [1]</figcaption></figure>
+<p class="footnote fragment">Within each pair: same backbone, issues, pre-fix snapshots, and scorer. Guidance + exploration workflow change together. One run per instance.</p>
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>22<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s17" data-seconds="65" data-chapter="04 / RQ3 · Component ablation" data-title="Effect of removing domain guidance." data-note="讲述重点｜把消融作为贡献证据，解释每次去掉一个组件、其他保留。两个backbone都对layer knowledge移除最敏感；不要把整张表逐格读出来。
+
+教授可能追问｜消融是否证明8层架构是唯一原因？
+
+答复依据与边界｜不证明。消融差值包含组件交互、不可相加，每配置每issue只有一次运行。观察到的模式支持该设计，但需要重复实验评估稳定性。"  aria-label="18: Effect of removing domain guidance." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">04 / RQ3 · Component ablation</div><h1>Effect of removing domain guidance.</h1></header>
+<div class="slide-body">
+<figure class="paper-figure ablation-table fragment"><button class="figure-zoom" data-figure="images/table5-4-ablation.svg" data-caption="Table 5.4 · Leave-one-component-out ablation · p. 47" data-page="57" aria-label="Enlarge: Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline."><img src="images/table5-4-ablation.svg" alt="Ablation results for both backbones; removing layer knowledge has the largest observed Top-1 decline." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Leave-one-component-out ablation [1]</figcaption></figure>
+<div class="inline-insights fragment"><p><b>−4.14 pp</b> without layer knowledge · GPT-5.2</p><p><b>−2.07 pp</b> without layer knowledge · DeepSeek</p></div>
+
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>23<span class="footer-total"> / 24</span></span></footer>
+</section>
+<section class="slide outline-return" id="outline-4" data-chapter="Outline" data-title="Outline — up next: Contributions &amp; discussion" data-note="讲述重点｜回到大纲，划掉Part I-IV，指向结论。" aria-label="Outline — up next: Contributions &amp; discussion" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">CONTENTS</div><h1>Outline</h1></header>
+<div class="slide-body"><div class="agenda-list">
+<article class="done"><span>01</span><div><h2>Research Background</h2><p>Why is fault localization in LLM inference engines important and challenging?</p></div></article>
+<article class="done"><span>02</span><div><h2>RQ1 · Feasibility</h2><p>IRFL vs LLM-agent-based FL</p></div></article>
+<article class="done"><span>03</span><div><h2>RQ2 · Failure mechanisms</h2><p>Are there recurring failure patterns?</p></div></article>
+<article class="done"><span>04</span><div><h2>RQ3 · Improvement</h2><p>Can domain knowledge and the designed workflow address observed failure patterns?</p></div></article>
+<article class="current"><span>05</span><div><h2>Contributions &amp; Discussion</h2></div></article>
+</div></div>
+<div class="outline-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span></div>
+<footer class="slide-footer"><span>Up next: Contributions &amp; discussion</span></footer>
+</section>
+<section class="slide section-divider" id="part5" data-chapter="Part V" data-title="Part V: Contributions &amp; discussion" data-note="讲述重点｜章节过渡页，进入第五部分：贡献与讨论。" aria-label="Part V: Contributions &amp; discussion" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<div class="slide-body"><div class="divider-copy"><div class="divider-eyebrow">PART V</div><div class="divider-title">Contributions &amp; <span>Discussion</span></div><div class="divider-rule"></div><p class="divider-sub">Contribution and Discussion</p></div></div>
+<footer class="slide-footer"><span>Part V · Contributions &amp; discussion</span></footer>
+</section>
+<section class="slide closing-slide" id="s18" data-seconds="40" data-chapter="05 / Contributions &amp; discussion" data-title="Conclusion and main findings." data-note="讲述重点｜先用145例、3种机制、最大7.59pp回收三个贡献，再诚实点出最重要的construct/internal/external validity边界。最后一句：The result is a better first-file recommendation on this benchmark, with generalization and developer benefit still to be tested.
+
+教授可能追问｜怎么安排下一步最有说服力？
+
+答复依据与边界｜先重复匹配实验量化方差与效率，再做跨引擎、多文件评估，最后做developer study。输入防泄漏不等于排除预训练污染；也不要声称本研究已经节省真实开发时间。"  aria-label="19: Conclusion and main findings." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">05 / Contributions &amp; discussion</div><h1>Conclusion and main findings.</h1></header>
+<div class="slide-body">
+
+<div class="defense-closing"><div class="conclusion-evidence"><span class="label"></span><div class="closing-result"><strong>IR</strong><p>First systematic evaluation<br><b>Execution-free fault localization for LLM inference-engine bugs.</b></p></div><div class="closing-result"><strong>Agent</strong><p>Repository-derived OllamaFLBench<br><b>145 validated Ollama issue–fix pairs with pre-fix snapshots.</b></p></div><div class="closing-result"><strong>ClueFL</strong><p>Domain-specific ClueFL framework<br><b>External knowledge and workflow improve fault-location ranking.</b></p></div><div class="closing-signature"><span>Evaluate systematically → Release reusable data → Improve with domain knowledge</span><button class="text-button" data-go="29">Supporting evidence →</button></div></div></div>
+
+</div>
+<footer class="slide-footer"><span>24<span class="footer-total"> / 24</span></span></footer>
+</section><section class="slide " id="s19" data-chapter="Backup / Method details" data-title="BugLocator: two evidence channels, one ranking." data-note="讲述重点｜按文件文本证据与历史证据两路解释融合，不逐个朗读预处理框。
+
+教授可能追问｜是否是原版BugLocator，历史如何防泄漏？
+
+答复依据与边界｜论文是多语言适配实现；两路分数分别min–max归一化，以alpha=0.2融合；其历史修复需早于目标issue创建。" data-backup="true" aria-label="B01: BugLocator: two evidence channels, one ranking." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BugLocator: two evidence channels, one ranking.</h1></header>
+<div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-2-buglocator.svg" data-caption="Fig. 4.2 · Multilingual BugLocator adaptation · p. 22" data-page="32" aria-label="Enlarge: Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking."><img src="images/fig4-2-buglocator.svg" alt="Original Figure 4.2: multilingual BugLocator adaptation with file retrieval and leakage-safe history-informed evidence fused into a ranking." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>BugLocator multilingual adaptation [1]</figcaption></figure></div>
+
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>BACKUP · B01<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s20" data-chapter="Backup / Method details" data-title="BLUiR: structured retrieval with a text fallback." data-note="讲述重点｜说明repository结构字段与issue标题/正文两个查询字段，再指向plain-text fallback。
+
+教授可能追问｜非源码是不是被BLUiR排除了？
+
+答复依据与边界｜不是。非源码和解析失败回退纯文本，只填identifier字段；可以参选，但结构证据不如代码丰富。冷启动耗时包括这些表示与索引重建。" data-backup="true" aria-label="B02: BLUiR: structured retrieval with a text fallback." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Method details</div><h1>BLUiR: structured retrieval with a text fallback.</h1></header>
+<div class="slide-body"><figure class="paper-figure backup-method"><button class="figure-zoom" data-figure="images/fig4-3-bluir.svg" data-caption="Fig. 4.3 · Multilingual BLUiR adaptation · p. 24" data-page="34" aria-label="Enlarge: Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval."><img src="images/fig4-3-bluir.svg" alt="Original Figure 4.3: multilingual structural extraction, plain-text fallback and field-wise BM25 retrieval." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>BLUiR multilingual adaptation [1]</figcaption></figure></div>
+
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>BACKUP · B02<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s21" data-chapter="Backup / Success overlap" data-title="Improvement does not mean strict superset coverage." data-note="讲述重点｜分别解释新增成功与baseline独有成功，净改善不是成功集合严格包含。
+
+教授可能追问｜为什么提高了还会退步？
+
+答复依据与边界｜模型探索是随机的，加入指导也会改变搜索选择。GPT新增15、失去4，DeepSeek新增10、失去6；这只是归档运行的交集事实，尚未估计逐实例稳定性。" data-backup="true" aria-label="B03: Improvement does not mean strict superset coverage." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Success overlap</div><h1>Improvement does not mean strict superset coverage.</h1></header>
+<div class="slide-body"><figure class="paper-figure overlap-figure fragment"><button class="figure-zoom" data-figure="images/fig5-2-overlap.svg" data-caption="Fig. 5.2 · Baseline–ClueFL Top-1 intersections · p. 45" data-page="55" aria-label="Enlarge: Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10."><img src="images/fig5-2-overlap.svg" alt="Original Figure 5.2: GPT-5.2 baseline-only 4, shared 70, ClueFL-only 15; DeepSeek baseline-only 6, shared 88, ClueFL-only 10." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Baseline–ClueFL Top-1 intersections [1]</figcaption></figure><div class="inline-insights fragment"><p><b>GPT-5.2:</b> 15 newly solved; 4 baseline-only.</p><p><b>DeepSeek:</b> 10 newly solved; 6 baseline-only.</p></div></div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>BACKUP · B03<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s22" data-chapter="Backup / Experimental controls" data-title="What is held fixed—and what changes?" data-note="讲述重点｜用原表逐项区分fixed与changed。历史只允许目标快照的祖先修复；对照在每个backbone内部进行。
+
+教授可能追问｜公平比较还有哪些没有完全控制？
+
+答复依据与边界｜无法控制随机种子，只有单次归档运行；完整ClueFL包中多个设计一起变化；跨模型prompt/endpoint也不统一。离线架构映射在所有issue中固定，并非每个历史快照都重建。" data-backup="true" aria-label="B04: What is held fixed—and what changes?" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Experimental controls</div><h1>What is held fixed—and what changes?</h1></header>
+<div class="slide-body">
+<figure class="paper-figure control-table fragment"><button class="figure-zoom" data-figure="images/table5-1-controls.svg" data-caption="Table 5.1 · Controlled settings for the RQ3 comparison · p. 44" data-page="54" aria-label="Enlarge: Original table of fixed settings and intended differences between generic SWE-agent and ClueFL."><img src="images/table5-1-controls.svg" alt="Original table of fixed settings and intended differences between generic SWE-agent and ClueFL." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Controlled settings for RQ3 comparison [1]</figcaption></figure>
+<div class="protocol-notes fragment"><div><span class="label">HISTORY BOUNDARY</span><p>Only fixes ancestral to each target pre-fix snapshot; exclude the target fix and later changes.</p></div><div><span class="label">INTERPRETATION</span><p>Estimate the full ClueFL configuration change within each backbone. Individual components are probed by ablation.</p></div></div>
+
+</div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>BACKUP · B04<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s23" data-chapter="Backup / Artifact analysis" data-title="ClueFL’s gains are not uniform across artifacts." data-note="讲述重点｜直面负结果：DeepSeek非源码Top-1从54.55%到51.52%，Top-5也下降；GPT两类均改善。
+
+教授可能追问｜领域引导为什么没有普遍改善？
+
+答复依据与边界｜论文结果不支持普遍改善。非源码仅33例，观察提示artifact与配置存在交互，但具体归因需更多运行和针对性分析，不能编造机制或显著性。" data-backup="true" aria-label="B05: ClueFL’s gains are not uniform across artifacts." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Artifact analysis</div><h1>ClueFL’s gains are not uniform across artifacts.</h1></header>
+<div class="slide-body"><figure class="paper-figure ablation-table fragment"><button class="figure-zoom" data-figure="images/table5-3-artifacts.svg" data-caption="Table 5.3 · Matched results by artifact type · p. 46" data-page="56" aria-label="Enlarge: Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%."><img src="images/table5-3-artifacts.svg" alt="Original Table 5.3: ClueFL improves GPT-5.2 source and non-source results but DeepSeek non-source Top-1 decreases from 54.55% to 51.52%." draggable="false"><span class="zoom-hint">↗ Enlarge original</span></button><figcaption>Matched results by artifact type [1]</figcaption></figure><div class="inline-insights fragment"><p><b>112</b> source-code cases</p><p><b>33</b> non-source cases</p><p><b>−3.03 pp</b> DeepSeek non-source Top-1</p></div></div>
+<footer class="slide-footer"><span class="footnote-cite">[1] </span><span>BACKUP · B05<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s24" data-chapter="Backup / Metrics" data-title="How are Top-k and MRR@5 defined, and why is the cutoff five?" data-note="讲述重点｜Top-k是修复文件出现在前k位的比例；MRR@5是前五名内首次命中位次的倒数均值，未命中记为0。cutoff=5参考Kochhar等对386名开发者的调查：73.58%把前五个元素当作可接受的最小检查范围，超过80%只在故障元素进入前五时才认为定位成功；也与AutoFL、SoapFL、FlexFL、DEVLoRe等近期研究一致。
+
+教授可能追问｜为什么不报告Top-10或更长尾的结果？
+
+答复依据与边界｜论文结论明确限定在前五名内的早期排序有效性，不刻画第五名之后的表现；k=5是有先例支撑的实践阈值，不是为了让结果好看而事后选择的cutoff。" data-backup="true" aria-label="B06: How Top-k and MRR@5 are defined, and why cut off at five." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Metrics</div><h1>How are Top-k and MRR@5 defined, and why is the cutoff five?</h1></header>
+<div class="slide-body">
+<div class="challenge-grid">
+<article class="fl-card"><span class="label">TOP-K ACCURACY</span><h2>Share within the first k</h2><p>Proportion of instances where the repair file appears in the first k ranked positions, for k = 1, 3, 5.</p><span class="fl-cite">Reported at Top-1, Top-3, Top-5.</span></article>
+<article class="fl-card"><span class="label">MRR@5</span><h2>Reciprocal rank, capped</h2><p>1 / rank of the first correct match within the top five; scored 0 if the repair file never appears there.</p><span class="fl-cite">Rewards earlier placement, not just presence.</span></article>
+<article class="fl-card"><span class="label">WHY CUTOFF = 5</span><h2>A practitioner-grounded bound</h2><p>73.58% of 386 developers treat five elements as their minimum inspection scope; &gt;80% call a session successful only within the top five.</p><span class="fl-cite">Kochhar et al.; consistent with AutoFL / SoapFL / FlexFL / DEVLoRe.</span></article>
+</div>
+</div>
+<footer class="slide-footer"><span>BACKUP · B06<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s25" data-chapter="Backup / Threats to validity" data-title="Construct, internal, and external validity threats." data-note="讲述重点｜三类威胁逐一讲：construct—用开发者实际改动的文件作为唯一标签，但其他文件也可能是有效修复；internal—预训练数据污染（GPT-5.2知识截止2025-08-31，与数据集时间窗口有重叠）以及agent不确定性（无可控随机种子，每例仅一次归档运行）；external—仅在Ollama单一仓库上评估，未覆盖vLLM、llama.cpp、TensorRT-LLM等其他推理引擎。
+
+教授可能追问｜污染问题能否验证或排除？
+
+答复依据与边界｜无法完全排除；论文只是坦诚披露这一风险边界，未做额外的污染检测实验。DeepSeek V4 Pro的训练语料和精确知识截止日期未公开，同样无法排除。" data-backup="true" aria-label="B07: Construct, internal, and external validity threats." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Threats to validity</div><h1>Construct, internal, and external validity threats.</h1></header>
+<div class="slide-body">
+<div class="challenge-grid">
+<article class="fl-card"><span class="label">CONSTRUCT</span><h2>One label per fix</h2><p>Ground truth is the file the developer patch modifies. A valid fix could plausibly touch a different file — a known limitation of file-level FL.</p></article>
+<article class="fl-card"><span class="label">INTERNAL</span><h2>Contamination &amp; nondeterminism</h2><p>GPT-5.2's knowledge cutoff (31 Aug 2025) overlaps the OllamaFLBench window; no controllable random seed, one archived run per instance.</p></article>
+<article class="fl-card"><span class="label">EXTERNAL</span><h2>Ollama only</h2><p>Evaluated exclusively on Ollama. Other engines (vLLM, llama.cpp, TensorRT-LLM) may differ in architecture and development trajectory.</p></article>
+</div>
+</div>
+<footer class="slide-footer"><span>BACKUP · B07<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s26" data-chapter="Backup / Positioning" data-title="Why is ClueFL not directly benchmarked against LocAgent, GraphLocator, and similar tools?" data-note="讲述重点｜先承认repository-scale LLM exploration、图检索、领域推理并非本论文首创（LocAgent、CoSIL、OrcaLoca、GraphLocator、ARISE等已单独展示过）。缺口在于：没有工作在同一execution-free、file-ranking协议下，针对推理引擎的历史bug，评估这一整套组合——引擎专属操作模型、时序正确的快照、以及源码与非源码目标并存。ClueFL是有界新颖性声明：组合已有要素填补这一评估空白，而不是发明全新的单一算法。
+
+教授可能追问｜那有没有和这些工具直接对比过？
+
+答复依据与边界｜没有在本论文中直接复现对比；这些工具的协议、数据集和目标构件类型各不相同，直接移植超出本论文范围，留作未来工作。" data-backup="true" aria-label="B08: Why ClueFL is not directly benchmarked against LocAgent, GraphLocator, and similar tools." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Positioning</div><h1>Why is ClueFL not directly benchmarked against LocAgent, GraphLocator, and similar tools?</h1></header>
+<div class="slide-body">
+<div class="protocol-notes fragment"><div><span class="label">ALREADY EXISTS, SEPARATELY</span><p>Adaptive retrieval, graph traversal, iterative exploration, causal framing, domain-specific reasoning, and bounded reranking — each already demonstrated by LocAgent, CoSIL, OrcaLoca, GraphLocator, ARISE, and others.</p></div><div><span class="label">THE UNTESTED COMBINATION</span><p>An execution-free localizer with an inference-engine-specific operational model, a temporally correct snapshot, and eligible source + non-source targets — evaluated under one matched, historical-bug protocol.</p></div></div>
+<div class="inline-insights fragment"><p><b>Bounded novelty:</b> ClueFL combines existing ingredients to fill this unstudied evaluation gap, not a claim of a new algorithmic primitive.</p></div>
+</div>
+<footer class="slide-footer"><span>BACKUP · B08<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s27" data-chapter="Backup / Future work" data-title="Four directions raised by this thesis's own limitations." data-note="讲述重点｜按论文顺序讲四个方向：(1) root-cause-to-fix-strategy知识，用预测的根因缩小候选层/文件范围；(2) 跨引擎与跨backbone评估，构建vLLM、llama.cpp、TensorRT-LLM等的对照数据集；(3) 重复运行评估稳定性与效率分布（token、耗时、成本）；(4) 面向Ollama维护者的用户研究，验证ClueFL能否实际缩短修复时间、提高修复准确率。
+
+教授可能追问｜你认为这四个方向里最优先做哪个？
+
+答复依据与边界｜论文没有给这四个方向排优先级；可以说明个人判断，但要讲清楚这是我个人观点而非论文结论。" data-backup="true" aria-label="B09: Four directions raised by this thesis's own limitations." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Future work</div><h1></h1></header>
+<div class="slide-body">
+<div class="challenge-grid" style="grid-template-columns:repeat(4,1fr)">
+<article class="fl-card"><span class="label">KNOWLEDGE</span><h2>Root-cause → fix-strategy</h2><p>Map predicted root causes to fix strategies to further narrow candidate layers and files.</p></article>
+<article class="fl-card"><span class="label">GENERALIZATION</span><h2>Cross-engine &amp; cross-backbone</h2><p>Build comparable OllamaFLBench variants for vLLM, llama.cpp, TensorRT-LLM; evaluate more backbones.</p></article>
+<article class="fl-card"><span class="label">ROBUSTNESS</span><h2>Repeated-run evaluation</h2><p>Repeat each configuration to quantify ranking stability and cost/latency variance.</p></article>
+<article class="fl-card"><span class="label">IMPACT</span><h2>User study</h2><p>Have Ollama maintainers use ClueFL on real tasks to measure repair-time and accuracy gains.</p></article>
+</div>
+</div>
+<footer class="slide-footer"><span>BACKUP · B09<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s28" data-chapter="Backup / Baselines" data-title="Three baselines: two deterministic retrievers, one iterative agent." data-note="讲述重点｜BugLocator和BLUiR都是确定性one-shot排序：前者用rVSM加历史相似SimiScore（0.2权重），后者把issue拆成title/body两个查询字段，对代码结构字段做BM25并求和，两者都有多语言适配。SWE-agent则是迭代式：可以list目录、搜文本、读文件片段，最后必须输出有序文件列表，不做补丁生成。
+
+教授可能追问｜这些baseline是原作者的实现吗？
+
+答复依据与边界｜不是，是论文作者针对Ollama多语言仓库做的语言无关重实现，保留两种方法的核心评分设计，而非作者的可执行原始工件。" data-backup="true" aria-label="B10: Three baselines: two deterministic retrievers, one iterative agent." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Baselines</div><h1>Three baselines: two deterministic retrievers, one iterative agent.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">BUGLOCATOR</span><h2>rVSM + SimiScore</h2><p>Score(f) = 0.8·N(rVSM) + 0.2·N(SimiScore); historical fixes must predate the target issue.</p><span class="fl-cite">Deterministic, one run per issue.</span></article><article class="fl-card"><span class="label">BLUIR</span><h2>Structured BM25</h2><p>Title/body query fields × type/function/identifier/comment code fields, summed BM25 (k1=1.2, b=0.75); plain-text fallback for unsupported artifacts.</p><span class="fl-cite">Deterministic, one run per issue.</span></article><article class="fl-card"><span class="label">SWE-AGENT</span><h2>Iterative exploration</h2><p>Localization-only adaptation: list/search/read repository, then output a ranked file list — no patch generation, no execution.</p><span class="fl-cite">Stochastic, one archived run per issue.</span></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B10<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s29" data-chapter="Backup / Backbone selection" data-title="Why were GPT-5.2 and DeepSeek V4 Pro selected as the two SWE-agent backbones?" data-note="讲述重点｜选择一个闭源、一个开源模型，代表两种可获得的模型家族，而不是宣称覆盖所有模型。最终配对同时受API成本约束。两者是两个具有代表性的agent配置，不是对模型家族性能的全面估计，也不宣称在写作时仍是最强模型。
+
+教授可能追问｜为什么不多测几个模型？
+
+答复依据与边界｜受限于API成本与工程时间；论文明确将此作为局限，未来工作提出跨backbone评估作为方向之一。" data-backup="true" aria-label="B11: Why GPT-5.2 and DeepSeek V4 Pro as the two SWE-agent backbones." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Backbone selection</div><h1>Why were GPT-5.2 and DeepSeek V4 Pro selected as the two SWE-agent backbones?</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">DIVERSITY GOAL</span><p>One proprietary reasoning model (GPT-5.2) and one open-weight model (DeepSeek V4 Pro) — diversity in backbone family, not single-provider reliance.</p></div><div><span class="label">PRACTICAL CONSTRAINT</span><p>The final pairing was also constrained by API cost; each stochastic configuration is represented by one archived run per instance.</p></div></div><div class="inline-insights"><p><b>Not a claim:</b> that either backbone is the strongest model available at the time of writing.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B11<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s30" data-chapter="Backup / Computational cost" data-title="IR retrieval is cheap and deterministic; agent exploration is costly but stronger." data-note="讲述重点｜BugLocator平均3.88秒/issue，BLUiR因多语言解析要107.39秒，都没有模型推理或API开销。GPT-5.2平均20.81步、约248,732 token、71.26秒、每issue约0.1532美元；DeepSeek V4 Pro探索更深，52.57步、约306万token、277.13秒，但按当时计费反而更便宜，约0.0599美元。这是效果与成本的明确权衡，而非模型能力的全面排名。
+
+教授可能追问｜能不能用更便宜的方式达到同样效果？
+
+答复依据与边界｜论文没有测试折中方案；IR方法可以通过持久化索引进一步降低边际延迟，但仍然远弱于agent的排序效果。" data-backup="true" aria-label="B12: IR retrieval is cheap and deterministic; agent exploration is costly but stronger." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Computational cost</div><h1>IR retrieval is cheap and deterministic; agent exploration is costly but stronger.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">BUGLOCATOR</span><h2>3.88 s / issue</h2><p>No model inference, no API cost. No persistent index across issues.</p></article><article class="fl-card"><span class="label">BLUIR</span><h2>107.39 s / issue</h2><p>Slower due to multilingual structural parsing, not an inherent property of the retrieval design.</p></article><article class="fl-card"><span class="label">SWE-AGENT</span><h2>GPT-5.2 vs DeepSeek</h2><p>GPT-5.2: 20.81 steps, ~248.7K tokens, 71.26 s, US$0.1532. DeepSeek V4 Pro: 52.57 steps, ~3.06M tokens, 277.13 s, US$0.0599.</p><span class="fl-cite">DeepSeek: more exploration, lower per-issue cost.</span></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B12<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s31" data-chapter="Backup / Oracle union" data-title="Aggregate Top-1 hides which instances each configuration actually solves." data-note="讲述重点｜GPT-5.2单独解决36例，BugLocator和BLUiR各自只有3例和1例独有，三者都同意的只有19例，三者oracle union到80例（55.17%）。两个SWE-agent配置重叠更强：都命中68例，DeepSeek独有26例，GPT独有6例，union到100例（68.97%），比DeepSeek单独还多4.14个百分点。四配置全部合并也只到103例（71.03%），42例始终无人命中。
+
+教授可能追问｜能不能做一个集成模型？
+
+答复依据与边界｜这些union数字假设完美的事后选择，是互补覆盖的上界，不是可部署的集成系统的预期表现。" data-backup="true" aria-label="B13: Aggregate Top-1 hides which instances each configuration actually solves." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Oracle union</div><h1>Aggregate Top-1 hides which instances each configuration actually solves.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">IR + GPT-5.2</span><p>36 uniquely solved by GPT-5.2 alone; 3 by BugLocator; 1 by BLUiR; 19 agreed by all three. Oracle union: 80/145 (55.17%).</p></div><div><span class="label">TWO AGENT CONFIGS</span><p>68 shared; DeepSeek +26 unique; GPT-5.2 +6 unique; 45 unsolved by either. Union: 100/145 (68.97%).</p></div></div><div class="inline-insights"><p><b>All four combined:</b> 103/145 (71.03%); 42 cases remain unsolved by any configuration.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B13<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s32" data-chapter="Backup / Artifact-type gap (RQ1)" data-title="Every RQ1 approach is markedly worse when the repair location is non-source." data-note="讲述重点｜四种方法在non-source（33例）上全部下降，Top-5降幅从16.86到30.62个百分点不等，SWE-agent GPT-5.2降幅最大（30.62pp）。举例PR 9773，ROCm在gfx1151上损坏，正确修复位置是CMakePresets.json，BugLocator和BLUiR评分都是0，因为issue的GPU架构、驱动词汇和这份JSON文件的字面内容毫无重叠。
+
+教授可能追问｜这是不是意味着IR方法完全不适合非源码文件？
+
+答复依据与边界｜不是绝对失效，是词汇/结构证据不足导致的系统性弱点；agent方法虽然更强但同样显著下降，说明这是任务本身的难点而非某个方法特有的缺陷。" data-backup="true" aria-label="B14: Every RQ1 approach is markedly worse when the repair location is non-source." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Artifact-type gap (RQ1)</div><h1>Every RQ1 approach is markedly worse when the repair location is non-source.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">BUGLOCATOR</span><h2>Top-5 −24.16 pp</h2><p>54.46% (source) → 30.30% (non-source).</p></article><article class="fl-card"><span class="label">BLUIR</span><h2>Top-5 −16.86 pp</h2><p>56.25% (source) → 39.39% (non-source).</p></article><article class="fl-card"><span class="label">SWE-AGENT (GPT-5.2)</span><h2>Top-5 −30.62 pp</h2><p>82.14% (source) → 51.52% (non-source) — the largest observed drop.</p><span class="fl-cite">DeepSeek V4 Pro: 92.86% → 75.76% (−17.10 pp).</span></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B14<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s33" data-chapter="Backup / Case study · semantic reasoning" data-title="Case 107: iterative reasoning finds progress.go with no lexical cue at all." data-note="讲述重点｜PR 9079，issue只说SSH会话里CLI进度条闪烁，没有文件名、函数名或错误字符串。BugLocator/BLUiR都排不进Top-5，因为报告和progress/progress.go的字面重叠只有display这类通用词。两个SWE-agent配置都把它排第一：推理出终端渲染相关的症状指向进度条渲染器，即使没有直接词汇线索也能命中。
+
+教授可能追问｜这说明IR方法完全没用吗？
+
+答复依据与边界｜不是，IR在有词汇重叠时仍然有效且零成本；这个案例只是说明纯文本匹配在语义/因果推理场景下的边界。" data-backup="true" aria-label="B15: Case 107: iterative reasoning finds progress.go with no lexical cue at all." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · semantic reasoning</div><h1>Case 107: iterative reasoning finds progress.go with no lexical cue at all.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">SYMPTOM</span><p>“CLI progress display flickers during pull over SSH” — no file name, function name, or error string in the report.</p></div><div><span class="label">OUTCOME</span><p>BugLocator/BLUiR fail to rank progress/progress.go in Top-5. Both SWE-agent configurations rank it 1st by reasoning that a rendering symptom implicates the progress-bar renderer.</p></div></div></div>
+<footer class="slide-footer"><span>BACKUP · B15<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s34" data-chapter="Backup / Case study · evidence reachability" data-title="Case 126: strong local evidence can crowd out a neighboring repair location." data-note="讲述重点｜无GPU的Windows机器上出现大量GPU-discovery日志，两个agent都被引导进discover/runner.go、调度器、runner生命周期和CUDA后端初始化，但都没有打开discover/cpu_windows.go——真正的修复位置。这不是随机搜索失败，而是显著证据把搜索收窄得太厉害，相邻的启动路径根本没进入上下文。
+
+教授可能追问｜这说明repo越大就一定越难定位吗？
+
+答复依据与边界｜论文明确说这不是单纯的仓库规模问题，而是证据分配问题：规模和架构分散让这种问题更严重，但根因是agent没有跟踪哪些部署阶段/相邻子系统尚未探索。" data-backup="true" aria-label="B16: Case 126: strong local evidence can crowd out a neighboring repair location." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · evidence reachability</div><h1>Case 126: strong local evidence can crowd out a neighboring repair location.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">WHAT HAPPENED</span><p>Long GPU-discovery logs from a GPU-less Windows machine drew both agents into discover/runner.go, the scheduler, and CUDA backend init.</p></div><div><span class="label">WHAT WAS MISSED</span><p>Neither agent opened discover/cpu_windows.go, where the accepted repair corrected the Windows CPU-discovery path.</p></div></div><div class="inline-insights"><p><b>Lesson:</b> a coverage-allocation problem, not proof that scale alone causes failure — track unexplored neighboring subsystems instead of assuming coverage from more actions in one subtree.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B16<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s35" data-chapter="Backup / Case study · causal-chain truncation" data-title="Case 86: GPT-5.2 stops at the Go/native boundary; DeepSeek crosses it." data-note="讲述重点｜流式响应丢失最后一个token的问题，GPT-5.2沿server/routes.go、llm/server.go、api/client.go追踪，把问题归因于Go侧的scanning和流排序，但从未跨入native的响应生成器，结果是miss。DeepSeek继续深入llm/ext_server/server.cpp，检查了token和最终响应路径，第一名命中正确文件。
+
+教授可能追问｜是不是GPT-5.2能力更弱？
+
+答复依据与边界｜论文没有做这个归因；只是描述性观察，说明期望的行为不是简单地在一层里"挖得更深"，而是要跨越语言/进程边界、找出状态最先变得无效的位置，并在终止搜索前比较竞争层假设。" data-backup="true" aria-label="B17: Case 86: GPT-5.2 stops at the Go/native boundary; DeepSeek crosses it." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · causal-chain truncation</div><h1>Case 86: GPT-5.2 stops at the Go/native boundary; DeepSeek crosses it.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">GPT-5.2 (miss)</span><p>Follows server/routes.go → llm/server.go → api/client.go; attributes the bug to Go-side scanning/ordering; never crosses into the native producer.</p></div><div><span class="label">DEEPSEEK V4 PRO (hit)</span><p>Continues into llm/ext_server/server.cpp, inspects the token/final-response path, and ranks the accepted repair location first.</p></div></div></div>
+<footer class="slide-footer"><span>BACKUP · B17<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s36" data-chapter="Backup / ClueFL toolbox" data-title="Three purpose-built tools replace unrestricted source dumping." data-note="讲述重点｜deps查上下游依赖，帮助跨包/跨层追踪因果关系；pkg_summary返回文件摘要、imports、类型和函数签名而不含完整源码，用更低的上下文成本定位候选文件/函数；func取出指定Go或C/C++函数的实现，做针对性检查。仍保留grep/find/sed等通用命令做词法搜索或覆盖专用工具未覆盖的构件。
+
+教授可能追问｜这些工具是不是针对Ollama写死的？
+
+答复依据与边界｜工具面向Ollama的Go为主、Go/C/C++架构定制，论文明确说这是仓库特定的框架构件，属于第5章引入的内容，不作为通用背景声称。" data-backup="true" aria-label="B18: Three purpose-built tools replace unrestricted source dumping." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / ClueFL toolbox</div><h1>Three purpose-built tools replace unrestricted source dumping.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">deps &lt;package&gt;</span><h2>Cross-layer causal tracing</h2><p>Retrieves recorded upstream and downstream dependencies of a package.</p></article><article class="fl-card"><span class="label">pkg_summary &lt;package&gt;</span><h2>Low-cost candidate narrowing</h2><p>File summaries, imports, types, and function signatures — no full source dump.</p></article><article class="fl-card"><span class="label">func &lt;file&gt; &lt;fn&gt;</span><h2>Targeted evidence</h2><p></p></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B18<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s37" data-chapter="Backup / ClueFL × artifact type" data-title="ClueFL narrows the source/non-source gap for GPT-5.2, but not for DeepSeek." data-note="讲述重点｜GPT-5.2上，ClueFL在source和non-source两个子集所有指标都提升，Top-5 gap从30.62pp收窄到26.89pp，符合"鼓励搜索非源码构件"的设计目标。DeepSeek V4 Pro上则不均匀：source全面提升，但non-source（仅33例）里Top-1/Top-5/MRR@5各因1个case而下降3.03个百分点，gap反而从17.10扩大到21.02pp——因为DeepSeek的non-source baseline本来就已经很强（75.76% Top-5），改进空间有限。
+
+教授可能追问｜这算不算ClueFL的负面结果？
+
+答复依据与边界｜论文诚实报告这一点：ClueFL的收益并非在所有artifact类型和backbone上都均匀，33例的小样本下单个case的变化就有3.03pp，不能过度解读为系统性退步。" data-backup="true" aria-label="B19: ClueFL narrows the source/non-source gap for GPT-5.2, but not for DeepSeek." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / ClueFL × artifact type</div><h1>ClueFL narrows the source/non-source gap for GPT-5.2, but not for DeepSeek.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">GPT-5.2</span><p>Gains at every metric on both subsets; source–non-source Top-5 gap narrows from 30.62 pp to 26.89 pp.</p></div><div><span class="label">DEEPSEEK V4 PRO</span><p>Source code improves throughout; non-source (33 cases) is mixed — Top-1/Top-5/MRR@5 each fall by one case, widening the gap to 21.02 pp.</p></div></div><div class="inline-insights"><p><b>Not uniform:</b> ClueFL's benefit depends on both artifact type and backbone, not a guaranteed improvement everywhere.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B19<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s38" data-chapter="Backup / Case study · historical retrieval" data-title="PR 13445: a near-duplicate past fix redirects the search away from tokenization." data-note="讲述重点｜Gemma 3升级后输出乱码，含特殊token文本。SWE-agent baseline锁定tokenization假设，排model.go、tokenizer_spm.go等最高，正确文件model_text.go没进前十。ClueFL检索到标题几乎相同的历史issue，其确认修复正好是model_text.go，另一相关历史issue也指向同一文件，于是ClueFL第一名命中，并把原因归于滑窗与缓存attention逻辑而非tokenization。
+
+教授可能追问｜历史检索会不会只是记住了同一个bug？
+
+答复依据与边界｜历史修复只作为弱先验，agent仍需结合当前仓库证据判断；论文强调这是search heuristic而非确定性证据，因为相似症状在推理引擎里可能对应不同根因。" data-backup="true" aria-label="B20: PR 13445: a near-duplicate past fix redirects the search away from tokenization." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · historical retrieval</div><h1>PR 13445: a near-duplicate past fix redirects the search away from tokenization.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">SWE-AGENT BASELINE</span><p></p></div><div><span class="label">CLUEFL</span><p>Retrieves a near-duplicate historical issue whose confirmed fix touched model_text.go, ranking it first and attributing the bug to sliding-window/cached-attention logic.</p></div></div><div class="inline-insights"><p><b>Why it matters:</b> most useful when the symptom is compatible with more than one plausible subsystem.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B20<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s39" data-chapter="Backup / Case study · root-cause expansion" data-title="PR 6905: the checklist adds an environment-mismatch hypothesis the baseline never considers." data-note="讲述重点｜Windows GUI启动的Ollama比CLI启动明显更慢。SWE-agent baseline锁定调度假设，怀疑tray图标的LockOSThread和消息循环饿死其他goroutine，把真正文件llm/llm_windows.go排到第六。ClueFL在root-cause checklist提示下额外考虑环境/运行时不匹配类别，假设GUI进程继承了不同的Windows进程环境，改变了runner子进程的生成方式和加载的CUDA库，这直接指向llm/llm_windows.go，排名第一。
+
+教授可能追问｜28类根因checklist会不会让agent机械枚举？
+
+答复依据与边界｜论文明确说checklist不是要求逐类核对，而是提供系统化的诊断空间，让agent在收敛到单一解释前先考虑多个可能机制。" data-backup="true" aria-label="B21: PR 6905: the checklist adds an environment-mismatch hypothesis the baseline never considers." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · root-cause expansion</div><h1></h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">SWE-AGENT BASELINE</span><p></p></div><div><span class="label">CLUEFL</span><p>The checklist adds an environment/runtime-mismatch category alongside scheduling, pointing directly at llm/llm_windows.go, which is ranked 1st.</p></div></div><div class="inline-insights"><p><b>Mechanism:</b> adds an alternative causal category early enough to be verified against evidence, rather than replacing the agent's own reasoning.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B21<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s40" data-chapter="Backup / Case study · repository navigation" data-title="PR 5121: deps + pkg_summary + func turn a vague suspicion into a checkable function-level claim." data-note="讲述重点｜DeepSeek-V2-Lite加载时CUDA OOM并伴随GGML shape断言。两个agent都怀疑内存估算子系统（memory.go、server.go），但baseline只能泛泛地把ggml.go排得很靠后，理由只是它提供EstimateGPULayers用到的元数据。ClueFL用deps确认scheduler和runtime层的依赖边界，用pkg_summary列出memory.go/server.go/ggml.go候选，再用func直接读EstimateGPULayers和GraphSize的实现，发现GraphSize对deepseek2架构没有分支、静默返回0，导致显存估算走了错误的兜底路径。ClueFL把ggml.go排第二，并给出可验证的函数级机制。
+
+教授可能追问｜为什么不直接读整个文件，需要这些专用工具？
+
+答复依据与边界｜直接读完整源码会用大量上下文并可能截断输出；专用工具用更低上下文成本定位候选文件/函数，这是沿用SWE-agent的专用工具设计原则，针对Ollama的Go/C/C++架构定制。" data-backup="true" aria-label="B22: PR 5121: deps + pkg_summary + func turn a vague suspicion into a checkable function-level claim." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Case study · repository navigation</div><h1>PR 5121: deps + pkg_summary + func turn a vague suspicion into a checkable function-level claim.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">SWE-AGENT BASELINE</span><p>Ranks llm/ggml.go far down the list, reasoning only that it holds metadata used by EstimateGPULayers.</p></div><div><span class="label">CLUEFL</span><p>deps confirms the scheduler/runtime boundary; pkg_summary shortlists three files; func reveals GraphSize silently returns 0 for the deepseek2 architecture — ClueFL ranks ggml.go 2nd with a verifiable mechanism.</p></div></div></div>
+<footer class="slide-footer"><span>BACKUP · B22<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s41" data-chapter="Backup / OllamaFLBench" data-title="Eight stages turn raw issue–PR history into 145 single-label instances." data-note="讲述重点｜从ollama/ollama公开历史挖掘issue-PR关联并确认已合并（1-2）；恢复完整边界并抽取修复前后所有改动文件，此时尚未做构件过滤（3）；要求每条改动记录都能在tracked、可读的pre-fix文件集中定位，否则整条候选排除（4）；清洗仅移除vendored依赖、生成文件和构建产物，保留测试/脚本等只要它们确实是修复目标（5-6）；做issue-PR-修复一致性检查，只保留恰好一个合格标签的实例（6-7）；最终得到145个实例（8）。
+
+教授可能追问｜为什么允许测试文件作为标签？
+
+答复依据与边界｜执行自由协议只禁止运行测试，不禁止把维护中的测试源码当作候选排名目标；例如server/routes_test.go是合法修复位置。" data-backup="true" aria-label="B23: Eight stages turn raw issue–PR history into 145 single-label instances." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / OllamaFLBench</div><h1>Eight stages turn raw issue–PR history into 145 single-label instances.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">MINING &amp; CONFIRMATION</span><h2>Stages 1–2</h2><p>Mine issue↔PR links from closed bug-labeled issues and explicit closing references; confirm the change was merged.</p></article><article class="fl-card"><span class="label">SNAPSHOT &amp; REACHABILITY</span><h2>Stages 3–4</h2><p>Extract every changed-file record with no filtering yet; exclude the whole candidate if any record is unreachable in the tracked pre-fix tree.</p></article><article class="fl-card"><span class="label">CLEANING &amp; FINAL LABEL</span><h2>Stages 5–8</h2><p>Remove vendored/generated artifacts, check issue–PR consistency, retain only |G_i| = 1 → 145 final instances.</p></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B23<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s42" data-chapter="Backup / Contributions summary" data-title="Three contributions, kept distinct from any claim of a general-purpose repair tool." data-note="讲述重点｜(1) 第一个系统评估issue引导、执行自由、文件级定位在LLM推理引擎bug上的研究，比较IR方法与LLM-agent方法在效果、成本、backbone和失败行为上的差异；(2) 一个可复用的145例Ollama issue-fix评估数据集，含pre-fix快照和单文件修复标签，公开发布；(3) ClueFL框架，证明外部知识和精心设计的工作流能提升LLM推理引擎bug的文件排序效果。
+
+教授可能追问｜这三个贡献里你认为哪个最重要？
+
+答复依据与边界｜论文没有排序；可以说数据集是可复用的基础设施贡献，ClueFL是方法贡献，评估本身填补了此前没人系统做过的空白——三者互相支撑，非彼此独立。" data-backup="true" aria-label="B24: Three contributions, kept distinct from any claim of a general-purpose repair tool." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Contributions summary</div><h1>Three contributions, kept distinct from any claim of a general-purpose repair tool.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">EVALUATION</span><h2>First systematic study</h2><p>Compares IR-based and LLM-agent-based file localization for LLM inference-engine bugs under one execution-free protocol.</p></article><article class="fl-card"><span class="label">OllamaFLBench</span><h2>145 validated instances</h2><p>Repository-derived Ollama issue–fix pairs with pre-fix snapshots and single-file repair labels, released publicly.</p></article><article class="fl-card"><span class="label">FRAMEWORK</span><h2>ClueFL</h2><p>Demonstrates that external knowledge and a well-designed workflow improve file-ranking effectiveness — not a general-purpose repair tool.</p></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B24<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s43" data-chapter="Backup / Terminology" data-title="Failure, fault, and repair-location label are not the same thing." data-note="讲述重点｜failure是外部可观测的行为偏差，fault是能导致失败的程序元素/状态，本文任务不是找真正的fault（很难在仓库挖掘研究中观测到），而是用开发者接受的修复所改动的文件作为可观测的repair-location标签。论文特意用repair file而不是ground truth来描述这个标签的解释，只有在正式指标定义里才用ground truth这个词。输出是repository-level、file-granularity的排序列表，可以省略score=0的文件；候选范围刻意不限制在传统源码，只要该构件在目标仓库被维护。
+
+教授可能追问｜那你怎么知道这个文件就是唯一正确的fault位置？
+
+答复依据与边界｜不知道，也不宣称知道；论文明确说label不证明每个改动文件都独立包含根因，也不证明没有其他有效修复方式——这是construct validity威胁里已经承认的边界。" data-backup="true" aria-label="B25: Failure, fault, and repair-location label are not the same thing." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Terminology</div><h1>Failure, fault, and repair-location label are not the same thing.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">FAILURE vs FAULT</span><p>Failure = an externally observed deviation. Fault = a program element/state capable of causing it. The exact fault is rarely observable in a repository-mining study.</p></div><div><span class="label">REPAIR-LOCATION LABEL</span><p>Files modified by the accepted developer fix — an observable proxy, not a proof of the unique causal fault or that no other valid fix exists.</p></div></div><div class="inline-insights"><p><b>Note:</b> "software layer" here means an operational grouping of repository responsibilities — not a neural-network layer.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B25<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s44" data-chapter="Backup / Evidence regime" data-title=""Execution-free" is stricter than "coverage-free" and more precise than "test-free"." data-note="讲述重点｜execution-free指localizer不编译目标版本、不运行引擎或测试、不做插桩、不注入故障、不收集新的运行时trace，只能拿到清洗后的issue报告和pre-fix仓库快照。issue里可能包含reporter提供的日志、复现步骤或异常栈，这些是报告时就存在的历史证据，不是localization方法自己生成的动态信号。这比coverage-free更严格（coverage-free可能仍需要失败测试输出或crash dump），也比"test-free"这种笼统说法更精确。
+
+教授可能追问｜那论文里出现的堆栈信息算不算作弊利用了执行结果？
+
+答复依据与边界｜不算，因为这些trace是issue reporter在提交时就写在报告里的历史文本，localizer只是读取静态文本，没有自己重新执行目标版本来生成新证据。" data-backup="true" aria-label="B26: "Execution-free" is stricter than "coverage-free" and more precise than "test-free"." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Evidence regime</div><h1>"Execution-free" is stricter than "coverage-free" and more precise than "test-free".</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">EXECUTION-FREE</span><h2>No new runtime evidence</h2><p>No compile, no run, no instrumentation, no fault injection, no new trace collection on the target revision.</p></article><article class="fl-card"><span class="label">COVERAGE-FREE ≠ THIS</span><h2>A weaker notion</h2><p>A coverage-free approach may still require a failed-test output, crash dump, or reference run.</p></article><article class="fl-card"><span class="label">ISSUE-EMBEDDED TRACES OK</span><h2>Historical, not dynamic</h2><p>A stack trace already written in the issue may be read; it was not generated by the localizer executing the old revision.</p></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B26<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s45" data-chapter="Backup / Task boundaries" data-title="Not issue localization in general, not repair, not patch-correctness assessment." data-note="讲述重点｜repository issue localization有时泛指为bug、feature request、性能或安全issue找相关代码实体，本文只选bug类issue并评估其观测到的修复位置。自动程序修复(APR)还要生成补丁；像SWE-bench这类基准评估的是通过测试验证的补丁，而不是独立的定位排序。自动补丁正确性评估(APCA，如APPT/RePaCA)则是在已生成补丁之后再判断补丁是否语义正确，既不检索修复文件也不衡量execution-free的文件排序。这些边界防止把修复或补丁分类的准确率误报成定位准确率。
+
+教授可能追问｜那能不能直接拿SWE-bench的结果来对比？
+
+答复依据与边界｜不能直接对比，因为SWE-bench评估的是测试验证过的补丁正确性，衡量的是不同的能力组合（定位+生成变更），协议和输出目标都不同。" data-backup="true" aria-label="B27: Not issue localization in general, not repair, not patch-correctness assessment." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Task boundaries</div><h1>Not issue localization in general, not repair, not patch-correctness assessment.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">NOT REPAIR (APR)</span><p>APR must additionally synthesize a change; SWE-bench-style benchmarks judge a test-validated patch, not an independent localization ranking.</p></div><div><span class="label">NOT PATCH ASSESSMENT (APCA)</span><p>APCA (e.g., APPT, RePaCA) estimates whether an already-generated patch is correct — it neither retrieves a file nor measures execution-free ranking.</p></div></div><div class="inline-insights"><p><b>Why it matters:</b></p></div></div>
+<footer class="slide-footer"><span>BACKUP · B27<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s46" data-chapter="Backup / Layer-taxonomy construction" data-title="The 8-layer Ollama map is built zero-shot by another LLM, then frozen and reused." data-note="讲述重点｜先从目标仓库抽取package/interface节点清单（Ollama评估快照111个节点），把这份清单交给Claude Opus 4.6，不给标注示例或人工规则，只要求它按功能职责和数据/控制流位置分组。结果是69个节点分到8个命名软件层，其余42个归入3个跨层组。这个taxonomy对Ollama是特定的，但构建流程是可复用的：换一个推理引擎时可以对新仓库重跑同样的清单-分组流程，不需要人工标注数据集，层的数量和名字可能不同。这个map构建一次后原样注入所有评估的issue。
+
+教授可能追问｜用另一个LLM生成taxonomy会不会引入偏差或循环论证？
+
+答复依据与边界｜论文坦诚这是zero-shot程序生成的先验，不是人工验证的黄金标准；它是ClueFL框架自身的构件，在第5章引入，不作为通用背景声称成立；分组质量未做独立正确性验证，只在下游定位效果上间接体现。" data-backup="true" aria-label="B28: The 8-layer Ollama map is built zero-shot by another LLM, then frozen and reused." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Layer-taxonomy construction</div><h1>The 8-layer Ollama map is built zero-shot by another LLM, then frozen and reused.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">HOW IT IS BUILT</span><p>Extract 111 package/interface nodes from Ollama; ask Claude Opus 4.6, with no labeled examples, to group them by functional responsibility and data/control-flow position.</p></div><div><span class="label">RESULT</span><p>69 nodes → 8 named software layers; 42 remaining nodes → 3 cross-cutting groups. Built once, then injected unchanged for every evaluated issue.</p></div></div><div class="inline-insights"><p><b>Reusability:</b> the construction procedure generalizes to other engines; the resulting layer names/boundaries are project-specific and not independently validated as "correct".</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B28<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s47" data-chapter="Backup / Honest gaps this thesis leaves open" data-title="No significance testing, and ClueFL's own cost is not reported." data-note="讲述重点｜两个坦诚的空白：第一，所有比较都是单次归档运行，provider API不暴露可控随机种子，论文没有做显著性检验，报告的差异是描述性观察而非run-to-run方差的估计。第二，第4章详细报告了BugLocator/BLUiR/SWE-agent的interaction步数、token、耗时和美元成本，但第5章的ClueFL对比没有报告ClueFL自身相对baseline增加了多少步数/token/成本——只报告了效果指标。
+
+教授可能追问｜ClueFL会不会效果好是因为烧了更多token/成本换来的？
+
+答复依据与边界｜论文没有提供数据来排除或证实这一点；这是本论文未覆盖的空白，应该作为未来重复运行/效率评估工作的一部分（参见Backup·未来工作）来补充。" data-backup="true" aria-label="B29: No significance testing, and ClueFL's own cost is not reported." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow"></div><h1>No significance testing, and ClueFL's own cost is not reported.</h1></header>
+<div class="slide-body"><div class="challenge-grid"><article class="fl-card"><span class="label">NO SIGNIFICANCE TESTS</span><h2>Single archived run per config</h2><p>No controllable random seed is exposed by the provider APIs; reported differences are descriptive, not variance estimates.</p></article><article class="fl-card"><span class="label">CLUEFL COST UNREPORTED</span><h2>Effectiveness only</h2><p>Chapter 4 reports steps/tokens/cost for the RQ1 baselines; Chapter 5 does not report ClueFL's own steps, tokens, or dollar cost relative to the SWE-agent baseline.</p></article></div></div>
+<footer class="slide-footer"><span>BACKUP · B29<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s48" data-chapter="Backup / Qualitative methodology" data-title="Manual trajectory coding is illustrative, not an inter-rater-validated protocol." data-note="讲述重点｜RQ3和RQ4的失败/成功机制分析都来自作者手工阅读agent的完整交互trajectory（仓库检查、工具调用、最终排序），逐案例识别证据不可达、因果链截断、非源码构件欠检查等模式，并挑选具体案例（如Case 107/126/86、PR13445/6905/5121）来说明每种机制。论文没有报告多名标注者独立编码后的一致性系数（如Cohen's kappa），也没有对所有145×2个trajectory做穷尽式编码。
+
+教授可能追问｜这些失败机制的分类会不会是作者主观挑选出来支持论点的案例？
+
+答复依据与边界｜这是合理的担忧；论文将这些模式作为从观察到的trajectory中识别出的"recurring, identifiable pitfalls"，用具体案例做说明性证据，而非声称经过独立编码验证的详尽统计——严格的观察者间信度检验留作未来工作。" data-backup="true" aria-label="B30: Manual trajectory coding is illustrative, not an inter-rater-validated protocol." tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Qualitative methodology</div><h1>Manual trajectory coding is illustrative, not an inter-rater-validated protocol.</h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">WHAT WAS DONE</span><p>Single-author manual reading of complete agent trajectories (repository actions, tool calls, final rankings) to identify recurring failure/success mechanisms, illustrated with concrete PR cases.</p></div><div><span class="label">WHAT WAS NOT DONE</span><p>No multi-coder inter-rater reliability score (e.g., Cohen's kappa); not an exhaustive coding of every one of the 145×2 trajectories.</p></div></div><div class="inline-insights"><p><b>Framing:</b> patterns are presented as illustrative, recurring pitfalls grounded in specific cases — not a statistically validated taxonomy.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B30<span class="footer-total"> / 31</span></span></footer>
+</section><section class="slide " id="s49" data-chapter="Backup / Reproducibility artifacts" data-title="What is actually released alongside the thesis?" data-note="讲述重点｜145例的Ollama评估数据集（清洗后的issue、pre-fix版本号、修复位置标签及元数据）公开在GitHub仓库；复现包里还包含精确的任务指令、模型标识符、生效运行设置、完整输出和trajectory存档，供审计用。检索方法是确定性的，只跑一次；agent方法因为成本高，同样只保留单次归档运行，但完整trajectory都存档以便审查。
+
+教授可能追问｜第三方能不能完全复现你的ClueFL数字？
+
+答复依据与边界｜数据集和baseline的复现材料是公开的；ClueFL的具体prompt/配置在附录A.1中提供，但由于provider API不暴露随机种子、且各配置只有单次归档运行，完全逐位复现相同排序不能保证，只能复现同一协议下的可比较实验。" data-backup="true" aria-label="B31: What is actually released alongside the thesis?" tabindex="-1">
+<div class="slide-top"><span>TECHNICAL UNIVERSITY OF MUNICH <i>/</i> CHAIR OF SOFTWARE ENGINEERING &amp; AI</span><img class="tum-wordmark" src="images/tum_logo.png" alt="TUM"></div>
+<header class="slide-heading"><div class="eyebrow">Backup / Reproducibility artifacts</div><h1></h1></header>
+<div class="slide-body"><div class="protocol-notes"><div><span class="label">PUBLIC OLLAMAFLBENCH</span><p>145 cleaned issues, pre-fix revision identifiers, repair-location labels, and metadata at github.com/tianhaogutum/OllamaFLBench.</p></div><div><span class="label">REPLICATION PACKAGE</span><p>Exact task instructions, model identifiers, effective run settings, outputs, and archived trajectories for audit.</p></div></div><div class="inline-insights"><p><b>Caveat:</b> no controllable random seed and one archived run per configuration, so bit-identical reproduction of stochastic agent rankings is not guaranteed.</p></div></div>
+<footer class="slide-footer"><span>BACKUP · B31<span class="footer-total"> / 31</span></span></footer>
+</section></div></div></main>
+<footer class="app-footer"><nav class="chapters" aria-label="Presentation chapters"><button class="chapter-button" data-go="0">Background</button><button class="chapter-button" data-go="9">RQ1 · Feasibility</button><button class="chapter-button" data-go="14">RQ2 · Failures</button><button class="chapter-button" data-go="22">RQ3 · ClueFL</button><button class="chapter-button" data-go="27">Conclusion</button><button class="chapter-button" data-go="29">Backup</button></nav><div class="nav-controls"><button id="prev" class="nav-arrow" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span id="page-count" class="page-count"></span><button id="next" class="nav-arrow" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></footer>
+<div id="progress" class="global-progress" aria-hidden="true"></div><div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+<aside id="notes" class="notes-panel" aria-label="Speaker notes" hidden><div class="notes-title"><h2 id="notes-number">Speaker notes</h2><button id="notes-close" aria-label="Close speaker notes">×</button></div><p id="notes-copy" lang="zh-CN"></p></aside>
+<dialog id="overview" aria-labelledby="overview-title"><div class="dialog-header"><h2 id="overview-title">Presentation overview <small>· 20 slides + 31 backup</small></h2><button class="dialog-close" data-close="overview" aria-label="Close overview">×</button></div><div id="overview-grid" class="overview-grid"></div></dialog>
+<dialog id="figure-dialog" aria-labelledby="figure-title"><div class="dialog-header"><h2 id="figure-title"></h2><button class="dialog-close" data-close="figure-dialog" aria-label="Close enlarged figure">×</button></div><img id="figure-image" alt=""><a id="figure-source" target="_blank" rel="noopener"></a></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-header"><h2 id="help-title">Presentation shortcuts</h2><button class="dialog-close" data-close="help-dialog" aria-label="Close shortcuts">×</button></div><dl><dt>← / →</dt><dd>Previous / next slide</dd><dt>Space / Shift Space</dt><dd>Next / previous slide</dd><dt>Home / End</dt><dd>First / last main slide</dd><dt>O</dt><dd>Slide overview + backup</dd><dt>N</dt><dd>Chinese speaker notes</dd><dt>F</dt><dd>Fullscreen presentation</dd><dt>Esc</dt><dd>Close a dialog or notes</dd><dt>Click a figure</dt><dd></dd></dl><p style="font-size:13px;margin-top:20px">Print exports the 16 main slides. On touch screens, swipe left or right to navigate.</p></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><style>.slide:first-child{display:flex}.stage{transform:scale(.7);transform-origin:top left}</style><p>This presentation needs JavaScript for navigation. Please enable JavaScript to view all slides.</p></noscript>
+<script>
+'use strict';
+(() => {
+ const slides = [...document.querySelectorAll('.slide')];
+ const totalMain = slides.filter(s => !s.dataset.backup).length;
+ const stageWrap = document.querySelector('.stage-wrap');
+ const viewport = document.querySelector('.viewport');
+ const prev = document.querySelector('#prev');
+ const next = document.querySelector('#next');
+ const overview = document.querySelector('#overview');
+ const figureDialog = document.querySelector('#figure-dialog');
+ const helpDialog = document.querySelector('#help-dialog');
+ const notes = document.querySelector('#notes');
+ const notesButton = document.querySelector('#notes-toggle');
+ let current = 0;
+ let touch = null;
+ let toastTimeout;
+ const hashIndex = () => {
+  const hash = location.hash || '';
+  const match = hash.match(/^#s(.+)$/);
+  if (!match) return 0;
+  const requestedId = `s${match[1]}`;
+  const exactIndex = slides.findIndex(slide => slide.id === requestedId);
+  if (exactIndex >= 0) return exactIndex;
+  const numericIndex = Number(match[1]);
+  if (Number.isFinite(numericIndex)) {
+   return Math.max(0, Math.min(slides.length - 1, numericIndex - 1));
+  }
+  return 0;
+};
+function fit() {
+  const style = getComputedStyle(viewport);
+  const w = viewport.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const h = viewport.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  const scale = Math.max(.05, Math.min(w / 1440, h / 810));
+  document.documentElement.style.setProperty('--stage-scale', scale);
+  stageWrap.style.width = `${1440 * scale}px`;
+  stageWrap.style.height = `${810 * scale}px`;
+ }
+ function go(index, updateHash = true) {
+  const candidate = Number(index);
+  if (!Number.isFinite(candidate)) return;
+  current = Math.max(0, Math.min(slides.length - 1, Math.trunc(candidate)));
+  const previousActive = document.activeElement;
+  const shouldRestoreFocus = previousActive?.closest('.slide') && previousActive.closest('.slide') !== slides[current];
+  slides.forEach((slide, i) => {
+   const active = i === current;
+   slide.classList.toggle('active', active);
+   slide.setAttribute('aria-hidden', String(!active));
+   slide.inert = !active;
+  });
+  if (shouldRestoreFocus) slides[current].focus({preventScroll:true});
+  const backup = current >= totalMain;
+  document.querySelector('#page-count').innerHTML = backup ? `<strong>B${String(current - totalMain + 1).padStart(2, '0')}</strong> / 05` : `<strong>${String(current + 1).padStart(2, '0')}</strong> / ${totalMain}`;
+  document.querySelector('#progress').style.width = `${Math.min(current + 1, totalMain) / totalMain * 100}%`;
+  prev.disabled = current === 0;
+  next.disabled = current === slides.length - 1;
+  next.setAttribute('aria-label', current === totalMain - 1 ? 'Open backup slides' : 'Next slide');
+  document.querySelector('#notes-copy').textContent = slides[current].dataset.note;
+  const seconds = Number(slides[current].dataset.seconds || 0);
+  const duration = seconds ? ` · ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')} suggested` : '';
+  document.querySelector('#notes-number').textContent = `Speaker notes · ${backup ? 'Backup ' + (current - totalMain + 1) : current + 1}${duration}`;
+  document.querySelector('#announcement').textContent = `Slide ${current + 1} of ${slides.length}. ${slides[current].dataset.title}`;
+  document.querySelectorAll('.chapter-button').forEach((button, i, all) => {
+   const start = Number(button.dataset.go);
+   const end = i + 1 < all.length ? Number(all[i + 1].dataset.go) : slides.length;
+   const active = current >= start && current < end;
+   button.classList.toggle('active', active);
+   if (active) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('.overview-item').forEach((button, i) =>< 0 ? 1 : -1);
+ }, {passive:true});
+ viewport.addEventListener('touchcancel', () => {touch = null;}, {passive:true});
+ window.addEventListener('hashchange', () => { go(hashIndex(), false); showAllFragments(slides[current]); });
+ window.addEventListener('resize', fit);
+ document.addEventListener('fullscreenchange', () => {
+  document.querySelector('#fullscreen-toggle').setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+  fit();
+ });
+ new ResizeObserver(fit).observe(viewport);
+ go(hashIndex()); showAllFragments(slides[current]); fit();
+})();
+</script>
+</body>
+</html>

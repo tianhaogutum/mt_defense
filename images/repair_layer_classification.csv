@@ -1,0 +1,146 @@
+rowid,pr_number,ground_truth,group_code,group_name
+1,341,server/images.go,L2,HTTP API
+2,426,server/images.go,L2,HTTP API
+3,562,cmd/cmd.go,L1,CLI Entry
+4,621,cmd/cmd.go,L1,CLI Entry
+5,659,dockerfile,NS,Non-source artifact
+6,699,llm/llm.go,L7,Inference Support
+7,718,server/routes.go,L2,HTTP API
+8,724,llm/llama.go,L7,Inference Support
+9,772,scripts/install.sh,SCRIPT,Build/install scripts
+10,893,docs/faq.md,NS,Non-source artifact
+11,918,server/download.go,L2,HTTP API
+12,921,llm/llama.go,L7,Inference Support
+13,1061,docs/modelfile.md,NS,Non-source artifact
+14,1131,server/images.go,L2,HTTP API
+15,1156,server/upload.go,L2,HTTP API
+16,1186,server/routes.go,L2,HTTP API
+17,1212,llm/llm.go,L7,Inference Support
+18,1244,server/images.go,L2,HTTP API
+19,1280,server/routes.go,L2,HTTP API
+20,1349,readline/readline.go,X,Cross-cutting code
+21,1393,parser/parser.go,X,Cross-cutting code
+23,1544,cmd/cmd.go,L1,CLI Entry
+24,1549,cmd/cmd.go,L1,CLI Entry
+25,1614,cmd/interactive.go,L1,CLI Entry
+26,1619,server/routes_test.go,L2,HTTP API
+27,1697,docs/development.md,NS,Non-source artifact
+28,1797,server/routes.go,L2,HTTP API
+29,2020,scripts/install.sh,SCRIPT,Build/install scripts
+30,2055,docs/development.md,NS,Non-source artifact
+31,2099,llm/dyn_ext_server.c,L7,Inference Support
+32,2100,gpu/gpu.go,L8,Infrastructure
+33,2102,server/images.go,L2,HTTP API
+34,2209,gpu/gpu_info_cuda.c,L8,Infrastructure
+35,2374,.github/workflows/test.yaml,NS,Non-source artifact
+36,2459,llm/patches/01-cache.diff,NS,Non-source artifact
+37,2526,cmd/cmd.go,L1,CLI Entry
+38,2599,llm/generate/gen_windows.ps1,L7,Inference Support
+39,2600,docs/faq.md,NS,Non-source artifact
+40,2657,scripts/install.sh,SCRIPT,Build/install scripts
+42,2772,scripts/build_docker.sh,SCRIPT,Build/install scripts
+43,2837,dockerfile,NS,Non-source artifact
+44,2838,scripts/install.sh,SCRIPT,Build/install scripts
+45,2962,cmd/cmd.go,L1,CLI Entry
+46,2990,readline/buffer.go,X,Cross-cutting code
+47,3005,server/images.go,L2,HTTP API
+48,3068,cmd/cmd.go,L1,CLI Entry
+49,3070,docs/faq.md,NS,Non-source artifact
+50,3080,llm/dyn_ext_server.go,L7,Inference Support
+51,3379,server/routes.go,L2,HTTP API
+52,3681,llm/ext_server/server.cpp,L7,Inference Support
+53,3833,cmd/cmd.go,L1,CLI Entry
+54,3835,llm/server.go,L7,Inference Support
+55,3947,cmd/interactive.go,L1,CLI Entry
+56,4086,server/routes.go,L2,HTTP API
+57,4135,gpu/gpu.go,L8,Infrastructure
+58,4141,docs/windows.md,NS,Non-source artifact
+59,4160,llm/server.go,L7,Inference Support
+60,4241,llm/server.go,L7,Inference Support
+61,4304,server/routes.go,L2,HTTP API
+62,4435,cmd/interactive.go,L1,CLI Entry
+63,4619,server/download.go,L2,HTTP API
+64,4682,llm/server.go,L7,Inference Support
+65,5025,parser/parser.go,X,Cross-cutting code
+66,5032,gpu/gpu.go,L8,Infrastructure
+67,5121,llm/ggml.go,L7,Inference Support
+68,5125,scripts/install.sh,SCRIPT,Build/install scripts
+69,5307,cmd/cmd.go,L1,CLI Entry
+70,5371,llm/ext_server/server.cpp,L7,Inference Support
+72,5555,scripts/build_windows.ps1,SCRIPT,Build/install scripts
+73,5605,llm/server.go,L7,Inference Support
+74,5926,llm/server.go,L7,Inference Support
+75,5927,gpu/amd_linux.go,L8,Infrastructure
+76,5932,docs/windows.md,NS,Non-source artifact
+77,5934,scripts/install.sh,SCRIPT,Build/install scripts
+79,6109,server/images.go,L2,HTTP API
+80,6133,scripts/install.sh,SCRIPT,Build/install scripts
+81,6189,llm/ext_server/server.cpp,L7,Inference Support
+82,6290,gpu/gpu.go,L8,Infrastructure
+83,6617,llm/server.go,L7,Inference Support
+84,6620,gpu/cuda_common.go,L8,Infrastructure
+85,6663,docs/windows.md,NS,Non-source artifact
+86,6767,llm/ext_server/server.cpp,L7,Inference Support
+87,6884,gpu/gpu.go,L8,Infrastructure
+88,6905,llm/llm_windows.go,L7,Inference Support
+89,6986,server/images.go,L2,HTTP API
+90,7192,llama/llama.go,L6,C Bridge
+91,7249,docs/openai.md,NS,Non-source artifact
+92,7358,cmd/cmd.go,L1,CLI Entry
+93,7360,cmd/cmd.go,L1,CLI Entry
+94,7384,server/routes.go,L2,HTTP API
+95,7466,llama/make/makefile.rocm,NS,Non-source artifact
+96,7519,docs/troubleshooting.md,NS,Non-source artifact
+97,7560,llama/make/gpu.make,NS,Non-source artifact
+98,7693,docs/modelfile.md,NS,Non-source artifact
+99,7739,scripts/install.sh,SCRIPT,Build/install scripts
+100,7805,llama/runner/runner.go,L3,Runner
+101,7819,llm/filetype.go,L7,Inference Support
+102,7834,server/images.go,L2,HTTP API
+103,8082,docs/api.md,NS,Non-source artifact
+104,8208,cmd/interactive.go,L1,CLI Entry
+105,8714,llama/llama.go,L6,C Bridge
+106,8900,cmakelists.txt,NS,Non-source artifact
+107,9079,progress/progress.go,L8,Infrastructure
+108,9195,cmakelists.txt,NS,Non-source artifact
+109,9257,.github/workflows/release.yaml,NS,Non-source artifact
+110,9425,cmakelists.txt,NS,Non-source artifact
+111,9773,cmakepresets.json,NS,Non-source artifact
+112,9918,kvcache/causal.go,L5,ML Engine
+113,10133,ml/backend/ggml/ggml.go,L5,ML Engine
+114,10480,runner/ollamarunner/runner.go,L3,Runner
+115,10487,server/sched.go,L2,HTTP API
+116,10523,runner/ollamarunner/runner.go,L3,Runner
+117,10806,server/quantization.go,L2,HTTP API
+118,10819,server/sched.go,L2,HTTP API
+119,11140,ml/backend/ggml/ggml.go,L5,ML Engine
+120,11307,docs/gpu.md,NS,Non-source artifact
+121,11461,readme.md,NS,Non-source artifact
+122,11612,cmakepresets.json,NS,Non-source artifact
+123,11958,llm/server.go,L7,Inference Support
+124,12759,server/routes.go,L2,HTTP API
+125,12869,discover/runner.go,L8,Infrastructure
+126,12969,discover/cpu_windows.go,L8,Infrastructure
+127,12972,discover/runner.go,L8,Infrastructure
+128,13123,.github/workflows/release.yaml,NS,Non-source artifact
+129,13124,readme.md,NS,Non-source artifact
+130,13176,discover/runner.go,L8,Infrastructure
+131,13279,server/routes.go,L2,HTTP API
+132,13288,discover/runner.go,L8,Infrastructure
+133,13289,discover/runner.go,L8,Infrastructure
+134,13445,model/models/gemma3/model_text.go,L4,Model
+135,13469,cmakelists.txt,NS,Non-source artifact
+136,13531,llm/server.go,L7,Inference Support
+137,13559,docs/api.md,NS,Non-source artifact
+138,13574,app/ui/app/src/lib/highlighter.ts,APP,Desktop app (TS)
+139,13596,docs/api/openai-compatibility.mdx,NS,Non-source artifact
+140,13965,cmd/cmd.go,L1,CLI Entry
+141,14821,docs/api/openai-compatibility.mdx,NS,Non-source artifact
+142,14840,runner/ollamarunner/runner.go,L3,Runner
+143,15280,app/ui/app/src/hooks/usechats.ts,APP,Desktop app (TS)
+144,15296,fs/ggml/ggml.go,X,Cross-cutting code
+145,15405,x/mlxrunner/client.go,X,Cross-cutting code
+146,15443,scripts/build_darwin.sh,SCRIPT,Build/install scripts
+147,15588,x/imagegen/server.go,X,Cross-cutting code
+148,15712,cmd/cmd.go,L1,CLI Entry
+149,16053,scripts/build_darwin.sh,SCRIPT,Build/install scripts

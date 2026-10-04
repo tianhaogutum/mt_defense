@@ -6,3 +6,7 @@ professor_research/
 presentation.pdf
 *.zip
 截屏*.png
+
+# local tooling and nested evaluation repo
+.claude/
+mt_evaluation/
